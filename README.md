@@ -8,7 +8,7 @@
 5. Munifah Nurfadhilah - 2106654851
 
 ## Deskripsi Aplikasi
-### Nama aplikasi  : Whistleblower
+### Nama aplikasi  : [Whistleblower](https://whistle-blower.up.railway.app/)
 ### Fungsi aplikasi: Memberikan wadah kepada para saksi yang berani mengungkapkan kejahatan pelaku korupsi
 ### Peran/aktor pengguna aplikasi
 1. Reader (Pengguna tanpa login)
