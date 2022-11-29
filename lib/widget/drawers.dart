@@ -12,38 +12,43 @@ class rightDrawer extends StatelessWidget {
     return Drawer(
       child: Column(
         children: <Widget>[
-          DrawerHeader(
-            decoration: BoxDecoration(color: Colors.grey.shade500),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                const CircleAvatar(
-                  backgroundImage: NetworkImage(
-                      'https://img.cutenesscdn.com/375/media-storage/contentlab-data/10/17/199cd1d9ed9f4d45b18e5b7ce8dfe420.jpg'),
-                  radius: 40.0,
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const <Widget>[
-                    Text(
-                      'Andi Ayuna',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          fontSize: 25.0),
-                    ),
-                    SizedBox(height: 10.0),
-                    Text(
-                      'andi.ayuna@ui.ac.id',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          fontSize: 14.0),
-                    ),
-                  ],
-                )
-              ],
+          SizedBox(
+            height: MediaQuery.of(context).size.height / 5,
+            child: DrawerHeader(
+              decoration: BoxDecoration(color: Colors.grey.shade500
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  const CircleAvatar(
+                    backgroundImage: NetworkImage(
+                        'https://img.cutenesscdn.com/375/media-storage/contentlab-data/10/17/199cd1d9ed9f4d45b18e5b7ce8dfe420.jpg'),
+                    radius: 35.0,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const <Widget>[
+                      Text(
+                        'Andi Ayuna',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 25.0),
+                      ),
+                      SizedBox(height: 10.0),
+                      Text(
+                        'andi.ayuna@ui.ac.id',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 14.0),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+
             ),
           ),
 
@@ -86,12 +91,17 @@ class leftDrawer extends StatelessWidget {
     return Drawer(
       child: Column(
         children: [
-          const Padding(
-            padding: EdgeInsets.all(8.0),
+          const SafeArea(
+            // padding:
+            //     EdgeInsets.only(left: 8.0, right: 8.0, top: 12.0, bottom: 12.0),
             // TODO: Tambahin tombol buat close
-            child: Text(
-              'Whistleblower',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32.0),
+            child: Padding(
+              padding: EdgeInsets.all(8.0),
+              // Nanti kasih logo
+              child: Text(
+                'Whistleblower',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32.0),
+              ),
             ),
           ),
           ListTile(
@@ -102,7 +112,8 @@ class leftDrawer extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const MyHomePage(title: "Whistleblower")));
+                      builder: (context) =>
+                          const MyHomePage(title: "Whistleblower")));
             },
           ),
           ListTile(
@@ -157,7 +168,6 @@ class profilePicture extends StatelessWidget {
             backgroundImage: NetworkImage(
                 "https://img.cutenesscdn.com/375/media-storage/contentlab-data/10/17/199cd1d9ed9f4d45b18e5b7ce8dfe420.jpg"),
           ),
-
           onPressed: () => Scaffold.of(context).openEndDrawer(),
           tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
         ),
