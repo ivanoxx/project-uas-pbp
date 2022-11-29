@@ -15,8 +15,7 @@ class rightDrawer extends StatelessWidget {
           SizedBox(
             height: MediaQuery.of(context).size.height / 5,
             child: DrawerHeader(
-              decoration: BoxDecoration(color: Colors.grey.shade500
-              ),
+              decoration: BoxDecoration(color: Colors.grey.shade500),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
@@ -48,7 +47,6 @@ class rightDrawer extends StatelessWidget {
                   )
                 ],
               ),
-
             ),
           ),
 
@@ -121,7 +119,10 @@ class leftDrawer extends StatelessWidget {
             title: Text('Hall of Shame', style: TextStyle(fontSize: 18)),
             onTap: () {
               // Here you can give your route to navigate
-              Navigator.pop(context);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const HallOfShamePage()));
             },
           ),
           ListTile(
