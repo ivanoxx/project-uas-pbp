@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:whistleblower/widget/allWidgets.dart';
+import 'package:provider/provider.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
 
 class MyForumFormPage extends StatefulWidget {
   const MyForumFormPage({super.key});
