@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:whistleblower/widget/allWidgets.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+
 
 class MyPostFormPage extends StatefulWidget {
   const MyPostFormPage({super.key});
@@ -18,16 +21,7 @@ class _MyPostFormPageState extends State<MyPostFormPage> {
         appBar: AppBar(
           title: const Text("Create Post"),
           actions: [
-            Builder(
-              builder: (context) => IconButton(
-                icon: const CircleAvatar(
-                  backgroundImage: NetworkImage(
-                      "https://st3.depositphotos.com/6672868/13701/v/450/depositphotos_137014128-stock-illustration-user-profile-icon.jpg"),
-                ),
-                onPressed: () => Scaffold.of(context).openEndDrawer(),
-                tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-              ),
-            ),
+            profilePicture(),
           ],
         ),
         drawer: leftDrawer(),

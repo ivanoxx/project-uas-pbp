@@ -12,38 +12,42 @@ class rightDrawer extends StatelessWidget {
     return Drawer(
       child: Column(
         children: <Widget>[
-          DrawerHeader(
-            decoration: BoxDecoration(color: Colors.grey.shade500),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                const CircleAvatar(
-                  backgroundImage: NetworkImage(
-                      'https://st3.depositphotos.com/6672868/13701/v/450/depositphotos_137014128-stock-illustration-user-profile-icon.jpg'),
-                  radius: 40.0,
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const <Widget>[
-                    Text(
-                      'Andi Ayuna',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          fontSize: 25.0),
-                    ),
-                    SizedBox(height: 10.0),
-                    Text(
-                      'andi.ayuna@ui.ac.id',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          fontSize: 14.0),
-                    ),
-                  ],
-                )
-              ],
+          SizedBox(
+            height: MediaQuery.of(context).size.height / 5,
+            child: DrawerHeader(
+              decoration: BoxDecoration(color: Colors.grey.shade500
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  const CircleAvatar(
+                    backgroundImage: NetworkImage(
+                        'https://img.cutenesscdn.com/375/media-storage/contentlab-data/10/17/199cd1d9ed9f4d45b18e5b7ce8dfe420.jpg'),
+                    radius: 35.0,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const <Widget>[
+                      Text(
+                        'Andi Ayuna',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 25.0),
+                      ),
+                      SizedBox(height: 10.0),
+                      Text(
+                        'andi.ayuna@ui.ac.id',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 14.0),
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
 
@@ -86,11 +90,17 @@ class leftDrawer extends StatelessWidget {
     return Drawer(
       child: Column(
         children: [
-          const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Text(
-              'Whistleblower',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32.0),
+          const SafeArea(
+            // padding:
+            //     EdgeInsets.only(left: 8.0, right: 8.0, top: 12.0, bottom: 12.0),
+            // TODO: Tambahin tombol buat close
+            child: Padding(
+              padding: EdgeInsets.all(8.0),
+              // Nanti kasih logo
+              child: Text(
+                'Whistleblower',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32.0),
+              ),
             ),
           ),
           ListTile(
@@ -101,7 +111,8 @@ class leftDrawer extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const MyHomePage(title: "Whistleblower")));
+                      builder: (context) =>
+                          const MyHomePage(title: "Whistleblower")));
             },
           ),
           ListTile(
@@ -109,6 +120,7 @@ class leftDrawer extends StatelessWidget {
             title: Text('Hall of Shame', style: TextStyle(fontSize: 18)),
             onTap: () {
               // Here you can give your route to navigate
+              Navigator.pop(context);
             },
           ),
           ListTile(
@@ -134,6 +146,30 @@ class leftDrawer extends StatelessWidget {
             },
           ),
         ],
+      ),
+    );
+  }
+}
+
+class profilePicture extends StatelessWidget {
+  const profilePicture({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(right: 5.0),
+      child: Builder(
+        builder: (context) => IconButton(
+          iconSize: 32.0,
+          icon: const CircleAvatar(
+            backgroundImage: NetworkImage(
+                "https://img.cutenesscdn.com/375/media-storage/contentlab-data/10/17/199cd1d9ed9f4d45b18e5b7ce8dfe420.jpg"),
+          ),
+          onPressed: () => Scaffold.of(context).openEndDrawer(),
+          tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+        ),
       ),
     );
   }
