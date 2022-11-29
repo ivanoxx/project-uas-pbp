@@ -19,7 +19,7 @@ class rightDrawer extends StatelessWidget {
               children: <Widget>[
                 const CircleAvatar(
                   backgroundImage: NetworkImage(
-                      'https://st3.depositphotos.com/6672868/13701/v/450/depositphotos_137014128-stock-illustration-user-profile-icon.jpg'),
+                      'https://img.cutenesscdn.com/375/media-storage/contentlab-data/10/17/199cd1d9ed9f4d45b18e5b7ce8dfe420.jpg'),
                   radius: 40.0,
                 ),
                 Column(
@@ -88,6 +88,7 @@ class leftDrawer extends StatelessWidget {
         children: [
           const Padding(
             padding: EdgeInsets.all(8.0),
+            // TODO: Tambahin tombol buat close
             child: Text(
               'Whistleblower',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32.0),
@@ -109,6 +110,7 @@ class leftDrawer extends StatelessWidget {
             title: Text('Hall of Shame', style: TextStyle(fontSize: 18)),
             onTap: () {
               // Here you can give your route to navigate
+              Navigator.pop(context);
             },
           ),
           ListTile(
@@ -134,6 +136,31 @@ class leftDrawer extends StatelessWidget {
             },
           ),
         ],
+      ),
+    );
+  }
+}
+
+class profilePicture extends StatelessWidget {
+  const profilePicture({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(right: 5.0),
+      child: Builder(
+        builder: (context) => IconButton(
+          iconSize: 32.0,
+          icon: const CircleAvatar(
+            backgroundImage: NetworkImage(
+                "https://img.cutenesscdn.com/375/media-storage/contentlab-data/10/17/199cd1d9ed9f4d45b18e5b7ce8dfe420.jpg"),
+          ),
+
+          onPressed: () => Scaffold.of(context).openEndDrawer(),
+          tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+        ),
       ),
     );
   }
