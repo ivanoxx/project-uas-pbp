@@ -1,7 +1,8 @@
 import "package:flutter/material.dart";
 import "package:whistleblower/page/all_page.dart";
 import "package:whistleblower/main.dart";
-
+import 'package:provider/provider.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
 import '../page/login.dart';
 import '../page/signup.dart';
 
@@ -12,6 +13,7 @@ class rightDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>();
     return Drawer(
       child: Column(
         children: <Widget>[
@@ -59,6 +61,12 @@ class rightDrawer extends StatelessWidget {
             title: Text('Profile', style: TextStyle(fontSize: 18)),
             onTap: () {
               // Here you can give your route to navigate
+              if (!request.loggedIn) {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => LoginPage()));
+              }
             },
           ),
           const Divider(height: 3.0),
@@ -67,6 +75,12 @@ class rightDrawer extends StatelessWidget {
             title: Text('My Post', style: TextStyle(fontSize: 18)),
             onTap: () {
               // Here you can give your route to navigate
+              if (!request.loggedIn) {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => LoginPage()));
+              }
             },
           ),
           ListTile(
@@ -74,6 +88,12 @@ class rightDrawer extends StatelessWidget {
             title: Text('Sign Out', style: TextStyle(fontSize: 18)),
             onTap: () {
               // Here you can give your route to navigate
+              if (!request.loggedIn) {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => LoginPage()));
+              }
             },
           ),
         ],
@@ -89,6 +109,7 @@ class leftDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>();
     return Drawer(
       child: Column(
         children: [
@@ -133,6 +154,12 @@ class leftDrawer extends StatelessWidget {
             title: Text('Create Forum', style: TextStyle(fontSize: 18)),
             onTap: () {
               // Here you can give your route to navigate
+              if (!request.loggedIn) {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => LoginPage()));
+              }
               Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -144,6 +171,12 @@ class leftDrawer extends StatelessWidget {
             title: Text('Create Post', style: TextStyle(fontSize: 18)),
             onTap: () {
               // Here you can give your route to navigate
+              if (!request.loggedIn) {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => LoginPage()));
+              }
               Navigator.push(
                   context,
                   MaterialPageRoute(
