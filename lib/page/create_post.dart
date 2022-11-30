@@ -17,6 +17,8 @@ class _MyPostFormPageState extends State<MyPostFormPage> {
 
   @override
   Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>();
+    String _nama = "";
     return Scaffold(
         appBar: AppBar(
           title: const Text("Create Post"),
@@ -26,13 +28,53 @@ class _MyPostFormPageState extends State<MyPostFormPage> {
         ),
         drawer: leftDrawer(),
         endDrawer: rightDrawer(),
-        body: Form(
-          key: _formKey,
-          child: Center(
-            child: Column(
-              children: [],
-            ),
-          ),
-        ));
+        body: FutureBuilder(
+            future: request.get(
+                "https://whistle-blower.up.railway.app/create-forum/name/"),
+            builder: (context, AsyncSnapshot snapshot) {
+              return Form(
+                key: _formKey,
+                child: Center(
+                  child: Column(
+                    children: [
+                      Padding(
+                        // Menggunakan padding sebesar 8 pixels
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            hintText: "manusia-jahat",
+                            labelText: "Nama Forum",
+                            // Menambahkan circular border agar lebih rapi
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                            ),
+                          ),
+                          // TODO Implement onChanged dan onSaved
+                          // Menambahkan behavior saat nama diketik
+                          onChanged: (String? value) {
+                            setState(() {
+                              _nama = value!;
+                            });
+                          },
+                          // Menambahkan behavior saat data disimpan
+                          onSaved: (String? value) {
+                            setState(() {
+                              _nama = value!;
+                            });
+                          },
+                          // Validator sebagai validasi form
+                          validator: (String? value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Judul tidak boleh kosong!';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }));
   }
 }
