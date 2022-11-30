@@ -2,6 +2,9 @@ import "package:flutter/material.dart";
 import "package:whistleblower/page/all_page.dart";
 import "package:whistleblower/main.dart";
 
+import '../page/login.dart';
+import '../page/signup.dart';
+
 class rightDrawer extends StatelessWidget {
   const rightDrawer({
     Key? key,
@@ -145,6 +148,28 @@ class leftDrawer extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (context) => const MyPostFormPage()));
+            },
+          ),
+          ListTile(
+            trailing: Icon(Icons.account_circle),
+            title: Text('Login', style: TextStyle(fontSize: 18)),
+            onTap: () {
+              // Here you can give your route to navigate
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => LoginPage()));
+            },
+          ),
+          ListTile(
+            trailing: Icon(Icons.person),
+            title: Text('Sign Up', style: TextStyle(fontSize: 18)),
+            onTap: () {
+              // Here you can give your route to navigate
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => SignupPage()));
             },
           ),
         ],
