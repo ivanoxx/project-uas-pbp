@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:whistleblower/models/allModel.dart';
 
-Future<List<Forum>> fetchMyWatchList() async {
+Future<List<Forum>> fetchGroup() async {
   // TODO: Ganti ke url railway
   var url = Uri.parse('http://127.0.0.1:8000/show-group-json/');
   var response = await http.get(
