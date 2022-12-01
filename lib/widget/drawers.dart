@@ -75,11 +75,11 @@ class rightDrawer extends StatelessWidget {
             title: Text('My Post', style: TextStyle(fontSize: 18)),
             onTap: () {
               // Here you can give your route to navigate
-              if (!request.loggedIn) {
+              if (request.loggedIn) {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => LoginPage()));
+                        builder: (context) => MyPostPage()));
               }
             },
           ),

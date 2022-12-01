@@ -28,14 +28,14 @@ class _MyPostFormPageState extends State<MyPostFormPage> {
     return Scaffold(
         appBar: AppBar(
           title: const Text("Create Post"),
-          actions: [
+          actions: const [
             profilePicture(),
           ],
         ),
         drawer: leftDrawer(),
         endDrawer: rightDrawer(),
         body: FutureBuilder(
-          future: fetchMyWatchList(),
+          future: fetchGroup(),
           // request.get( "https://whistle-blower.up.railway.app/create-forum/name/"),
 
           builder: (context, AsyncSnapshot snapshot) {
