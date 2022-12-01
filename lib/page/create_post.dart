@@ -88,11 +88,7 @@ class _MyPostFormPageState extends State<MyPostFormPage> {
                           // Validator sebagai validasi form
                           validator: (String? value) {
                             if (value == null || value.isEmpty) {
-                              return 'Nama forum tidak boleh kosong!';
-                            } else if (!regexNama.hasMatch(value)) {
-                              return 'Masukkan nama forum yang sesuai (hanya alphanumeric (case sensitive), ".", "_", "~", dan "-").';
-                            } else if (listNama.contains(value)) {
-                              return "Nama forum sudah pernah digunakan";
+                              return 'Nama post tidak boleh kosong!';
                             }
                             return null;
                           },
@@ -186,11 +182,11 @@ class _MyPostFormPageState extends State<MyPostFormPage> {
                           ),
                           onPressed: () async {
                             const url =
-                                "http://127.0.0.1:8000/create-forum-flutter/";
+                                "http://127.0.0.1:8000/create-post-flutter/";
                             final response = await request.post(url, {
                               "title": _nama,
                               "description": _description,
-                              "group" : _selectedGroup,
+                              "group" : _selectedGroup.toString(),
                             });
                             if (response["status"] == "oke") {
                               // Do something
@@ -198,6 +194,7 @@ class _MyPostFormPageState extends State<MyPostFormPage> {
                               _formKey.currentState?.reset();
                             } else {
                               // Do something
+                              print("gagal");
                             }
                           },
                           child: const Text(

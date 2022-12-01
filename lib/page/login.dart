@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:whistleblower/page/signup.dart';
+import 'package:whistleblower/widget/allWidgets.dart';
 
 
 class LoginPage extends StatefulWidget {
@@ -30,6 +31,7 @@ class _LoginPageState extends State<LoginPage> {
       appBar: AppBar(
         title: const Text('Login'),
       ),
+        drawer: leftDrawer(),
         body: Padding(
             padding: const EdgeInsets.all(30),
             child: ListView(
@@ -127,8 +129,8 @@ class _LoginPageState extends State<LoginPage> {
                                   onPressed: () async {
                                     if (_loginFormKey.currentState!.validate()) {
 
-                                      //const url = "http://127.0.0.1:8000/auth/login/";
-                                      const url = "https://whistle-blower.up.railway.app/auth/login/";
+                                      const url = "http://127.0.0.1:8000/auth/login/";
+                                      //const url = "https://whistle-blower.up.railway.app/auth/login/";
 
  
 
