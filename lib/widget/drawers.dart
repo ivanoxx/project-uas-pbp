@@ -86,7 +86,7 @@ class rightDrawer extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.logout),
             title: Text('Sign Out', style: TextStyle(fontSize: 18)),
-            onTap: () {
+            onTap: () async {
               // Here you can give your route to navigate
               if (!request.loggedIn) {
                 Navigator.push(
@@ -94,6 +94,9 @@ class rightDrawer extends StatelessWidget {
                     MaterialPageRoute(
                         builder: (context) => LoginPage()));
               }
+              const url = "http://127.0.0.1:8000/auth/logout/";
+              //const url = "https://whistle-blower.up.railway.app/auth/logout/";
+              final response = await request.logout(url);
             },
           ),
         ],

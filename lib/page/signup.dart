@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:whistleblower/widget/allWidgets.dart';
 import 'login.dart';
 import 'package:provider/provider.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
@@ -31,6 +32,7 @@ class _State extends State<SignupPage> {
       appBar: AppBar(
         title: const Text('Signup'),
       ),
+      drawer: leftDrawer(),
       body: SingleChildScrollView(
         child: Form(
           key: _formKey,
@@ -97,9 +99,9 @@ class _State extends State<SignupPage> {
                       child: const Text('Register'),
                       onPressed: () async {
                         if (_formKey.currentState!.validate()){
-                            //const url = "http://127.0.0.1:8000/auth/register/";
-                            const url = "https://whistle-blower.up.railway.app/auth/register/";
-                          final response = await request.post(url, {
+                            const url = "http://127.0.0.1:8000/auth/register/";
+                            //const url = "https://whistle-blower.up.railway.app/auth/register/";
+                          final response = await request.login(url, {
                             "username" : controllerUsername.text,
                             "password" : controllerPassword.text}
                           );
