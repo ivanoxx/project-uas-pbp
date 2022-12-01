@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'login.dart';
+import 'package:provider/provider.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
 
 class SignupPage extends StatefulWidget {
   @override
@@ -10,8 +12,8 @@ class SignupPage extends StatefulWidget {
 
 class _State extends State<SignupPage> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController controllerPassword = TextEditingController();
-  TextEditingController controllerUsername = TextEditingController();
+  final TextEditingController controllerPassword = TextEditingController();
+  final TextEditingController controllerUsername = TextEditingController();
 
   bool isPasswordVisible = false;
   void togglePasswordView() {
@@ -23,6 +25,7 @@ class _State extends State<SignupPage> {
 
   @override
   Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>();
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -94,21 +97,13 @@ class _State extends State<SignupPage> {
                       child: const Text('Register'),
                       onPressed: () async {
                         if (_formKey.currentState!.validate()){
-                          const url = "http://127.0.0.1:8000/authen/register/";
-                          // const url = "https://whistle-blower.up.railway.app/authen/register/";
-                          final response = await http.post(Uri.parse(url),
-                              headers: <String, String>{
-                                'Content-Type': 'application/json; charset=UTF-8',
-                              },
-                              body: jsonEncode(<String, String>{
-                                'username': controllerUsername.text,
-                                'password': controllerPassword.text,
-                              })
+                            //const url = "http://127.0.0.1:8000/auth/register/";
+                            const url = "https://whistle-blower.up.railway.app/auth/register/";
+                          final response = await request.post(url, {
+                            "username" : controllerUsername.text,
+                            "password" : controllerPassword.text}
                           );
-                          print(response);
-                          print(response.body);
-                          Map<String, dynamic> data = jsonDecode(response.body);
-                          if (data['instance'] == 'gagal Dibuat'){
+                          if (response['instance'] == 'gagal Dibuat'){
                             showAlertDialog(context);
                           }
                           else {
@@ -150,7 +145,7 @@ showAlertDialog(BuildContext context) {
   // set up the AlertDialog
   AlertDialog alert = AlertDialog(
     title: Text("Gagal!"),
-    content: Text("Silakan gunakan email dan username lain!"),
+    content: Text("Silakan gunakan username dan password lain!"),
     actions: [
       okButton,
     ],
