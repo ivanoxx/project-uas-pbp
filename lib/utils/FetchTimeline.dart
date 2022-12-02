@@ -17,12 +17,12 @@ Future<List<Post>> fetchMyPost(request) async {
   var data = response;
 
 // melakukan konversi data json menjadi object ToDo
-  List<Post> listMyPost = [];
+  List<Post> listPost = [];
   for (var d in data) {
     if (d != null) {
-      listMyPost.add(Post.fromJson(d));
+      listPost.add(Post.fromJson(d));
     }
   }
 
-  return listMyPost;
+  return listPost;
 }

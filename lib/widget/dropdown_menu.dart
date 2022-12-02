@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:whistleblower/page/my_post.dart';
+import 'package:intl/intl.dart';
 
 // Diambil dari https://pub.dev/packages/dropdown_button2
 
@@ -176,28 +177,94 @@ class MenuItems {
                               },
                             ),
                           ),
-                          Checkbox(
-                              value: post.fields.isCaptured,
-                              onChanged: (bool? value) {
-                                setState(() {
-                                  post.fields.isCaptured = value!;
-                                });
-                              }),
+                          SizedBox(height: 8,),
+                          Row(
+                            children: [
+                              Text("Captured? : "),
+                              Checkbox(
+                                  value: post.fields.isCaptured,
+                                  onChanged: (bool? value) {
+                                    setState(() {
+                                      post.fields.isCaptured = value!;
+                                    });
+                                  }),
+                            ],
+                          ),
+                          SizedBox(height: 8,),
                           Visibility(
                             visible: post.fields.isCaptured,
-                            child: ElevatedButton(
-                              onPressed: () async {
-                                DateTime? newDate = await showDatePicker(
-                                    context: context,
-                                    initialDate: dateCaptured,
-                                    firstDate: DateTime(1900),
-                                    lastDate: DateTime.now());
-                                setState(() {
-                                  post.fields.dateCaptured = newDate;
-                                });
-                                // TODO: Masukin datenya
-                              },
-                              child: Text("Select Tanggal"),
+                            child: Row(
+                              children: [
+                                Text("Date Captured: "),
+                                Container(
+                                  decoration: const BoxDecoration(
+                                      border: Border(
+                                        top: BorderSide(
+                                            width: 1.0, color: Colors.black),
+                                        left: BorderSide(
+                                            width: 1.0, color: Colors.black),
+                                        right: BorderSide(
+                                            width: 1.0, color: Colors.black),
+                                        bottom: BorderSide(
+                                            width: 1.0, color: Colors.black),
+                                      ),
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(5))),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        InkWell(
+                                          child: Text(
+                                            DateFormat('EEEE, MMM d, yyyy')
+                                                .format(dateCaptured),
+                                          ),
+                                          onTap: () async {
+                                            DateTime? newDate =
+                                                await showDatePicker(
+                                                    context: context,
+                                                    initialDate: dateCaptured,
+                                                    firstDate: DateTime(1900),
+                                                    lastDate: DateTime.now());
+                                            if (newDate != null) {
+                                              setState(() {
+                                                post.fields.dateCaptured =
+                                                    newDate;
+                                                dateCaptured = newDate;
+                                              });
+                                            }
+                                            ;
+                                            // TODO: Masukin datenya
+                                          },
+                                        ),
+                                        IconButton(
+                                          icon: Icon(Icons.calendar_today),
+                                          tooltip: 'Tap to open date picker',
+                                          onPressed: () async {
+                                            DateTime? newDate =
+                                                await showDatePicker(
+                                                    context: context,
+                                                    initialDate: dateCaptured,
+                                                    firstDate: DateTime(1900),
+                                                    lastDate: DateTime.now());
+                                            if (newDate != null) {
+                                              setState(() {
+                                                post.fields.dateCaptured =
+                                                    newDate;
+                                                dateCaptured = newDate;
+                                              });
+                                            }
+                                            ;
+                                            // TODO: Masukin datenya
+                                          },
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ],

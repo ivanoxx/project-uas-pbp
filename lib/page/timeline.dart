@@ -1,31 +1,14 @@
-import 'package:flutter/material.dart';
-import 'package:whistleblower/models/ModelPost.dart';
-import 'package:whistleblower/page/all_page.dart';
-import 'package:whistleblower/widget/allWidgets.dart';
-import 'package:provider/provider.dart';
-import 'package:pbp_django_auth/pbp_django_auth.dart';
-import 'package:whistleblower/main.dart';
-import 'package:whistleblower/utils/allUtils.dart';
 
-class MyPostPage extends StatefulWidget {
-  const MyPostPage({super.key});
-  static of(BuildContext context, {bool root = false}) => root
-      ? context.findRootAncestorStateOfType<MyPostPageState>()
-      : context.findAncestorStateOfType<MyPostPageState>();
 
-  @override
-  State<MyPostPage> createState() => MyPostPageState();
+class TimelinePage extends StatefulWidget {
+    const TimelinePage({super.key});
+
+    @override
+    State<TimelinePage> createState() => _TimelinePageState();
 }
 
-class MyPostPageState extends State<MyPostPage> {
-  late Widget currentPage;
-
-  void callback() {
-    setState(() {
-    });
-  }
-
-  @override
+class _TimelinePageState extends State<TimelinePage> {
+    @override
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
     return Scaffold(
@@ -85,10 +68,8 @@ class MyPostPageState extends State<MyPostPage> {
                                         fontSize: 18.0,
                                         fontWeight: FontWeight.bold,
                                       ),
-                                    ),
-                                    const Flexible(
-                                        fit: FlexFit.tight, child: SizedBox()),
-                                    CustomButtonTest(post: snapshot.data![index], callbackFunction: callback),
+
+                                    )
                                   ]
                                 ),
                                 SizedBox(height: 10),
