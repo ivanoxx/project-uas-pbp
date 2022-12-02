@@ -139,19 +139,21 @@ class _MyForumFormPageState extends State<MyForumFormPage> {
                                 MaterialStateProperty.all(Colors.blue),
                           ),
                           onPressed: () async {
-                            const url = "http://127.0.0.1:8000/create-forum-flutter/";
-                            final response = await request.post(url, {
-                              "title" : _nama,
-                              "description" : _description,
-                            });
-                            if (response["status"] == "oke") {
-                              // Do something
-                              showAlertDialog2(context);
-                              _formKey.currentState?.reset();
-                            } else {
-                              // Do something
+                            if (_formKey.currentState!.validate()) {
+                              const url =
+                                  "http://127.0.0.1:8000/create-forum-flutter/";
+                              final response = await request.post(url, {
+                                "title": _nama,
+                                "description": _description,
+                              });
+                              if (response["status"] == "oke") {
+                                // Do something
+                                showAlertDialog2(context);
+                                _formKey.currentState?.reset();
+                              } else {
+                                // Do something
+                              }
                             }
-
                           },
                           child: const Text(
                             "Simpan",
@@ -175,9 +177,7 @@ class _MyForumFormPageState extends State<MyForumFormPage> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => MyHomePage(title: "Whistleblower")
-            )
-        );
+                builder: (context) => MyHomePage(title: "Whistleblower")));
       },
     );
 

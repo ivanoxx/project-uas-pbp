@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:whistleblower/page/all_page.dart';
 import 'package:whistleblower/widget/drawers.dart';
 import 'package:provider/provider.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
@@ -10,6 +11,13 @@ import 'package:whistleblower/page/timeline.dart';
 void main() {
   runApp(const MyApp());
 }
+
+Map<String, String> user_data = {
+  "username": "Anonymous",
+  "alias": "Anonymous",
+  "imagePath":
+      "https://cdn.discordapp.com/attachments/902951430153981993/1048232469788377201/default.png"
+};
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -37,6 +45,9 @@ class MyApp extends StatelessWidget {
             // is not restarted.
             primarySwatch: Colors.red,
             scaffoldBackgroundColor: Color.fromRGBO(44, 51, 51, 1)),
+        routes: {
+          "/mypost" : (context) => const MyPostPage()
+        },
         home: const MyHomePage(title: ''),
       ),
     );
