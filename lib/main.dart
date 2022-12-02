@@ -5,6 +5,7 @@ import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:whistleblower/models/ModelForum.dart';
 import 'package:whistleblower/widget/allWidgets.dart';
 import 'package:whistleblower/utils/allUtils.dart';
+import 'package:whistleblower/page/timeline.dart';
 
 void main() {
   runApp(const MyApp());
@@ -162,7 +163,12 @@ class _MyHomePageState extends State<MyHomePage> {
                             //Text("Test"),
                             InkWell(
                               // TODO : onTap harusnya push ke page timeline
-                              onTap: () => Navigator.pop(context),
+                              onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => TimelinePage(
+                                          group_name: snapshot
+                                              .data![index].fields.title))),
                               child: Container(
                                 margin: const EdgeInsets.symmetric(
                                     horizontal: 16, vertical: 12),
@@ -243,7 +249,12 @@ class _MyHomePageState extends State<MyHomePage> {
                       }
                       return InkWell(
                         // TODO : onTap harusnya push ke page timeline
-                        onTap: () => Navigator.pop(context),
+                        onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => TimelinePage(
+                                    group_name: snapshot
+                                        .data![index].fields.title))),
                         child: Container(
                           margin: const EdgeInsets.symmetric(
                               horizontal: 16, vertical: 12),
