@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:whistleblower/page/all_page.dart';
 import 'package:whistleblower/page/signup.dart';
+import 'package:whistleblower/utils/FetchProfile.dart';
 import 'package:whistleblower/utils/allUtils.dart';
 import 'package:whistleblower/widget/allWidgets.dart';
 
