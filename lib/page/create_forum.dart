@@ -32,7 +32,7 @@ class _MyForumFormPageState extends State<MyForumFormPage> {
         drawer: leftDrawer(),
         endDrawer: rightDrawer(),
         body: FutureBuilder(
-          future: request.get("http://127.0.0.1:8000/create-forum/name/"),
+          future: request.get("https://whistle-blower.up.railway.app/create-forum/name/"),
           // request.get( "https://whistle-blower.up.railway.app/create-forum/name/"),
 
           builder: (context, AsyncSnapshot snapshot) {
@@ -141,7 +141,7 @@ class _MyForumFormPageState extends State<MyForumFormPage> {
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
                               const url =
-                                  "http://127.0.0.1:8000/create-forum-flutter/";
+                                  "https://whistle-blower.up.railway.app/create-forum-flutter/";
                               final response = await request.post(url, {
                                 "title": _nama,
                                 "description": _description,

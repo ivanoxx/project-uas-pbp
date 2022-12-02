@@ -133,7 +133,7 @@ class _LoginPageState extends State<LoginPage> {
                                     if (_loginFormKey.currentState!
                                         .validate()) {
                                       const url =
-                                          "http://127.0.0.1:8000/auth/login/";
+                                          "https://whistle-blower.up.railway.app/auth/login/";
                                       // const url = "https://whistle-blower.up.railway.app/auth/login/";
 
                                       final response = await request.login(
@@ -145,12 +145,12 @@ class _LoginPageState extends State<LoginPage> {
                                       if (request.loggedIn) {
                                         username = _controllerUsername.text;
 
-                                        var response =
+                                        final response =
                                             await fetchProfile(request);
                                         user_data = {
                                           "username": username,
                                           "alias": response[0].fields.alias,
-                                          "imagePath": "http://localhost:8000/images/${response[0].fields.image}"
+                                          "imagePath": "https://whistle-blower.up.railway.app/images/${response[0].fields.image}"
                                         };
                                         showAlertDialog2(context);
                                       } else {
