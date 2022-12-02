@@ -1,7 +1,11 @@
-
+import 'package:flutter/material.dart';
+import 'package:whistleblower/utils/allUtils.dart';
+import 'package:whistleblower/widget/allWidgets.dart';
+import 'login.dart';
 
 class TimelinePage extends StatefulWidget {
-    const TimelinePage({super.key});
+    const TimelinePage({super.key, required this.group_name});
+    final group_name;
 
     @override
     State<TimelinePage> createState() => _TimelinePageState();
@@ -13,7 +17,7 @@ class _TimelinePageState extends State<TimelinePage> {
     final request = context.watch<CookieRequest>();
     return Scaffold(
         appBar: AppBar(
-          title: const Text('My Watch List'),
+          title: Text(widget.group_name),
           actions: const [
             profilePicture(),
           ],
@@ -21,7 +25,7 @@ class _TimelinePageState extends State<TimelinePage> {
         drawer: const leftDrawer(),
         endDrawer: const rightDrawer(),
         body: FutureBuilder(
-            future: fetchMyPost(request),
+            future: fetchTimeline(request, widget.group_name),
             builder: (context, AsyncSnapshot snapshot) {
               if (snapshot.data == null) {
                 return const Center(child: CircularProgressIndicator());
@@ -68,7 +72,6 @@ class _TimelinePageState extends State<TimelinePage> {
                                         fontSize: 18.0,
                                         fontWeight: FontWeight.bold,
                                       ),
-
                                     )
                                   ]
                                 ),
@@ -108,12 +111,22 @@ class _TimelinePageState extends State<TimelinePage> {
                                 Row(
                                   children: [
                                     ElevatedButton.icon(
-                                      onPressed: () { },
+                                      onPressed: () async {
+                                        if (request.loggedIn) {
+                                          final url = "http://localhost:8000/mypost/${snapshot.data![index].pk}/upvote/";
+                                          final response = await request.get(url);
+                                          setState(() {
+                                            snapshot.data![index].fields.upvoteCount = response['upvote'];
+                                          });
+                                        } else {
+                                          Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+                                        }
+                                      },
                                       icon: Icon(
                                         Icons.arrow_circle_up_rounded,
                                         size: 22.0,
                                       ),
-                                      label: Text('Upvote'),
+                                      label: Text(snapshot.data![index].fields.upvoteCount.toString()),
                                     ),
                                     SizedBox(width: 7),
                                     ElevatedButton.icon(
