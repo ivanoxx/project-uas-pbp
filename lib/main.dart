@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:whistleblower/widget/drawers.dart';
 import 'package:provider/provider.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:whistleblower/models/ModelForum.dart';
+import 'package:whistleblower/widget/allWidgets.dart';
+import 'package:whistleblower/utils/allUtils.dart';
 
 void main() {
   runApp(const MyApp());
@@ -43,6 +46,8 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
+
+
   final String title;
 
   @override
@@ -74,82 +79,114 @@ class _MyHomePageState extends State<MyHomePage> {
       drawer: leftDrawer(),
       // Diambil dari https://blogmarch.com/flutter-left-right-navigation-drawer/
       endDrawer: rightDrawer(),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0,170,0,0),
-                child: Image.asset('lib/assets/images/landing.png',
-                  scale: 0.8
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0,0,0,190),
-                child: Text(
-                  'Whistleblower',
-                  style: TextStyle(
-                    fontFamily: 'AbrilFatface', 
-                    fontSize: 60, 
-                    color: Colors.white),
-                ),
-              ),
-              Text(
-                'Forum',
-                style: TextStyle(
-                  fontFamily: 'AbrilFatface', 
-                  fontSize: 30, 
-                  color: Colors.white),
-              ),
-              Container(
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(color: Colors.red),
-                  ),
-                  elevation: 4,
-                  shadowColor: Colors.black,
-                  color: Colors.white,
-                  child: SizedBox(
-                    width: 500,
-                    child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                'Title',
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.black
-                                ),
-                              ),
+      body: FutureBuilder(
+                future: fetchGroup(request),
+                builder: (context, AsyncSnapshot snapshot) {
+                  if (snapshot.data == null) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else {
+                    if (!snapshot.hasData) {
+                      return Column(
+                        children: const [
+                          Text(
+                            "Anda Tidak memiliki forum :(",
+                            style: 
+                            TextStyle(
+                              color: Color(0xff59A5D8),
+                              fontSize: 20
                             ),
-                            Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                'Descriptionnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn',
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.black
-                                ),
+                          ),
+                          SizedBox(height:8),
+                        ],
+                      );
+                    } else {
+                      return ListView.builder(
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (_, index) => InkWell(
+                          // TODO : onTap harusnya push ke page timeline
+                          onTap: () => Navigator.pop(context),
+                          child: Container(
+                              margin: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 12),
+                              padding: const EdgeInsets.all(20.0),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(15.0),
+                                  boxShadow: const [
+                                    BoxShadow(
+                                        color: Colors.black, blurRadius: 2.0)
+                                  ],
+                                  border: Border.all(
+                                      color:
+                                      snapshot.data![index].fields.isCaptured
+                                          ? Colors.white
+                                          : Colors.red)),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "${snapshot.data![index].fields.title}",
+                                        style: const TextStyle(
+                                          fontSize: 18.0,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      )
+                                    ]
+                                  ),
+                                  SizedBox(height: 10),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "Written by: Anonymous ${snapshot.data![index].fields.creator}",
+                                        style: const TextStyle(
+                                          fontSize: 14.0,
+                                        ),
+                                      )
+                                    ]
+                                  ),
+                                  
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "${snapshot.data![index].fields.dateCreated}",
+                                        style: const TextStyle(
+                                          fontSize: 12.0,
+                                        ),
+                                      )
+                                    ]
+                                  ),
+                                  SizedBox(height: 20),
+                                  Row(
+                                    children: [
+                                      ElevatedButton.icon(
+                                        onPressed: () { },
+                                        icon: Icon(
+                                          Icons.arrow_circle_up_rounded,
+                                          size: 22.0,
+                                        ),
+                                        label: Text('Upvote'),
+                                      ),
+                                      SizedBox(width: 7),
+                                      ElevatedButton.icon(
+                                        onPressed: () { },
+                                        icon: Icon(
+                                          Icons.add_comment_rounded,
+                                          size: 22.0,
+                                        ),
+                                        label: Text('Reply'),
+                                      ),
+                                    ]
+                                  ),
+                                ]
                               ),
-                            ),
-                          ]
-                      ),
-                    ),
-                  ),
-                ),
+                          ),
+                        )
+                      );
+                    }
+                  }
+                }
               ),
-            ],
-          ),
-        ),
-      ),
-      //This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
