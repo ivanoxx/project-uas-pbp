@@ -10,6 +10,13 @@ void main() {
   runApp(const MyApp());
 }
 
+Map<String, String> user_data = {
+  "username": "Anonymous",
+  "alias": "Anonymous",
+  "imagePath":
+      "https://cdn.discordapp.com/attachments/902951430153981993/1048232469788377201/default.png"
+};
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -84,41 +91,40 @@ class _MyHomePageState extends State<MyHomePage> {
                   // TODO: Ganti test jadi sesuatu yang lu mau
                   //Text("test"),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(0,170,0,0),
+                    padding: const EdgeInsets.fromLTRB(0, 170, 0, 0),
                     child: Image.asset('lib/assets/images/landing.png',
-                      scale: 0.8
-                    ),
+                        scale: 0.8),
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(0,0,0,190),
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 190),
                     child: Text(
                       'Whistleblower',
                       style: TextStyle(
-                        fontFamily: 'AbrilFatface', 
-                        fontSize: 60, 
-                        color: Colors.white),
+                          fontFamily: 'AbrilFatface',
+                          fontSize: 60,
+                          color: Colors.white),
                     ),
                   ),
-                  CircularProgressIndicator()],
+                  CircularProgressIndicator()
+                ],
               ));
             } else {
               if (!snapshot.hasData) {
                 return Column(
-                  children:  [
+                  children: [
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(0,170,0,0),
+                      padding: const EdgeInsets.fromLTRB(0, 170, 0, 0),
                       child: Image.asset('lib/assets/images/landing.png',
-                        scale: 0.8
-                      ),
+                          scale: 0.8),
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(0,0,0,190),
+                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 190),
                       child: Text(
                         'Whistleblower',
                         style: TextStyle(
-                          fontFamily: 'AbrilFatface', 
-                          fontSize: 60, 
-                          color: Colors.white),
+                            fontFamily: 'AbrilFatface',
+                            fontSize: 60,
+                            color: Colors.white),
                       ),
                     ),
                     // TODO: Masukin gambar atau apa yang lu mau
@@ -138,19 +144,19 @@ class _MyHomePageState extends State<MyHomePage> {
                           children: [
                             // TODO: Ganti test jadi apa yang mau lu tampilkan
                             Padding(
-                              padding: const EdgeInsets.fromLTRB(0,170,0,0),
-                              child: Image.asset('lib/assets/images/landing.png',
-                                scale: 0.8
-                              ),
+                              padding: const EdgeInsets.fromLTRB(0, 170, 0, 0),
+                              child: Image.asset(
+                                  'lib/assets/images/landing.png',
+                                  scale: 0.8),
                             ),
                             Padding(
-                              padding: const EdgeInsets.fromLTRB(0,0,0,190),
+                              padding: const EdgeInsets.fromLTRB(0, 0, 0, 190),
                               child: Text(
                                 'Whistleblower',
                                 style: TextStyle(
-                                  fontFamily: 'AbrilFatface', 
-                                  fontSize: 60, 
-                                  color: Colors.white),
+                                    fontFamily: 'AbrilFatface',
+                                    fontSize: 60,
+                                    color: Colors.white),
                               ),
                             ),
                             //Text("Test"),
@@ -165,7 +171,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(15.0),
                                   boxShadow: const [
-                                    BoxShadow(color: Colors.black, blurRadius: 2.0)
+                                    BoxShadow(
+                                        color: Colors.black, blurRadius: 2.0)
                                   ],
                                   // border: Border.all(
                                   //     color:
