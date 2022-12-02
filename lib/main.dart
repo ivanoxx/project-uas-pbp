@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:whistleblower/widget/drawers.dart';
 import 'package:provider/provider.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:whistleblower/models/ModelForum.dart';
+import 'package:whistleblower/widget/allWidgets.dart';
+import 'package:whistleblower/utils/allUtils.dart';
 
 void main() {
   runApp(const MyApp());
@@ -31,9 +34,10 @@ class MyApp extends StatelessWidget {
           // or simply save your changes to "hot reload" in a Flutter IDE).
           // Notice that the counter didn't reset back to zero; the application
           // is not restarted.
-          primarySwatch: Colors.blue,
+          primarySwatch: Colors.red,
+          scaffoldBackgroundColor: Color.fromRGBO(44,51,51,1)
         ),
-        home: const MyHomePage(title: 'Flutter Demo Home Page'),
+        home: const MyHomePage(title: ''),
       ),
     );
   }
@@ -42,14 +46,7 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
 
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
 
   final String title;
 
@@ -62,27 +59,18 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _incrementCounter() {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
+      
       _counter++;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
+    final request = context.watch<CookieRequest>();
+    
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
+        
         title: Text(widget.title),
         actions: [
           profilePicture(),
@@ -91,41 +79,114 @@ class _MyHomePageState extends State<MyHomePage> {
       drawer: leftDrawer(),
       // Diambil dari https://blogmarch.com/flutter-left-right-navigation-drawer/
       endDrawer: rightDrawer(),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      body: FutureBuilder(
+                future: fetchGroup(request),
+                builder: (context, AsyncSnapshot snapshot) {
+                  if (snapshot.data == null) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else {
+                    if (!snapshot.hasData) {
+                      return Column(
+                        children: const [
+                          Text(
+                            "Anda Tidak memiliki forum :(",
+                            style: 
+                            TextStyle(
+                              color: Color(0xff59A5D8),
+                              fontSize: 20
+                            ),
+                          ),
+                          SizedBox(height:8),
+                        ],
+                      );
+                    } else {
+                      return ListView.builder(
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (_, index) => InkWell(
+                          // TODO : onTap harusnya push ke page timeline
+                          onTap: () => Navigator.pop(context),
+                          child: Container(
+                              margin: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 12),
+                              padding: const EdgeInsets.all(20.0),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(15.0),
+                                  boxShadow: const [
+                                    BoxShadow(
+                                        color: Colors.black, blurRadius: 2.0)
+                                  ],
+                                  border: Border.all(
+                                      color:
+                                      snapshot.data![index].fields.isCaptured
+                                          ? Colors.white
+                                          : Colors.red)),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "${snapshot.data![index].fields.title}",
+                                        style: const TextStyle(
+                                          fontSize: 18.0,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      )
+                                    ]
+                                  ),
+                                  SizedBox(height: 10),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "Written by: Anonymous ${snapshot.data![index].fields.creator}",
+                                        style: const TextStyle(
+                                          fontSize: 14.0,
+                                        ),
+                                      )
+                                    ]
+                                  ),
+                                  
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "${snapshot.data![index].fields.dateCreated}",
+                                        style: const TextStyle(
+                                          fontSize: 12.0,
+                                        ),
+                                      )
+                                    ]
+                                  ),
+                                  SizedBox(height: 20),
+                                  Row(
+                                    children: [
+                                      ElevatedButton.icon(
+                                        onPressed: () { },
+                                        icon: Icon(
+                                          Icons.arrow_circle_up_rounded,
+                                          size: 22.0,
+                                        ),
+                                        label: Text('Upvote'),
+                                      ),
+                                      SizedBox(width: 7),
+                                      ElevatedButton.icon(
+                                        onPressed: () { },
+                                        icon: Icon(
+                                          Icons.add_comment_rounded,
+                                          size: 22.0,
+                                        ),
+                                        label: Text('Reply'),
+                                      ),
+                                    ]
+                                  ),
+                                ]
+                              ),
+                          ),
+                        )
+                      );
+                    }
+                  }
+                }
+              ),
     );
   }
 }
