@@ -73,7 +73,7 @@ class MyPostPageState extends State<MyPostPage> {
                                 border: Border.all(
                                     color:
                                     snapshot.data![index].fields.isCaptured
-                                        ? Colors.blueAccent
+                                        ? Colors.white
                                         : Colors.red)),
                             child: Column(
                               children: [
@@ -85,15 +85,68 @@ class MyPostPageState extends State<MyPostPage> {
                                         fontSize: 18.0,
                                         fontWeight: FontWeight.bold,
                                       ),
-                                    ),
-                                    const Flexible(
-                                        fit: FlexFit.tight, child: SizedBox()),
-                                    CustomButtonTest(post : snapshot.data![index], callbackFunction: callback,),
-                                  ],
+
+                                    )
+                                  ]
                                 ),
-                                Text(snapshot.data![index].fields.description),
-                              ],
-                            )),
+                                SizedBox(height: 10),
+                                Row(
+                                  children: [
+                                    Text(
+                                      "Written by: Anonymous ${snapshot.data![index].fields.creator}",
+                                      style: const TextStyle(
+                                        fontSize: 14.0,
+                                      ),
+                                    )
+                                  ]
+                                ),
+                                
+                                Row(
+                                  children: [
+                                    Text(
+                                      "${snapshot.data![index].fields.dateCreated}",
+                                      style: const TextStyle(
+                                        fontSize: 12.0,
+                                      ),
+                                    )
+                                  ]
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      "${snapshot.data![index].fields.description}",
+                                      style: const TextStyle(
+                                        fontSize: 12.0,
+                                      ),
+                                    )
+                                  ]
+                                ),
+                                SizedBox(height: 20),
+                                Row(
+                                  children: [
+                                    ElevatedButton.icon(
+                                      onPressed: () { },
+                                      icon: Icon(
+                                        Icons.arrow_circle_up_rounded,
+                                        size: 22.0,
+                                      ),
+                                      label: Text('Upvote'),
+                                    ),
+                                    SizedBox(width: 7),
+                                    ElevatedButton.icon(
+                                      onPressed: () { },
+                                      icon: Icon(
+                                        Icons.add_comment_rounded,
+                                        size: 22.0,
+                                      ),
+                                      label: Text('Reply'),
+                                    ),
+                                  ]
+                                ),
+                              ]
+                            ),
+                        ),
+
                       ));
                 }
               }
