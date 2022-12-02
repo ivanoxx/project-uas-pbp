@@ -67,6 +67,10 @@ class rightDrawer extends StatelessWidget {
                     MaterialPageRoute(
                         builder: (context) => LoginPage()));
               }
+              Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ProfilePage()));
             },
           ),
           const Divider(height: 3.0),
