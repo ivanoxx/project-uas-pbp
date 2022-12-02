@@ -30,7 +30,7 @@ class MyPostPageState extends State<MyPostPage> {
     final request = context.watch<CookieRequest>();
     return Scaffold(
         appBar: AppBar(
-          title: const Text('My Watch List'),
+          title: const Text('My Post'),
           actions: const [
             profilePicture(),
           ],
@@ -127,12 +127,22 @@ class MyPostPageState extends State<MyPostPage> {
                                 Row(
                                   children: [
                                     ElevatedButton.icon(
-                                      onPressed: () { },
+                                      onPressed: () async {
+                                        if (request.loggedIn) {
+                                          final url = "http://localhost:8000/mypost/${snapshot.data![index].pk}/upvote/";
+                                          final response = await request.get(url);
+                                          setState(() {
+                                            snapshot.data![index].fields.upvoteCount = response['upvote'];
+                                          });
+                                        } else {
+                                          Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+                                        }
+                                      },
                                       icon: Icon(
                                         Icons.arrow_circle_up_rounded,
                                         size: 22.0,
                                       ),
-                                      label: Text('Upvote'),
+                                      label: Text(snapshot.data![index].fields.upvoteCount.toString()),
                                     ),
                                     SizedBox(width: 7),
                                     ElevatedButton.icon(

@@ -5,6 +5,7 @@ import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:whistleblower/models/ModelForum.dart';
 import 'package:whistleblower/widget/allWidgets.dart';
 import 'package:whistleblower/utils/allUtils.dart';
+import 'package:whistleblower/page/timeline.dart';
 
 void main() {
   runApp(const MyApp());
@@ -84,41 +85,40 @@ class _MyHomePageState extends State<MyHomePage> {
                   // TODO: Ganti test jadi sesuatu yang lu mau
                   //Text("test"),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(0,170,0,0),
+                    padding: const EdgeInsets.fromLTRB(0, 170, 0, 0),
                     child: Image.asset('lib/assets/images/landing.png',
-                      scale: 0.8
-                    ),
+                        scale: 0.8),
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(0,0,0,190),
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 190),
                     child: Text(
                       'Whistleblower',
                       style: TextStyle(
-                        fontFamily: 'AbrilFatface', 
-                        fontSize: 60, 
-                        color: Colors.white),
+                          fontFamily: 'AbrilFatface',
+                          fontSize: 60,
+                          color: Colors.white),
                     ),
                   ),
-                  CircularProgressIndicator()],
+                  CircularProgressIndicator()
+                ],
               ));
             } else {
               if (!snapshot.hasData) {
                 return Column(
-                  children:  [
+                  children: [
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(0,170,0,0),
+                      padding: const EdgeInsets.fromLTRB(0, 170, 0, 0),
                       child: Image.asset('lib/assets/images/landing.png',
-                        scale: 0.8
-                      ),
+                          scale: 0.8),
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(0,0,0,190),
+                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 190),
                       child: Text(
                         'Whistleblower',
                         style: TextStyle(
-                          fontFamily: 'AbrilFatface', 
-                          fontSize: 60, 
-                          color: Colors.white),
+                            fontFamily: 'AbrilFatface',
+                            fontSize: 60,
+                            color: Colors.white),
                       ),
                     ),
                     // TODO: Masukin gambar atau apa yang lu mau
@@ -138,25 +138,30 @@ class _MyHomePageState extends State<MyHomePage> {
                           children: [
                             // TODO: Ganti test jadi apa yang mau lu tampilkan
                             Padding(
-                              padding: const EdgeInsets.fromLTRB(0,170,0,0),
-                              child: Image.asset('lib/assets/images/landing.png',
-                                scale: 0.8
-                              ),
+                              padding: const EdgeInsets.fromLTRB(0, 170, 0, 0),
+                              child: Image.asset(
+                                  'lib/assets/images/landing.png',
+                                  scale: 0.8),
                             ),
                             Padding(
-                              padding: const EdgeInsets.fromLTRB(0,0,0,190),
+                              padding: const EdgeInsets.fromLTRB(0, 0, 0, 190),
                               child: Text(
                                 'Whistleblower',
                                 style: TextStyle(
-                                  fontFamily: 'AbrilFatface', 
-                                  fontSize: 60, 
-                                  color: Colors.white),
+                                    fontFamily: 'AbrilFatface',
+                                    fontSize: 60,
+                                    color: Colors.white),
                               ),
                             ),
                             //Text("Test"),
                             InkWell(
                               // TODO : onTap harusnya push ke page timeline
-                              onTap: () => Navigator.pop(context),
+                              onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => TimelinePage(
+                                          group_name: snapshot
+                                              .data![index].fields.title))),
                               child: Container(
                                 margin: const EdgeInsets.symmetric(
                                     horizontal: 16, vertical: 12),
@@ -165,7 +170,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(15.0),
                                   boxShadow: const [
-                                    BoxShadow(color: Colors.black, blurRadius: 2.0)
+                                    BoxShadow(
+                                        color: Colors.black, blurRadius: 2.0)
                                   ],
                                   // border: Border.all(
                                   //     color:
@@ -236,7 +242,12 @@ class _MyHomePageState extends State<MyHomePage> {
                       }
                       return InkWell(
                         // TODO : onTap harusnya push ke page timeline
-                        onTap: () => Navigator.pop(context),
+                        onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => TimelinePage(
+                                    group_name: snapshot
+                                        .data![index].fields.title))),
                         child: Container(
                           margin: const EdgeInsets.symmetric(
                               horizontal: 16, vertical: 12),
