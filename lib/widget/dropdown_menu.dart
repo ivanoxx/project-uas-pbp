@@ -2,6 +2,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:whistleblower/page/all_page.dart';
 import 'package:whistleblower/page/my_post.dart';
 import 'package:intl/intl.dart';
 
@@ -53,7 +54,7 @@ class _CustomButtonTestState extends State<CustomButtonTest> {
           ),
         ],
         onChanged: (value) {
-          MenuItems.onChanged(context, value as MenuItem, post);
+          MenuItems.onChanged(context, value as MenuItem, post, widget.callbackFunction);
           widget.callbackFunction();
         },
         itemHeight: 48,
@@ -105,14 +106,14 @@ class MenuItems {
     );
   }
 
-  static onChanged(BuildContext context, MenuItem item, final post) async {
+  static onChanged(BuildContext context, MenuItem item, final post, final callback) async {
     final request = Provider.of<CookieRequest>(context, listen: false);
     final _formKey = GlobalKey<FormState>();
     var controllerNama = TextEditingController();
     var controllerDescription = TextEditingController();
     controllerNama.text = post.fields.title;
     controllerDescription.text = post.fields.description;
-    DateTime dateCaptured = post.fields.dateCaptured ?? DateTime.now();
+    DateTime dateCaptured = post.fields.dateCaptured == null ? DateTime.now() : DateTime.parse(post.fields.dateCaptured);
     switch (item) {
       case MenuItems.edit:
         //Do something
@@ -177,7 +178,9 @@ class MenuItems {
                               },
                             ),
                           ),
-                          SizedBox(height: 8,),
+                          SizedBox(
+                            height: 8,
+                          ),
                           Row(
                             children: [
                               Text("Captured? : "),
@@ -186,11 +189,14 @@ class MenuItems {
                                   onChanged: (bool? value) {
                                     setState(() {
                                       post.fields.isCaptured = value!;
+                                      post.fields.dateCaptured = dateCaptured;
                                     });
                                   }),
                             ],
                           ),
-                          SizedBox(height: 8,),
+                          SizedBox(
+                            height: 8,
+                          ),
                           Visibility(
                             visible: post.fields.isCaptured,
                             child: Row(
@@ -259,7 +265,7 @@ class MenuItems {
                                             ;
                                             // TODO: Masukin datenya
                                           },
-                                        )
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -267,6 +273,26 @@ class MenuItems {
                               ],
                             ),
                           ),
+                          ElevatedButton(
+                              onPressed: () async {
+                                if (_formKey.currentState!.validate()) {
+                                  final url = 'http://localhost:8000/mypost/${post.pk}/edit/';
+                                  final response = await request.post(url, {
+                                    "name" : controllerNama.text,
+                                    "description" : controllerDescription.text,
+                                    "id" : post.pk.toString(),
+                                    "is_captured" : post.fields.isCaptured.toString(),
+                                    "date_captured" : post.fields.dateCaptured.toString(),
+                                  });
+                                  if (response['msg'] == "success") {
+                                    showAlertDialog2(context, "edit");
+                                    callback();
+                                  } else {
+                                    showAlertDialog(context);
+                                  };
+                                }
+                              },
+                              child: Text("Submit")),
                         ],
                       ),
                     ),
@@ -279,14 +305,70 @@ class MenuItems {
         var url = 'http://127.0.0.1:8000/mypost/${post.pk}/delete/';
         // var url = 'https://whistle-blower.up.railway.app/mypost/$idPost/delete/';
         final response = await request.get(url);
-
         if (response['msg'] == "Success") {
           // TODO Do Something
+          showAlertDialog2(context, "Delete");
         } else {
           // TODO Do something
+          showAlertDialog(context);
         }
         //Do something
         break;
     }
+  }
+  static showAlertDialog(BuildContext context) {
+    // set up the button
+    Widget okButton = TextButton(
+      child: Text("Coba Lagi"),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Gagal!"),
+      content: Text("Terjadi suatu kesalahan"),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+  static showAlertDialog2(BuildContext context, text) {
+    // set up the button
+    Widget okButton = TextButton(
+      child: Text("Close"),
+      onPressed: () {
+        if (text == "edit") {
+          Navigator.pop(context);
+        }
+        Navigator.pop(context);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Selamat!"),
+      content: Text("Anda berhasil $text Post"),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 }

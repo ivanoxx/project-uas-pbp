@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:whistleblower/page/all_page.dart';
 import 'package:whistleblower/widget/drawers.dart';
 import 'package:provider/provider.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
@@ -44,6 +45,9 @@ class MyApp extends StatelessWidget {
             // is not restarted.
             primarySwatch: Colors.red,
             scaffoldBackgroundColor: Color.fromRGBO(44, 51, 51, 1)),
+        routes: {
+          "/mypost" : (context) => const MyPostPage()
+        },
         home: const MyHomePage(title: ''),
       ),
     );
