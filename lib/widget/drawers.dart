@@ -14,6 +14,7 @@ class rightDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
+
     return Drawer(
       child: Column(
         children: <Widget>[
@@ -62,15 +63,12 @@ class rightDrawer extends StatelessWidget {
             onTap: () {
               // Here you can give your route to navigate
               if (!request.loggedIn) {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => LoginPage()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LoginPage()));
+              } else {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ProfilePage()));
               }
-              Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ProfilePage()));
             },
           ),
           const Divider(height: 3.0),
@@ -80,10 +78,8 @@ class rightDrawer extends StatelessWidget {
             onTap: () {
               // Here you can give your route to navigate
               if (request.loggedIn) {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => MyPostPage()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => MyPostPage()));
               }
             },
           ),
@@ -93,10 +89,8 @@ class rightDrawer extends StatelessWidget {
             onTap: () async {
               // Here you can give your route to navigate
               if (!request.loggedIn) {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => LoginPage()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LoginPage()));
               }
               const url = "http://127.0.0.1:8000/auth/logout/";
               //const url = "https://whistle-blower.up.railway.app/auth/logout/";
@@ -162,10 +156,8 @@ class leftDrawer extends StatelessWidget {
             onTap: () {
               // Here you can give your route to navigate
               if (!request.loggedIn) {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => LoginPage()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LoginPage()));
               }
               Navigator.push(
                   context,
@@ -179,10 +171,8 @@ class leftDrawer extends StatelessWidget {
             onTap: () {
               // Here you can give your route to navigate
               if (!request.loggedIn) {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => LoginPage()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LoginPage()));
               }
               Navigator.push(
                   context,
@@ -195,10 +185,8 @@ class leftDrawer extends StatelessWidget {
             title: Text('Login', style: TextStyle(fontSize: 18)),
             onTap: () {
               // Here you can give your route to navigate
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => LoginPage()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => LoginPage()));
             },
           ),
           ListTile(
@@ -206,10 +194,8 @@ class leftDrawer extends StatelessWidget {
             title: Text('Sign Up', style: TextStyle(fontSize: 18)),
             onTap: () {
               // Here you can give your route to navigate
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => SignupPage()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => SignupPage()));
             },
           ),
         ],
