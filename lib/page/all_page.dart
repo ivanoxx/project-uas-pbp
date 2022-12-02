@@ -4,3 +4,5 @@ export 'create_post.dart';
 export 'hall_of_shame.dart';
 export 'login.dart';
 export 'my_post.dart';
+export 'profile_page.dart';
+export 'edit_profile_page.dart';
