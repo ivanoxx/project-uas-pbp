@@ -7,6 +7,8 @@ import 'package:pbp_django_auth/pbp_django_auth.dart';
 Future<List<Post>> fetchMyPost(request) async {
   // TODO: Ganti ke url railway
   var url = 'http://127.0.0.1:8000/mypost/json/';
+  // var url = 'https://whistle-blower.up.railway.app/mypost/json/';
+
   var response = await request.get(url);
 
 // melakukan decode response menjadi bentuk json

@@ -35,7 +35,7 @@ class _MyPostFormPageState extends State<MyPostFormPage> {
         drawer: leftDrawer(),
         endDrawer: rightDrawer(),
         body: FutureBuilder(
-          future: fetchGroup(),
+          future: fetchGroup(request),
           // request.get( "https://whistle-blower.up.railway.app/create-forum/name/"),
 
           builder: (context, AsyncSnapshot snapshot) {
