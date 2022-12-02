@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:whistleblower/models/ModelPost.dart';
+import 'package:whistleblower/page/all_page.dart';
 import 'package:whistleblower/widget/allWidgets.dart';
 import 'package:provider/provider.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
@@ -8,12 +9,22 @@ import 'package:whistleblower/utils/allUtils.dart';
 
 class MyPostPage extends StatefulWidget {
   const MyPostPage({super.key});
+  static of(BuildContext context, {bool root = false}) => root
+      ? context.findRootAncestorStateOfType<MyPostPageState>()
+      : context.findAncestorStateOfType<MyPostPageState>();
 
   @override
-  State<MyPostPage> createState() => _MyPostPageState();
+  State<MyPostPage> createState() => MyPostPageState();
 }
 
-class _MyPostPageState extends State<MyPostPage> {
+class MyPostPageState extends State<MyPostPage> {
+  late Widget currentPage;
+
+  void callback() {
+    setState(() {
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
@@ -74,6 +85,7 @@ class _MyPostPageState extends State<MyPostPage> {
                                         fontSize: 18.0,
                                         fontWeight: FontWeight.bold,
                                       ),
+
                                     )
                                   ]
                                 ),
@@ -134,6 +146,7 @@ class _MyPostPageState extends State<MyPostPage> {
                               ]
                             ),
                         ),
+
                       ));
                 }
               }
