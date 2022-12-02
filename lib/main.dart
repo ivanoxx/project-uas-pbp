@@ -52,13 +52,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  // int _counter = 0;
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+  // void _incrementCounter() {
+  //   setState(() {
+  //     _counter++;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -82,13 +82,45 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Column(
                 children: [
                   // TODO: Ganti test jadi sesuatu yang lu mau
-                  Text("test"),
+                  //Text("test"),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0,170,0,0),
+                    child: Image.asset('lib/assets/images/landing.png',
+                      scale: 0.8
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0,0,0,190),
+                    child: Text(
+                      'Whistleblower',
+                      style: TextStyle(
+                        fontFamily: 'AbrilFatface', 
+                        fontSize: 60, 
+                        color: Colors.white),
+                    ),
+                  ),
                   CircularProgressIndicator()],
               ));
             } else {
               if (!snapshot.hasData) {
                 return Column(
-                  children: const [
+                  children:  [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0,170,0,0),
+                      child: Image.asset('lib/assets/images/landing.png',
+                        scale: 0.8
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0,0,0,190),
+                      child: Text(
+                        'Whistleblower',
+                        style: TextStyle(
+                          fontFamily: 'AbrilFatface', 
+                          fontSize: 60, 
+                          color: Colors.white),
+                      ),
+                    ),
                     // TODO: Masukin gambar atau apa yang lu mau
                     Text(
                       "Anda Tidak memiliki forum :(",
@@ -105,7 +137,23 @@ class _MyHomePageState extends State<MyHomePage> {
                         return Column(
                           children: [
                             // TODO: Ganti test jadi apa yang mau lu tampilkan
-                            Text("Test"),
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(0,170,0,0),
+                              child: Image.asset('lib/assets/images/landing.png',
+                                scale: 0.8
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(0,0,0,190),
+                              child: Text(
+                                'Whistleblower',
+                                style: TextStyle(
+                                  fontFamily: 'AbrilFatface', 
+                                  fontSize: 60, 
+                                  color: Colors.white),
+                              ),
+                            ),
+                            //Text("Test"),
                             InkWell(
                               // TODO : onTap harusnya push ke page timeline
                               onTap: () => Navigator.pop(context),
@@ -154,24 +202,32 @@ class _MyHomePageState extends State<MyHomePage> {
                                   ]),
                                   SizedBox(height: 20),
                                   Row(children: [
-                                    ElevatedButton.icon(
-                                      onPressed: () {},
-                                      icon: Icon(
-                                        Icons.arrow_circle_up_rounded,
-                                        size: 22.0,
+                                    Text(
+                                      "${snapshot.data![index].fields.description}",
+                                      style: const TextStyle(
+                                        fontSize: 14.0,
                                       ),
-                                      label: Text('Upvote'),
-                                    ),
-                                    SizedBox(width: 7),
-                                    ElevatedButton.icon(
-                                      onPressed: () {},
-                                      icon: Icon(
-                                        Icons.add_comment_rounded,
-                                        size: 22.0,
-                                      ),
-                                      label: Text('Reply'),
-                                    ),
+                                    )
                                   ]),
+                                  // Row(children: [
+                                  //   ElevatedButton.icon(
+                                  //     onPressed: () {},
+                                  //     icon: Icon(
+                                  //       Icons.arrow_circle_up_rounded,
+                                  //       size: 22.0,
+                                  //     ),
+                                  //     label: Text('Upvote'),
+                                  //   ),
+                                  //   SizedBox(width: 7),
+                                  //   ElevatedButton.icon(
+                                  //     onPressed: () {},
+                                  //     icon: Icon(
+                                  //       Icons.add_comment_rounded,
+                                  //       size: 22.0,
+                                  //     ),
+                                  //     label: Text('Reply'),
+                                  //   ),
+                                  // ]),
                                 ]),
                               ),
                             )
@@ -226,24 +282,32 @@ class _MyHomePageState extends State<MyHomePage> {
                             ]),
                             SizedBox(height: 20),
                             Row(children: [
-                              ElevatedButton.icon(
-                                onPressed: () {},
-                                icon: Icon(
-                                  Icons.arrow_circle_up_rounded,
-                                  size: 22.0,
+                              Text(
+                                "${snapshot.data![index].fields.description}",
+                                style: const TextStyle(
+                                  fontSize: 14.0,
                                 ),
-                                label: Text('Upvote'),
-                              ),
-                              SizedBox(width: 7),
-                              ElevatedButton.icon(
-                                onPressed: () {},
-                                icon: Icon(
-                                  Icons.add_comment_rounded,
-                                  size: 22.0,
-                                ),
-                                label: Text('Reply'),
-                              ),
+                              )
                             ]),
+                            // Row(children: [
+                            //   ElevatedButton.icon(
+                            //     onPressed: () {},
+                            //     icon: Icon(
+                            //       Icons.arrow_circle_up_rounded,
+                            //       size: 22.0,
+                            //     ),
+                            //     label: Text('Upvote'),
+                            //   ),
+                            //   SizedBox(width: 7),
+                            //   ElevatedButton.icon(
+                            //     onPressed: () {},
+                            //     icon: Icon(
+                            //       Icons.add_comment_rounded,
+                            //       size: 22.0,
+                            //     ),
+                            //     label: Text('Reply'),
+                            //   ),
+                            // ]),
                           ]),
                         ),
                       );
