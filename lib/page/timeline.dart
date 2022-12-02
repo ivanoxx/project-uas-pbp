@@ -107,7 +107,7 @@ class _TimelinePageState extends State<TimelinePage> {
                                     onPressed: () async {
                                       if (request.loggedIn) {
                                         final url =
-                                            "http://localhost:8000/mypost/${snapshot.data![index].pk}/upvote/";
+                                            "https://whistle-blower.up.railway.app/${snapshot.data![index].pk}/upvote/";
                                         final response = await request.get(url);
                                         setState(() {
                                           snapshot.data![index].fields

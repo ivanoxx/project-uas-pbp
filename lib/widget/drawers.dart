@@ -17,16 +17,19 @@ class rightDrawer extends StatelessWidget {
     final request = context.watch<CookieRequest>();
 
     void fetch() async {
-      var response = await fetchProfile(request);
+      final response = await fetchProfile(request);
 
       user_data = {
         "username": username,
         "alias": response[0].fields.alias,
-        "imagePath": "http://localhost:8000/images/${response[0].fields.image}"
+        "imagePath":
+            "https://whistle-blower.up.railway.app/images/${response[0].fields.image}"
       };
     }
 
-    fetch();
+    if (request.loggedIn) {
+      fetch();
+    }
 
     return Drawer(
       child: Column(
@@ -105,7 +108,7 @@ class rightDrawer extends StatelessWidget {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => LoginPage()));
               }
-              const url = "http://127.0.0.1:8000/auth/logout/";
+              const url = "https://whistle-blower.up.railway.app/auth/logout/";
               //const url = "https://whistle-blower.up.railway.app/auth/logout/";
               final response = await request.logout(url);
             },

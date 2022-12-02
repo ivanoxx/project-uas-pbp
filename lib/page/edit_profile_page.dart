@@ -88,7 +88,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       ),
                       onPressed: () async {
                         final response = await request.post(
-                            "http://localhost:8000/myprofile/edit-flutter", {
+                            "https://whistle-blower.up.railway.app/myprofile/edit-flutter", {
                           "alias": user_data["alias"],
                         });
                         if (response["status"] == "ok") {

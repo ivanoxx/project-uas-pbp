@@ -183,7 +183,7 @@ class _MyPostFormPageState extends State<MyPostFormPage> {
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
                               const url =
-                                  "http://127.0.0.1:8000/create-post-flutter/";
+                                  "https://whistle-blower.up.railway.app/create-post-flutter/";
                               final response = await request.post(url, {
                                 "title": _nama,
                                 "description": _description,
