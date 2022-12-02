@@ -85,8 +85,10 @@ class MyPostPageState extends State<MyPostPage> {
                                         fontSize: 18.0,
                                         fontWeight: FontWeight.bold,
                                       ),
-
-                                    )
+                                    ),
+                                    const Flexible(
+                                        fit: FlexFit.tight, child: SizedBox()),
+                                    CustomButtonTest(post: snapshot.data![index], callbackFunction: callback),
                                   ]
                                 ),
                                 SizedBox(height: 10),
