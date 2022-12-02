@@ -25,26 +25,26 @@ class rightDrawer extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  const CircleAvatar(
-                    backgroundImage: NetworkImage(
-                        'https://img.cutenesscdn.com/375/media-storage/contentlab-data/10/17/199cd1d9ed9f4d45b18e5b7ce8dfe420.jpg'),
+                  CircleAvatar(
+                    backgroundImage:
+                        NetworkImage(user_data["imagePath"] as String),
                     radius: 35.0,
                   ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const <Widget>[
+                    children: <Widget>[
                       Text(
-                        'Andi Ayuna',
-                        style: TextStyle(
+                        user_data["alias"] as String,
+                        style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                             fontSize: 25.0),
                       ),
-                      SizedBox(height: 10.0),
+                      const SizedBox(height: 10.0),
                       Text(
-                        'andi.ayuna@ui.ac.id',
-                        style: TextStyle(
+                        user_data["username"] as String,
+                        style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                             fontSize: 14.0),
@@ -216,9 +216,9 @@ class profilePicture extends StatelessWidget {
       child: Builder(
         builder: (context) => IconButton(
           iconSize: 32.0,
-          icon: const CircleAvatar(
+          icon: CircleAvatar(
             backgroundImage: NetworkImage(
-                "https://img.cutenesscdn.com/375/media-storage/contentlab-data/10/17/199cd1d9ed9f4d45b18e5b7ce8dfe420.jpg"),
+                user_data["imagePath"] as String),
           ),
           onPressed: () => Scaffold.of(context).openEndDrawer(),
           tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,

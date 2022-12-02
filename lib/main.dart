@@ -11,6 +11,13 @@ void main() {
   runApp(const MyApp());
 }
 
+Map<String, String> user_data = {
+  "username": "Anonymous",
+  "alias": "Anonymous",
+  "imagePath":
+      "https://cdn.discordapp.com/attachments/902951430153981993/1048232469788377201/default.png"
+};
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 

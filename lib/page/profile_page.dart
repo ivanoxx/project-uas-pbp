@@ -39,7 +39,8 @@ class _ProfilePageState extends State<ProfilePage> {
             );
           } else {
             alias = snapshot.data![0]['fields']['alias'];
-            imagePath = "http://localhost:8000/images/${snapshot.data![0]['fields']['image']}";
+            imagePath =
+                "http://localhost:8000/images/${snapshot.data![0]['fields']['image']}";
             return CustomScrollView(
               slivers: [
                 SliverFillRemaining(
@@ -54,8 +55,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          EditProfilePage()));
+                                      builder: (context) => EditProfilePage()));
                             }),
                         const SizedBox(
                           height: 24,

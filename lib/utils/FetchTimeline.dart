@@ -4,6 +4,7 @@ import 'package:whistleblower/models/ModelPost.dart';
 import 'package:provider/provider.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 
+
 Future<List<Post>> fetchTimeline(request, group_name) async {
   // TODO: Ganti ke url railway
   var url = 'http://127.0.0.1:8000/group/$group_name/json-flutter/';
