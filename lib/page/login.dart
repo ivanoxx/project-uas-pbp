@@ -10,6 +10,8 @@ class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
 
+String username = "Anonymous";
+
 class _LoginPageState extends State<LoginPage> {
   final _loginFormKey = GlobalKey<FormState>();
   final TextEditingController _controllerUsername = TextEditingController();
@@ -21,6 +23,7 @@ class _LoginPageState extends State<LoginPage> {
       isPasswordVisible = !isPasswordVisible;
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -142,6 +145,7 @@ class _LoginPageState extends State<LoginPage> {
                                       );
 
                                       if (request.loggedIn){
+                                        username = _controllerUsername.text;
                                         showAlertDialog2(context);
                                       }
                                       else {
