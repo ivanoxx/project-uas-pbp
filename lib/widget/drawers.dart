@@ -3,6 +3,7 @@ import "package:whistleblower/page/all_page.dart";
 import "package:whistleblower/main.dart";
 import 'package:provider/provider.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:whistleblower/utils/allUtils.dart';
 import '../page/login.dart';
 import '../page/signup.dart';
 
@@ -14,6 +15,18 @@ class rightDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
+
+    void fetch() async {
+      var response = await fetchProfile(request);
+
+      user_data = {
+        "username": username,
+        "alias": response[0].fields.alias,
+        "imagePath": "http://localhost:8000/images/${response[0].fields.image}"
+      };
+    }
+
+    fetch();
 
     return Drawer(
       child: Column(
@@ -217,8 +230,7 @@ class profilePicture extends StatelessWidget {
         builder: (context) => IconButton(
           iconSize: 32.0,
           icon: CircleAvatar(
-            backgroundImage: NetworkImage(
-                user_data["imagePath"] as String),
+            backgroundImage: NetworkImage(user_data["imagePath"] as String),
           ),
           onPressed: () => Scaffold.of(context).openEndDrawer(),
           tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
