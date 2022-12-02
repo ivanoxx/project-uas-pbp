@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:whistleblower/widget/allWidgets.dart';
+import 'package:whistleblower/page/all_page.dart';
+import 'package:provider/provider.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({super.key});
@@ -10,10 +13,12 @@ class EditProfilePage extends StatefulWidget {
 
 class _EditProfilePageState extends State<EditProfilePage> {
   late final TextEditingController controller =
-      TextEditingController(text: "AA");
+      TextEditingController(text: alias);
 
   @override
   Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>();
+
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(),
@@ -27,12 +32,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
               child: Column(
-                // crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   ProfileWidget(
-                    imagePath:
-                        "https://img.cutenesscdn.com/375/media-storage/contentlab-data/10/17/199cd1d9ed9f4d45b18e5b7ce8dfe420.jpg",
+                    imagePath: imagePath,
                     isEdit: true,
                     onClicked: () async {},
                   ),
