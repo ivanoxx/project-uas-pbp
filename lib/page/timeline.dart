@@ -2,17 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:whistleblower/utils/allUtils.dart';
 import 'package:whistleblower/widget/allWidgets.dart';
 import 'login.dart';
+import 'package:whistleblower/page/all_page.dart';
 
 class TimelinePage extends StatefulWidget {
-    const TimelinePage({super.key, required this.group_name});
-    final group_name;
+  const TimelinePage({super.key, required this.group_name});
+  final group_name;
 
-    @override
-    State<TimelinePage> createState() => _TimelinePageState();
+  @override
+  State<TimelinePage> createState() => _TimelinePageState();
 }
 
 class _TimelinePageState extends State<TimelinePage> {
-    @override
+  @override
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
     return Scaffold(
@@ -36,7 +37,7 @@ class _TimelinePageState extends State<TimelinePage> {
                       Text(
                         "Anda tidak memiliki post :(",
                         style:
-                        TextStyle(color: Color(0xff59A5D8), fontSize: 20),
+                            TextStyle(color: Color(0xff59A5D8), fontSize: 20),
                       ),
                       SizedBox(height: 8),
                     ],
@@ -45,105 +46,103 @@ class _TimelinePageState extends State<TimelinePage> {
                   return ListView.builder(
                       itemCount: snapshot.data!.length,
                       itemBuilder: (_, index) => InkWell(
-                        onTap: () => Navigator.pop(context),
-                        child: Container(
-                            margin: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 12),
-                            padding: const EdgeInsets.all(20.0),
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(15.0),
-                                boxShadow: const [
-                                  BoxShadow(
-                                      color: Colors.black, blurRadius: 2.0)
-                                ],
-                                border: Border.all(
-                                    color:
-                                    snapshot.data![index].fields.isCaptured
-                                        ? Colors.white
-                                        : Colors.red)),
-                            child: Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      "${snapshot.data![index].fields.title}",
-                                      style: const TextStyle(
-                                        fontSize: 18.0,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    )
-                                  ]
-                                ),
+                            //onTap: () => Navigator.pop(context),
+                            child: Container(
+                              margin: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 12),
+                              padding: const EdgeInsets.all(20.0),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(15.0),
+                                  boxShadow: const [
+                                    BoxShadow(
+                                        color: Colors.black, blurRadius: 2.0)
+                                  ],
+                                  border: Border.all(
+                                      color: snapshot
+                                              .data![index].fields.isCaptured
+                                          ? Colors.white
+                                          : Colors.red)),
+                              child: Column(children: [
+                                Row(children: [
+                                  Text(
+                                    "${snapshot.data![index].fields.title}",
+                                    style: const TextStyle(
+                                      fontSize: 18.0,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  )
+                                ]),
                                 SizedBox(height: 10),
-                                Row(
-                                  children: [
-                                    Text(
-                                      "Written by: Anonymous ${snapshot.data![index].fields.creator}",
-                                      style: const TextStyle(
-                                        fontSize: 14.0,
-                                      ),
-                                    )
-                                  ]
-                                ),
-                                
-                                Row(
-                                  children: [
-                                    Text(
-                                      "${snapshot.data![index].fields.dateCreated}",
-                                      style: const TextStyle(
-                                        fontSize: 12.0,
-                                      ),
-                                    )
-                                  ]
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      "${snapshot.data![index].fields.description}",
-                                      style: const TextStyle(
-                                        fontSize: 12.0,
-                                      ),
-                                    )
-                                  ]
-                                ),
+                                Row(children: [
+                                  Text(
+                                    "Written by: Anonymous ${snapshot.data![index].fields.creator}",
+                                    style: const TextStyle(
+                                      fontSize: 14.0,
+                                    ),
+                                  )
+                                ]),
+                                Row(children: [
+                                  Text(
+                                    "${snapshot.data![index].fields.dateCreated}",
+                                    style: const TextStyle(
+                                      fontSize: 12.0,
+                                    ),
+                                  )
+                                ]),
+                                Row(children: [
+                                  Text(
+                                    "${snapshot.data![index].fields.description}",
+                                    style: const TextStyle(
+                                      fontSize: 12.0,
+                                    ),
+                                  )
+                                ]),
                                 SizedBox(height: 20),
-                                Row(
-                                  children: [
-                                    ElevatedButton.icon(
-                                      onPressed: () async {
-                                        if (request.loggedIn) {
-                                          final url = "http://localhost:8000/mypost/${snapshot.data![index].pk}/upvote/";
-                                          final response = await request.get(url);
-                                          setState(() {
-                                            snapshot.data![index].fields.upvoteCount = response['upvote'];
-                                          });
-                                        } else {
-                                          Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
-                                        }
-                                      },
-                                      icon: Icon(
-                                        Icons.arrow_circle_up_rounded,
-                                        size: 22.0,
-                                      ),
-                                      label: Text(snapshot.data![index].fields.upvoteCount.toString()),
+                                Row(children: [
+                                  ElevatedButton.icon(
+                                    onPressed: () async {
+                                      if (request.loggedIn) {
+                                        final url =
+                                            "http://localhost:8000/mypost/${snapshot.data![index].pk}/upvote/";
+                                        final response = await request.get(url);
+                                        setState(() {
+                                          snapshot.data![index].fields
+                                              .upvoteCount = response['upvote'];
+                                        });
+                                      } else {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    LoginPage()));
+                                      }
+                                    },
+                                    icon: Icon(
+                                      Icons.arrow_circle_up_rounded,
+                                      size: 22.0,
                                     ),
-                                    SizedBox(width: 7),
-                                    ElevatedButton.icon(
-                                      onPressed: () { },
-                                      icon: Icon(
-                                        Icons.add_comment_rounded,
-                                        size: 22.0,
-                                      ),
-                                      label: Text('Reply'),
+                                    label: Text(snapshot
+                                        .data![index].fields.upvoteCount
+                                        .toString()),
+                                  ),
+                                  SizedBox(width: 7),
+                                  // TODO: buat ke comment
+                                  ElevatedButton.icon(
+                                    onPressed: () {
+                                      Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => CommentPage()));
+                                    },
+                                    icon: Icon(
+                                      Icons.add_comment_rounded,
+                                      size: 22.0,
                                     ),
-                                  ]
-                                ),
-                              ]
+                                    label: Text('Reply'),
+                                  ),
+                                ]),
+                              ]),
                             ),
-                        ),
-
-                      ));
+                          ));
                 }
               }
             }));
