@@ -1,4 +1,7 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:whistleblower/widget/allWidgets.dart';
 import 'package:whistleblower/page/all_page.dart';
 import 'package:provider/provider.dart';
@@ -13,6 +16,19 @@ class EditProfilePage extends StatefulWidget {
 
 class _EditProfilePageState extends State<EditProfilePage> {
   final _formKey = GlobalKey<FormState>();
+
+  File? image;
+  Future pickImage() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image == null) return;
+      
+      final imageTemporary = File(image.path);
+      this.image = imageTemporary;
+    } on PlatformException catch (e) {
+      print("Failed to pick image: $e");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +55,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       imagePath: imagePath,
                       isEdit: true,
                       // TODO: Edit profpic
-                      onClicked: () async {},
+                      onClicked: () => pickImage(),
                     ),
                     const SizedBox(height: 24),
                     const Text(
@@ -62,10 +78,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       ),
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       onChanged: (String? value) {
-                            setState(() {
-                              user_data["alias"] = value!;
-                            });
-                          },
+                        setState(() {
+                          user_data["alias"] = value!;
+                        });
+                      },
                       onSaved: (String? value) {
                         setState(() {
                           user_data["alias"] = value!;
@@ -88,9 +104,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       ),
                       onPressed: () async {
                         final response = await request.post(
-                            "https://whistle-blower.up.railway.app/myprofile/edit-flutter", {
-                          "alias": user_data["alias"],
-                        });
+                            "https://whistle-blower.up.railway.app/myprofile/edit-flutter",
+                            {
+                              "alias": user_data["alias"],
+                            });
                         if (response["status"] == "ok") {
                           // ignore: use_build_context_synchronously
                           showAlertDialog(context);
