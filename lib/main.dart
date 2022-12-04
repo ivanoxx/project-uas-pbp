@@ -12,6 +12,13 @@ void main() {
   runApp(const MyApp());
 }
 
+Map<String, String> user_data = {
+  "username": "Anonymous",
+  "alias": "Anonymous",
+  "imagePath":
+      "https://cdn.discordapp.com/attachments/902951430153981993/1048232469788377201/default.png"
+};
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -79,31 +86,37 @@ class _MyHomePageState extends State<MyHomePage> {
       drawer: leftDrawer(),
       // Diambil dari https://blogmarch.com/flutter-left-right-navigation-drawer/
       endDrawer: rightDrawer(),
+
       body: FutureBuilder(
           future: fetchGroup(request),
           builder: (context, AsyncSnapshot snapshot) {
             if (snapshot.data == null) {
-              return Center(
-                  child: Column(
-                children: [
-                  // TODO: Ganti test jadi sesuatu yang lu mau
-                  //Text("test"),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 170, 0, 0),
-                    child: Image.asset('lib/assets/images/landing.png',
-                        scale: 0.8),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 190),
-                    child: Text(
-                      'Whistleblower',
-                      style: TextStyle(
-                          fontFamily: 'AbrilFatface',
-                          fontSize: 60,
-                          color: Colors.white),
-                    ),
-                  ),
-                  CircularProgressIndicator()
+              return (CustomScrollView(
+                slivers: [
+                  SliverFillRemaining(
+                      hasScrollBody: false,
+                      child: Column(
+                        children: [
+                          // TODO: Ganti test jadi sesuatu yang lu mau
+                          //Text("test"),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 170, 0, 0),
+                            child: Image.asset('lib/assets/images/landing.png',
+                                scale: 0.8),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 0, 0, 190),
+                            child: Text(
+                              'Whistleblower',
+                              style: TextStyle(
+                                  fontFamily: 'AbrilFatface',
+                                  fontSize: 40,
+                                  color: Colors.white),
+                            ),
+                          ),
+                          CircularProgressIndicator(),
+                        ],
+                      ))
                 ],
               ));
             } else {
@@ -121,7 +134,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         'Whistleblower',
                         style: TextStyle(
                             fontFamily: 'AbrilFatface',
-                            fontSize: 60,
+                            fontSize: 40,
                             color: Colors.white),
                       ),
                     ),
@@ -153,7 +166,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 'Whistleblower',
                                 style: TextStyle(
                                     fontFamily: 'AbrilFatface',
-                                    fontSize: 60,
+                                    fontSize: 40,
                                     color: Colors.white),
                               ),
                             ),
@@ -219,25 +232,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                       ),
                                     )
                                   ]),
-                                  // Row(children: [
-                                  //   ElevatedButton.icon(
-                                  //     onPressed: () {},
-                                  //     icon: Icon(
-                                  //       Icons.arrow_circle_up_rounded,
-                                  //       size: 22.0,
-                                  //     ),
-                                  //     label: Text('Upvote'),
-                                  //   ),
-                                  //   SizedBox(width: 7),
-                                  //   ElevatedButton.icon(
-                                  //     onPressed: () {},
-                                  //     icon: Icon(
-                                  //       Icons.add_comment_rounded,
-                                  //       size: 22.0,
-                                  //     ),
-                                  //     label: Text('Reply'),
-                                  //   ),
-                                  // ]),
                                 ]),
                               ),
                             )
@@ -245,13 +239,12 @@ class _MyHomePageState extends State<MyHomePage> {
                         );
                       }
                       return InkWell(
-                        // TODO : onTap harusnya push ke page timeline
                         onTap: () => Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => TimelinePage(
-                                    group_name: snapshot
-                                        .data![index].fields.title))),
+                                    group_name:
+                                        snapshot.data![index].fields.title))),
                         child: Container(
                           margin: const EdgeInsets.symmetric(
                               horizontal: 16, vertical: 12),
@@ -262,11 +255,6 @@ class _MyHomePageState extends State<MyHomePage> {
                             boxShadow: const [
                               BoxShadow(color: Colors.black, blurRadius: 2.0)
                             ],
-                            // border: Border.all(
-                            //     color:
-                            //     snapshot.data![index].fields.isCaptured
-                            //         ? Colors.white
-                            //         : Colors.red)
                           ),
                           child: Column(children: [
                             Row(children: [
@@ -304,25 +292,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                 ),
                               )
                             ]),
-                            // Row(children: [
-                            //   ElevatedButton.icon(
-                            //     onPressed: () {},
-                            //     icon: Icon(
-                            //       Icons.arrow_circle_up_rounded,
-                            //       size: 22.0,
-                            //     ),
-                            //     label: Text('Upvote'),
-                            //   ),
-                            //   SizedBox(width: 7),
-                            //   ElevatedButton.icon(
-                            //     onPressed: () {},
-                            //     icon: Icon(
-                            //       Icons.add_comment_rounded,
-                            //       size: 22.0,
-                            //     ),
-                            //     label: Text('Reply'),
-                            //   ),
-                            // ]),
                           ]),
                         ),
                       );

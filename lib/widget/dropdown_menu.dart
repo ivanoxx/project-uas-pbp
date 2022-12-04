@@ -120,7 +120,6 @@ class MenuItems {
         ? DateTime.now()
         : DateTime.parse(post.fields.dateCaptured);
     controllerDate.text = DateFormat('EEEE, MMM d, yyyy').format(dateCaptured);
-
     switch (item) {
       case MenuItems.edit:
         //Do something
@@ -242,7 +241,7 @@ class MenuItems {
                               onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
                                   final url =
-                                      'http://localhost:8000/mypost/${post.pk}/edit/';
+                                      'https://whistle-blower.up.railway.app/mypost/${post.pk}/edit/';
                                   final response = await request.post(url, {
                                     "name": controllerNama.text,
                                     "description": controllerDescription.text,
@@ -271,7 +270,8 @@ class MenuItems {
             });
         break;
       case MenuItems.delete:
-        var url = 'http://127.0.0.1:8000/mypost/${post.pk}/delete/';
+        var url =
+            'https://whistle-blower.up.railway.app/mypost/${post.pk}/delete/';
         // var url = 'https://whistle-blower.up.railway.app/mypost/$idPost/delete/';
         final response = await request.get(url);
         if (response['msg'] == "Success") {

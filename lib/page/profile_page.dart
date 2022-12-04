@@ -29,7 +29,7 @@ class _ProfilePageState extends State<ProfilePage> {
       drawer: const leftDrawer(),
       endDrawer: const rightDrawer(),
       body: FutureBuilder(
-        future: request.get("http://localhost:8000/myprofile/json"),
+        future: request.get("https://whistle-blower.up.railway.app/myprofile/json"),
         builder: (context, AsyncSnapshot snapshot) {
           if (!snapshot.hasData) {
             return Container(
@@ -39,7 +39,8 @@ class _ProfilePageState extends State<ProfilePage> {
             );
           } else {
             alias = snapshot.data![0]['fields']['alias'];
-            imagePath = "http://localhost:8000/images/${snapshot.data![0]['fields']['image']}";
+            imagePath =
+                "https://whistle-blower.up.railway.app/images/${snapshot.data![0]['fields']['image']}";
             return CustomScrollView(
               slivers: [
                 SliverFillRemaining(
@@ -54,8 +55,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          EditProfilePage()));
+                                      builder: (context) => EditProfilePage()));
                             }),
                         const SizedBox(
                           height: 24,
