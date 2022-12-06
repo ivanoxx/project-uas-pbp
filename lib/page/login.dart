@@ -151,7 +151,8 @@ class _LoginPageState extends State<LoginPage> {
                                         user_data = {
                                           "username": username,
                                           "alias": response[0].fields.alias,
-                                          "imagePath": "https://whistle-blower.up.railway.app/images/${response[0].fields.image}"
+                                          "imagePath":
+                                              "https://whistle-blower.up.railway.app/images/${response[0].fields.image}"
                                         };
                                         showAlertDialog2(context);
                                       } else {

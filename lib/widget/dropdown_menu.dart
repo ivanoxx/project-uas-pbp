@@ -241,7 +241,7 @@ class MenuItems {
                               onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
                                   final url =
-                                      'https://whistle-blower.up.railway.app/mypost/${post.pk}/edit/';
+                                      'https://whistle-blower.up.railway.app/mypost/${post.pk}/edit/flutter/';
                                   final response = await request.post(url, {
                                     "name": controllerNama.text,
                                     "description": controllerDescription.text,
