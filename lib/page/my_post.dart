@@ -73,8 +73,8 @@ class MyPostPageState extends State<MyPostPage> {
                                 border: Border.all(
                                     color:
                                     snapshot.data![index].fields.isCaptured
-                                        ? Colors.white
-                                        : Colors.red)),
+                                        ? Colors.red
+                                        : Colors.white)),
                             child: Column(
                               children: [
                                 Row(
@@ -122,6 +122,18 @@ class MyPostPageState extends State<MyPostPage> {
                                       ),
                                     )
                                   ]
+                                ),
+                                Visibility(
+                                  visible: snapshot.data![index].fields.isCaptured,
+                                  child: Row(children: [
+                                  Text(
+                                    "Tanggal tertangkap : ${snapshot.data![index].fields.dateCaptured}",
+                                    style: const TextStyle(
+                                      fontSize: 12.0,
+                                    ),
+                                  ),
+
+                                ]),
                                 ),
                                 SizedBox(height: 20),
                                 Row(

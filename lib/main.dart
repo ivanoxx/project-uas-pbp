@@ -45,9 +45,7 @@ class MyApp extends StatelessWidget {
             // is not restarted.
             primarySwatch: Colors.red,
             scaffoldBackgroundColor: Color.fromRGBO(44, 51, 51, 1)),
-        routes: {
-          "/mypost" : (context) => const MyPostPage()
-        },
+        routes: {"/mypost": (context) => const MyPostPage()},
         home: const MyHomePage(title: ''),
       ),
     );
