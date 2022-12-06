@@ -1,9 +1,11 @@
 import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:whistleblower/widget/allWidgets.dart';
 import 'package:whistleblower/page/all_page.dart';
+import 'package:whistleblower/utils/FetchProfile.dart';
 import 'package:provider/provider.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 
@@ -24,10 +26,30 @@ class _EditProfilePageState extends State<EditProfilePage> {
       if (image == null) return;
       
       final imageTemporary = File(image.path);
-      this.image = imageTemporary;
+      setState(() => this.image = imageTemporary);
     } on PlatformException catch (e) {
       print("Failed to pick image: $e");
     }
+  }
+
+  Future<Response> saveEdit(File? file, String alias, CookieRequest request) async {
+    var id = (await fetchUserData(request))[0].fields.user;
+    var imageFile;
+    try {
+      String fileName = file!.path.split('/').last;
+      imageFile = await MultipartFile.fromFile(file.path, filename: fileName);
+    } catch (e) {
+      imageFile = "";
+    }
+    FormData formData = FormData.fromMap({
+      "alias": alias,
+      "newProfpic": imageFile,
+    });
+    var response = await Dio().post(
+        "https://whistle-blower.up.railway.app/myprofile/edit-flutter",
+        data: formData,
+        queryParameters: {"id": id});
+    return response;
   }
 
   @override
@@ -52,7 +74,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     ProfileWidget(
-                      imagePath: imagePath,
+                      imagePath: image == null ? imagePath : image!.path,
                       isEdit: true,
                       // TODO: Edit profpic
                       onClicked: () => pickImage(),
@@ -103,12 +125,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                             EdgeInsets.symmetric(horizontal: 32, vertical: 12),
                       ),
                       onPressed: () async {
-                        final response = await request.post(
-                            "https://whistle-blower.up.railway.app/myprofile/edit-flutter",
-                            {
-                              "alias": user_data["alias"],
-                            });
-                        if (response["status"] == "ok") {
+                        final response = await saveEdit(image, user_data["alias"]!, request);
+                        if (response.statusCode == 200) {
                           // ignore: use_build_context_synchronously
                           showAlertDialog(context);
                         }
