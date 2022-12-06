@@ -218,7 +218,6 @@ class profilePicture extends StatelessWidget {
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
 
-    fetchUserData(request);
     return Container(
       margin: EdgeInsets.only(right: 5.0),
       child: FutureBuilder(
