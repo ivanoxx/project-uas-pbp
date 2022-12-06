@@ -65,8 +65,8 @@ class _TimelinePageState extends State<TimelinePage> {
                                       width: 3,
                                       color: snapshot
                                               .data![index].fields.isCaptured
-                                          ? Colors.white
-                                          : Colors.red)),
+                                          ? Colors.red
+                                          : Colors.white)),
                               child: Column(children: [
                                 Row(children: [
                                   Text(
@@ -102,6 +102,19 @@ class _TimelinePageState extends State<TimelinePage> {
                                     ),
                                   )
                                 ]),
+                                Visibility(
+                                  visible: snapshot.data![index].fields.isCaptured,
+                                  child: Row(children: [
+                                  Text(
+                                    "Tanggal tertangkap : ${snapshot.data![index].fields.dateCaptured}",
+                                    style: const TextStyle(
+                                      fontSize: 12.0,
+                                    ),
+                                  ),
+
+                                ]),
+                                ),
+                               
                                 SizedBox(height: 20),
                                 Row(children: [
                                   ElevatedButton.icon(
