@@ -54,7 +54,8 @@ class _CustomButtonTestState extends State<CustomButtonTest> {
           ),
         ],
         onChanged: (value) {
-          MenuItems.onChanged(context, value as MenuItem, post, widget.callbackFunction);
+          MenuItems.onChanged(
+              context, value as MenuItem, post, widget.callbackFunction);
           widget.callbackFunction();
         },
         itemHeight: 48,
@@ -106,14 +107,19 @@ class MenuItems {
     );
   }
 
-  static onChanged(BuildContext context, MenuItem item, final post, final callback) async {
+  static onChanged(
+      BuildContext context, MenuItem item, final post, final callback) async {
     final request = Provider.of<CookieRequest>(context, listen: false);
     final _formKey = GlobalKey<FormState>();
     var controllerNama = TextEditingController();
     var controllerDescription = TextEditingController();
+    var controllerDate = TextEditingController();
     controllerNama.text = post.fields.title;
     controllerDescription.text = post.fields.description;
-    DateTime dateCaptured = post.fields.dateCaptured == null ? DateTime.now() : DateTime.parse(post.fields.dateCaptured);
+    DateTime dateCaptured = post.fields.dateCaptured == null
+        ? DateTime.now()
+        : DateTime.parse(post.fields.dateCaptured);
+    controllerDate.text = DateFormat('EEEE, MMM d, yyyy').format(dateCaptured);
     switch (item) {
       case MenuItems.edit:
         //Do something
@@ -199,97 +205,59 @@ class MenuItems {
                           ),
                           Visibility(
                             visible: post.fields.isCaptured,
-                            child: Row(
-                              children: [
-                                Text("Date Captured: "),
-                                Container(
-                                  decoration: const BoxDecoration(
-                                      border: Border(
-                                        top: BorderSide(
-                                            width: 1.0, color: Colors.black),
-                                        left: BorderSide(
-                                            width: 1.0, color: Colors.black),
-                                        right: BorderSide(
-                                            width: 1.0, color: Colors.black),
-                                        bottom: BorderSide(
-                                            width: 1.0, color: Colors.black),
-                                      ),
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(5))),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      children: [
-                                        InkWell(
-                                          child: Text(
-                                            DateFormat('EEEE, MMM d, yyyy')
-                                                .format(dateCaptured),
-                                          ),
-                                          onTap: () async {
-                                            DateTime? newDate =
-                                                await showDatePicker(
-                                                    context: context,
-                                                    initialDate: dateCaptured,
-                                                    firstDate: DateTime(1900),
-                                                    lastDate: DateTime.now());
-                                            if (newDate != null) {
-                                              setState(() {
-                                                post.fields.dateCaptured =
-                                                    newDate;
-                                                dateCaptured = newDate;
-                                              });
-                                            }
-                                            ;
-                                            // TODO: Masukin datenya
-                                          },
-                                        ),
-                                        IconButton(
-                                          icon: Icon(Icons.calendar_today),
-                                          tooltip: 'Tap to open date picker',
-                                          onPressed: () async {
-                                            DateTime? newDate =
-                                                await showDatePicker(
-                                                    context: context,
-                                                    initialDate: dateCaptured,
-                                                    firstDate: DateTime(1900),
-                                                    lastDate: DateTime.now());
-                                            if (newDate != null) {
-                                              setState(() {
-                                                post.fields.dateCaptured =
-                                                    newDate;
-                                                dateCaptured = newDate;
-                                              });
-                                            }
-                                            ;
-                                            // TODO: Masukin datenya
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  ),
+                            child: TextField(
+                              controller: controllerDate,
+                              //editing controller of this TextField
+                              decoration: InputDecoration(
+                                labelText:
+                                    "Enter Date Captured", //label text of field
+                                suffixIcon: Icon(Icons.calendar_today),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(5.0),
                                 ),
-                              ],
+                              ),
+                              readOnly: true,
+                              onTap: () async {
+                                DateTime? newDate = await showDatePicker(
+                                    context: context,
+                                    initialDate: dateCaptured,
+                                    firstDate: DateTime(1900),
+                                    lastDate: DateTime.now());
+                                if (newDate != null) {
+                                  setState(() {
+                                    post.fields.dateCaptured = newDate;
+                                    dateCaptured = newDate;
+                                    controllerDate.text =
+                                        DateFormat('EEEE, MMM d, yyyy')
+                                            .format(dateCaptured);
+                                  });
+                                }
+                                ;
+                                // TODO: Masukin datenya
+                              },
                             ),
                           ),
                           ElevatedButton(
                               onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
-                                  final url = 'https://whistle-blower.up.railway.app/mypost/${post.pk}/edit/';
+                                  final url =
+                                      'https://whistle-blower.up.railway.app/mypost/${post.pk}/edit/';
                                   final response = await request.post(url, {
-                                    "name" : controllerNama.text,
-                                    "description" : controllerDescription.text,
-                                    "id" : post.pk.toString(),
-                                    "is_captured" : post.fields.isCaptured.toString(),
-                                    "date_captured" : post.fields.dateCaptured.toString(),
+                                    "name": controllerNama.text,
+                                    "description": controllerDescription.text,
+                                    "id": post.pk.toString(),
+                                    "is_captured":
+                                        post.fields.isCaptured.toString(),
+                                    "date_captured":
+                                        post.fields.dateCaptured.toString(),
                                   });
                                   if (response['msg'] == "success") {
                                     showAlertDialog2(context, "edit");
                                     callback();
                                   } else {
                                     showAlertDialog(context);
-                                  };
+                                  }
+                                  ;
                                 }
                               },
                               child: Text("Submit")),
@@ -302,7 +270,8 @@ class MenuItems {
             });
         break;
       case MenuItems.delete:
-        var url = 'https://whistle-blower.up.railway.app/mypost/${post.pk}/delete/';
+        var url =
+            'https://whistle-blower.up.railway.app/mypost/${post.pk}/delete/';
         // var url = 'https://whistle-blower.up.railway.app/mypost/$idPost/delete/';
         final response = await request.get(url);
         if (response['msg'] == "Success") {
@@ -316,6 +285,7 @@ class MenuItems {
         break;
     }
   }
+
   static showAlertDialog(BuildContext context) {
     // set up the button
     Widget okButton = TextButton(
@@ -342,6 +312,7 @@ class MenuItems {
       },
     );
   }
+
   static showAlertDialog2(BuildContext context, text) {
     // set up the button
     Widget okButton = TextButton(
