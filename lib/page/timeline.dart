@@ -62,6 +62,7 @@ class _TimelinePageState extends State<TimelinePage> {
                                         color: Colors.black, blurRadius: 2.0)
                                   ],
                                   border: Border.all(
+                                      width: 3,
                                       color: snapshot
                                               .data![index].fields.isCaptured
                                           ? Colors.white
