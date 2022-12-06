@@ -99,7 +99,7 @@ class _State extends State<SignupPage> {
                       child: const Text('Register'),
                       onPressed: () async {
                         if (_formKey.currentState!.validate()){
-                            const url = "http://127.0.0.1:8000/auth/register/";
+                            const url = "https://whistle-blower.up.railway.app/auth/register/";
                             //const url = "https://whistle-blower.up.railway.app/auth/register/";
                           final response = await request.login(url, {
                             "username" : controllerUsername.text,

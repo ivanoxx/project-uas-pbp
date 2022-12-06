@@ -3,6 +3,7 @@ import "package:whistleblower/page/all_page.dart";
 import "package:whistleblower/main.dart";
 import 'package:provider/provider.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:whistleblower/utils/allUtils.dart';
 import '../page/login.dart';
 import '../page/signup.dart';
 
@@ -14,6 +15,21 @@ class rightDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
+
+    void fetch() async {
+      final response = await fetchProfile(request);
+
+      user_data = {
+        "username": username,
+        "alias": response[0].fields.alias,
+        "imagePath":
+            "https://whistle-blower.up.railway.app/images/${response[0].fields.image}"
+      };
+    }
+
+    if (request.loggedIn) {
+      fetch();
+    }
 
     return Drawer(
       child: Column(
@@ -92,7 +108,7 @@ class rightDrawer extends StatelessWidget {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => LoginPage()));
               }
-              const url = "http://127.0.0.1:8000/auth/logout/";
+              const url = "https://whistle-blower.up.railway.app/auth/logout/";
               //const url = "https://whistle-blower.up.railway.app/auth/logout/";
               final response = await request.logout(url);
             },
@@ -217,8 +233,7 @@ class profilePicture extends StatelessWidget {
         builder: (context) => IconButton(
           iconSize: 32.0,
           icon: CircleAvatar(
-            backgroundImage: NetworkImage(
-                user_data["imagePath"] as String),
+            backgroundImage: NetworkImage(user_data["imagePath"] as String),
           ),
           onPressed: () => Scaffold.of(context).openEndDrawer(),
           tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
