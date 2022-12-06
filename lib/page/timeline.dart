@@ -134,7 +134,7 @@ class _TimelinePageState extends State<TimelinePage> {
                                   ElevatedButton.icon(
                                     onPressed: () {
                                       Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => CommentPage()));
+                    MaterialPageRoute(builder: (context) => CommentPage(post: snapshot.data![index])));
                                     },
                                     icon: Icon(
                                       Icons.add_comment_rounded,
