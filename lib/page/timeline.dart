@@ -106,7 +106,7 @@ class _TimelinePageState extends State<TimelinePage> {
                                   visible: snapshot.data![index].fields.isCaptured,
                                   child: Row(children: [
                                   Text(
-                                    "Tanggal tertangkap : ${snapshot.data![index].fields.dateCaptured}",
+                                    "Arrested date : ${snapshot.data![index].fields.dateCaptured}",
                                     style: const TextStyle(
                                       fontSize: 12.0,
                                     ),
