@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:whistleblower/models/allModel.dart';
 import 'package:whistleblower/widget/allWidgets.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
-import 'package:provider/provider.dart';
-import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:whistleblower/main.dart';
 import 'package:whistleblower/utils/allUtils.dart';
 
@@ -53,7 +51,7 @@ class _MyPostFormPageState extends State<MyPostFormPage> {
                           alignment: Alignment.center,
                           padding: const EdgeInsets.fromLTRB(20, 10, 20, 30),
                           child: const Text(
-                            'Buat Forum Anda Sendiri',
+                            'Buat Post Anda Sendiri',
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.w500,
@@ -64,8 +62,8 @@ class _MyPostFormPageState extends State<MyPostFormPage> {
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
                           decoration: InputDecoration(
-                            hintText: "manusia-jahat",
-                            labelText: "Nama Forum",
+                            hintText: "Penjahat A",
+                            labelText: "Nama Post",
                             // Menambahkan circular border agar lebih rapi
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(5.0),
@@ -99,7 +97,7 @@ class _MyPostFormPageState extends State<MyPostFormPage> {
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
                           decoration: InputDecoration(
-                            hintText: "Forum ini isinya orang-orang jahat",
+                            hintText: "Orang ini melakukan A, B, & C",
                             labelText: "Description",
                             // Menambahkan circular border agar lebih rapi
                             border: OutlineInputBorder(

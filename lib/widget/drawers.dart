@@ -16,19 +16,8 @@ class rightDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
 
-    void fetch() async {
-      final response = await fetchProfile(request);
-
-      user_data = {
-        "username": username,
-        "alias": response[0].fields.alias,
-        "imagePath":
-            "https://whistle-blower.up.railway.app/images/${response[0].fields.image}"
-      };
-    }
-
     if (request.loggedIn) {
-      fetch();
+      fetchUserData(request);
     }
 
     return Drawer(
@@ -227,13 +216,20 @@ class profilePicture extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>();
+
     return Container(
       margin: EdgeInsets.only(right: 5.0),
-      child: Builder(
-        builder: (context) => IconButton(
+      child: FutureBuilder(
+        future:
+            request.get("https://whistle-blower.up.railway.app/myprofile/json"),
+        builder: (context, AsyncSnapshot snapshot) => IconButton(
           iconSize: 32.0,
           icon: CircleAvatar(
-            backgroundImage: NetworkImage(user_data["imagePath"] as String),
+            backgroundImage: snapshot.data != null
+                ? NetworkImage(
+                    "https://whistle-blower.up.railway.app/images/${snapshot.data[0]['fields']['image']}")
+                : NetworkImage(user_data["imagePath"] as String),
           ),
           onPressed: () => Scaffold.of(context).openEndDrawer(),
           tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,

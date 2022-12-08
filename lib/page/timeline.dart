@@ -160,6 +160,7 @@ class _TimelinePageState extends State<TimelinePage> {
                                                 builder: (context) =>
                                                     LoginPage()));
                                       }
+
                                     },
                                     icon: Icon(
                                       Icons.add_comment_rounded,
