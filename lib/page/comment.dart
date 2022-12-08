@@ -191,6 +191,7 @@ class _CommentPageState extends State<CommentPage> {
                                               ? Colors.red
                                               : Colors.white)),
                                   child: Column(children: [
+                                    
                                     Row(children: [
                                       Text(
                                         "${widget.post.fields.title}",
