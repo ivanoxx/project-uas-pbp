@@ -3,7 +3,8 @@ import "package:whistleblower/page/all_page.dart";
 import "package:whistleblower/main.dart";
 import 'package:provider/provider.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
-import 'package:whistleblower/utils/allUtils.dart';
+import 'package:whistleblower/utils/FetchProfile.dart';
+import '../models/ModelProfile.dart';
 import '../page/login.dart';
 import '../page/signup.dart';
 
@@ -15,10 +16,6 @@ class rightDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
-
-    if (request.loggedIn) {
-      fetchUserData(request);
-    }
 
     return Drawer(
       child: Column(
@@ -97,7 +94,7 @@ class rightDrawer extends StatelessWidget {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => LoginPage()));
               }
-              const url = "https://whistle-blower.up.railway.app/auth/logout/";
+              const url = "http://127.0.0.1:8000/auth/logout/";
               //const url = "https://whistle-blower.up.railway.app/auth/logout/";
               final response = await request.logout(url);
             },
@@ -147,12 +144,29 @@ class leftDrawer extends StatelessWidget {
           ListTile(
             trailing: Icon(Icons.account_balance),
             title: Text('Hall of Shame', style: TextStyle(fontSize: 18)),
-            onTap: () {
-              // Here you can give your route to navigate
-              Navigator.push(
+            onTap:  () async {
+              if (request.loggedIn) {
+                List<Profile> lst = await fetchProfile(request);
+                if (lst[0].fields.isAdmin) {
+                  Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) => const HallOfShamePage()));
+                }
+                else {
+                  Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const HallOfShameUserPage()));
+                }
+              } else {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => LoginPage()));
+              }
+              // Here you can give your route to navigate
+              
             },
           ),
           ListTile(
@@ -216,20 +230,14 @@ class profilePicture extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final request = context.watch<CookieRequest>();
-
     return Container(
       margin: EdgeInsets.only(right: 5.0),
-      child: FutureBuilder(
-        future:
-            request.get("https://whistle-blower.up.railway.app/myprofile/json"),
-        builder: (context, AsyncSnapshot snapshot) => IconButton(
+      child: Builder(
+        builder: (context) => IconButton(
           iconSize: 32.0,
           icon: CircleAvatar(
-            backgroundImage: snapshot.data != null
-                ? NetworkImage(
-                    "https://whistle-blower.up.railway.app/images/${snapshot.data[0]['fields']['image']}")
-                : NetworkImage(user_data["imagePath"] as String),
+            backgroundImage: NetworkImage(
+                user_data["imagePath"] as String),
           ),
           onPressed: () => Scaffold.of(context).openEndDrawer(),
           tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,

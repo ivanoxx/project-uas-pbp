@@ -2,6 +2,9 @@
 export 'create_forum.dart';
 export 'create_post.dart';
 export 'hall_of_shame.dart';
+export 'hall_of_shame_user.dart';
+export 'detail_hall_of_shame.dart';
+export 'form_hall_of_shame.dart';
 export 'login.dart';
 export 'my_post.dart';
 export 'profile_page.dart';
@@ -12,5 +15,3 @@ export 'comment.dart';
 
 export '../main.dart';
 export 'timeline.dart';
-
-
