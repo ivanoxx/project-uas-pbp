@@ -10,7 +10,6 @@ import 'login.dart';
 class CommentPage extends StatefulWidget {
   const CommentPage({super.key, required this.post});
   final post;
-  
 
   @override
   State<CommentPage> createState() => _CommentPageState();
@@ -18,35 +17,428 @@ class CommentPage extends StatefulWidget {
 
 class _CommentPageState extends State<CommentPage> {
   final _formKey = GlobalKey<FormState>();
-  @override 
-  Widget build(BuildContext context){
+  @override
+  String _nama = "";
+
+  Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
+
     return Scaffold(
-      appBar: AppBar(
+        appBar: AppBar(
           title: Text(
-            'Comment', 
-            ),
+            'Comment',
+          ),
           actions: const [
             profilePicture(),
           ],
         ), // Menambahkan drawer menu
-        drawer: const leftDrawer(),
+        //drawer: const leftDrawer(),
         endDrawer: const rightDrawer(),
-        // TODO: Taro Form di sini
+        // Form buat isi comment
         bottomNavigationBar: Form(
           key: _formKey,
-          child: Row(
-            children: [Text("Test")],
+          child: Container(
+            //padding: EdgeInsets.all(5.0),
+            padding: MediaQuery.of(context).viewInsets,
+            decoration: BoxDecoration(
+              color: Color.fromRGBO(250, 250, 250, 0.95),
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: Colors.red, width: 3)
+            ),
+            child: TextFormField(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(5.0)),
+                hintText: 'Write a comment..',
+                prefixIcon: Icon(Icons.add_comment_rounded),
+                suffixIcon: IconButton(
+                    splashRadius: 1,
+                    icon: Icon(Icons.send_sharp),
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        String url =
+                            "https://whistle-blower.up.railway.app/mypost/${widget.post.pk}/comment/add/";
+                        final response =
+                            await request.post(url, {'comment': _nama});
+                        if (response['msg'] == 'success') {
+                          _formKey.currentState?.reset();
+                          setState(() {});
+                        } else {}
+                      }
+                      ;
+                    }),
+                hintStyle: TextStyle(
+                  color: Color.fromRGBO(200, 200, 200, 1),
+                ),
+              ),
+              onChanged: (String? value) {
+                setState(() {
+                  _nama = value!;
+                });
+              },
+              // Menambahkan behavior saat data disimpan
+              onSaved: (String? value) {
+                setState(() {
+                  _nama = value!;
+                });
+              },
+              
+            ),
           ),
         ),
-
         body: FutureBuilder(
-          future: fetchComment(request, widget.post),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            return Text("Test");
-          },
-
-        )
-    );
+            future: fetchComment(request, widget.post),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.data == null) {
+                return (CustomScrollView(
+                  slivers: [
+                    SliverFillRemaining(
+                      hasScrollBody: false,
+                      child: Column(children: [
+                        Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 12),
+                            padding: const EdgeInsets.all(20.0),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(15.0),
+                                boxShadow: const [
+                                  BoxShadow(
+                                      color: Colors.black, blurRadius: 2.0)
+                                ],
+                            ),
+                            child: Column(children: [
+                              Row(children: [
+                                Text(
+                                  "${widget.post.fields.title}",
+                                  style: const TextStyle(
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                )
+                              ]),
+                              SizedBox(height: 10),
+                              Row(children: [
+                                Text(
+                                  "Written by: Anonymous ${widget.post.fields.creator}",
+                                  style: const TextStyle(
+                                    fontSize: 14.0,
+                                  ),
+                                )
+                              ]),
+                              Row(children: [
+                                Text(
+                                  "${widget.post.fields.dateCreated}",
+                                  style: const TextStyle(
+                                    fontSize: 12.0,
+                                  ),
+                                )
+                              ]),
+                              Row(children: [
+                                Text(
+                                  "${widget.post.fields.description}",
+                                  style: const TextStyle(
+                                    fontSize: 12.0,
+                                  ),
+                                )
+                              ]),
+                              Visibility(
+                                visible: widget.post.fields.isCaptured,
+                                child: Row(children: [
+                                  Text(
+                                    "Arrested date: ${widget.post.fields.dateCaptured}",
+                                    style: const TextStyle(
+                                      fontSize: 12.0,
+                                    ),
+                                  ),
+                                ]),
+                              ),
+                            ]),
+                          ),
+                        ),
+                      ]),
+                    )
+                  ],
+                ));
+              } else {
+                if (!snapshot.hasData) {
+                  return Column(
+                    children: [
+                      (CustomScrollView(
+                        slivers: [
+                          SliverFillRemaining(
+                            hasScrollBody: false,
+                            child: Column(children: [
+                              Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Container(
+                                  margin: const EdgeInsets.symmetric(
+                                      horizontal: 16, vertical: 12),
+                                  padding: const EdgeInsets.all(20.0),
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(15.0),
+                                      boxShadow: const [
+                                        BoxShadow(
+                                            color: Colors.black,
+                                            blurRadius: 2.0)
+                                      ],
+                                      border: Border.all(
+                                          width: 3,
+                                          color: widget.post.fields.isCaptured
+                                              ? Colors.red
+                                              : Colors.white)),
+                                  child: Column(children: [
+                                    Row(children: [
+                                      Text(
+                                        "${widget.post.fields.title}",
+                                        style: const TextStyle(
+                                          fontSize: 18.0,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      )
+                                    ]),
+                                    SizedBox(height: 10),
+                                    Row(children: [
+                                      Text(
+                                        "Written by: Anonymous ${widget.post.fields.creator}",
+                                        style: const TextStyle(
+                                          fontSize: 14.0,
+                                        ),
+                                      )
+                                    ]),
+                                    Row(children: [
+                                      Text(
+                                        "${widget.post.fields.dateCreated}",
+                                        style: const TextStyle(
+                                          fontSize: 12.0,
+                                        ),
+                                      )
+                                    ]),
+                                    Row(children: [
+                                      Text(
+                                        "${widget.post.fields.description}",
+                                        style: const TextStyle(
+                                          fontSize: 12.0,
+                                        ),
+                                      )
+                                    ]),
+                                    Visibility(
+                                      visible: widget.post.fields.isCaptured,
+                                      child: Row(children: [
+                                        Text(
+                                          "Arrested date : ${widget.post.fields.dateCaptured}",
+                                          style: const TextStyle(
+                                            fontSize: 12.0,
+                                          ),
+                                        ),
+                                      ]),
+                                    ),
+                                  ]),
+                                ),
+                              ),
+                            ]),
+                          )
+                        ],
+                      )),
+                      // TODO: Masukin gambar atau apa yang lu mau
+                      Text(
+                        "Anda Tidak memiliki comment :(",
+                        style:
+                            TextStyle(color: Color(0xff59A5D8), fontSize: 20),
+                      ),
+                      SizedBox(height: 8),
+                    ],
+                  );
+                } else {
+                  // card-card untuk commentnya
+                  return ListView.builder(
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (_, index) {
+                        if (index == 0) {
+                          return Column(
+                            children: [
+                              Column(children: [
+                                      
+                                      Padding(
+                                        padding: EdgeInsets.all(8),
+                                        child: Container(
+                                          margin: const EdgeInsets.symmetric(
+                                              horizontal: 16, vertical: 12),
+                                          padding: const EdgeInsets.all(20.0),
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(15.0),
+                                              boxShadow: const [
+                                                BoxShadow(
+                                                    color: Colors.black,
+                                                    blurRadius: 2.0)
+                                              ],
+                                              border: Border.all(
+                                                  width: 3,
+                                                  color: widget.post.fields
+                                                          .isCaptured
+                                                      ? Colors.red
+                                                      : Colors.white)),
+                                          child: Column(children: [
+                                            Row(children: [
+                                              Text(
+                                                "${widget.post.fields.title}",
+                                                style: const TextStyle(
+                                                  fontSize: 18.0,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              )
+                                            ]),
+                                            SizedBox(height: 10),
+                                            Row(children: [
+                                              Text(
+                                                "Written by: Anonymous ${widget.post.fields.creator}",
+                                                style: const TextStyle(
+                                                  fontSize: 14.0,
+                                                ),
+                                              )
+                                            ]),
+                                            Row(children: [
+                                              Text(
+                                                "${widget.post.fields.dateCreated}",
+                                                style: const TextStyle(
+                                                  fontSize: 12.0,
+                                                ),
+                                              )
+                                            ]),
+                                            Row(children: [
+                                              Text(
+                                                "${widget.post.fields.description}",
+                                                style: const TextStyle(
+                                                  fontSize: 12.0,
+                                                ),
+                                              )
+                                            ]),
+                                            Visibility(
+                                              visible:
+                                                  widget.post.fields.isCaptured,
+                                              child: Row(children: [
+                                                Text(
+                                                  "Arrested date : ${widget.post.fields.dateCaptured}",
+                                                  style: const TextStyle(
+                                                    fontSize: 12.0,
+                                                  ),
+                                                ),
+                                              ]),
+                                            ),
+                                          ]),
+                                        ),
+                                      ),
+                                    ]),
+                                  
+                              // 
+                              Text(
+                                        'Comment\n',
+                                        style: TextStyle(
+                                          fontSize: 20.0,
+                                          
+                                          fontFamily: 'AbrilFatface',
+                                          color: Colors.white
+                                        ),
+                                      ),
+                              Container(
+                                margin: const EdgeInsets.symmetric(
+                                    horizontal: 15, vertical: 7),
+                                padding: const EdgeInsets.all(10.0),
+                                decoration: BoxDecoration(
+                                    color: index % 2 != 0 ? Colors.white : Color.fromARGB(255, 255, 77, 64),
+                                    borderRadius: BorderRadius.circular(13.0),
+                                    boxShadow: const [
+                                      BoxShadow(
+                                          color: Colors.black, blurRadius: 2.0)
+                                    ],
+                                    ),
+                                child: Column(children: [
+                                  Row(children: [
+                                    Text(
+                                      "Anonymous ${snapshot.data![index].fields.user}",
+                                      style: const TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    )
+                                  ]),
+                                  SizedBox(height: 5),
+                                  Row(children: [
+                                    Text(
+                                      "${snapshot.data![index].fields.dateCreated}",
+                                      style: const TextStyle(
+                                        fontSize: 12.0,
+                                      ),
+                                    )
+                                  ]),
+                                  SizedBox(height: 7),
+                                  Row(children: [
+                                    Text(
+                                      "${snapshot.data![index].fields.comment}",
+                                      style: const TextStyle(
+                                        fontSize: 14.0,
+                                      ),
+                                    )
+                                  ]),
+                                  SizedBox(height: 20),
+                                ]),
+                              ),
+                              //SizedBox(height: 8),
+                            ],
+                          );
+                        } else {
+                          return Container(
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 7),
+                            padding: const EdgeInsets.all(10.0),
+                            decoration: BoxDecoration(
+                                color: index % 2 != 0 ? Colors.white : Color.fromARGB(255, 255, 77, 64),
+                                borderRadius: BorderRadius.circular(13.0),
+                                boxShadow: const [
+                                  BoxShadow(
+                                      color: Colors.black, blurRadius: 2.0)
+                                ],
+                                ),
+                            child: Column(children: [
+                              Row(children: [
+                                Text(
+                                  "Anonymous ${snapshot.data![index].fields.user}",
+                                  style: const TextStyle(
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                )
+                              ]),
+                              SizedBox(height: 5),
+                              Row(children: [
+                                Text(
+                                  "${snapshot.data![index].fields.dateCreated}",
+                                  style: const TextStyle(
+                                    fontSize: 12.0,
+                                  ),
+                                )
+                              ]),
+                              SizedBox(height: 7),
+                              Row(children: [
+                                Text(
+                                  "${snapshot.data![index].fields.comment}",
+                                  style: const TextStyle(
+                                    fontSize: 14.0,
+                                  ),
+                                )
+                              ]),
+                              SizedBox(height: 20),
+                            ]),
+                          );
+                        }
+                      });
+                }
+              }
+            }));
   }
 }
