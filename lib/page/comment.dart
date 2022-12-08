@@ -130,7 +130,7 @@ class _CommentPageState extends State<CommentPage> {
                               Row(children: [
                                 Flexible(
                                     child: Text(
-                                  "${widget.post.fields.dateCreated}",
+                                  "Created: ${DateFormat('EEEE, MMM d, yyyy').format(DateTime.parse(widget.post.fields.dateCreated.toString()))}",
                                   style: const TextStyle(
                                     fontSize: 12.0,
                                   ),
@@ -150,7 +150,7 @@ class _CommentPageState extends State<CommentPage> {
                                 child: Row(children: [
                                   Flexible(
                                     child: Text(
-                                      "Arrested date: ${widget.post.fields.dateCaptured}",
+                                      "Arrested date : ${DateFormat('EEEE, MMM d, yyyy').format(DateTime.parse(widget.post.fields.dateCaptured == null ? DateTime.now().toString() : widget.post.fields.dateCaptured.toString()))}",
                                       style: const TextStyle(
                                         fontSize: 12.0,
                                       ),
@@ -161,19 +161,16 @@ class _CommentPageState extends State<CommentPage> {
                             ]),
                           ),
                         ),
+                        const Center(child: CircularProgressIndicator()),
                       ]),
                     )
                   ],
                 ));
               } else {
-                if (!snapshot.hasData) {
+                if (snapshot.data!.length == 0) {
                   return Column(
                     children: [
-                      (CustomScrollView(
-                        slivers: [
-                          SliverFillRemaining(
-                            hasScrollBody: false,
-                            child: Column(children: [
+                      Column(children: [
                               Padding(
                                 padding: EdgeInsets.all(8.0),
                                 child: Container(
@@ -217,7 +214,7 @@ class _CommentPageState extends State<CommentPage> {
                                     Row(children: [
                                       Flexible(
                                           child: Text(
-                                        "${widget.post.fields.dateCreated}",
+                                        "Created: ${DateFormat('EEEE, MMM d, yyyy').format(DateTime.parse(widget.post.fields.dateCreated.toString()))}",
                                         style: const TextStyle(
                                           fontSize: 12.0,
                                         ),
@@ -237,7 +234,7 @@ class _CommentPageState extends State<CommentPage> {
                                       child: Row(children: [
                                         Flexible(
                                           child: Text(
-                                            "Arrested date : ${widget.post.fields.dateCaptured}",
+                                            "Arrested date : ${DateFormat('EEEE, MMM d, yyyy').format(DateTime.parse(widget.post.fields.dateCaptured == null ? DateTime.now().toString() : widget.post.fields.dateCaptured.toString()))}",
                                             style: const TextStyle(
                                               fontSize: 12.0,
                                             ),
@@ -249,9 +246,6 @@ class _CommentPageState extends State<CommentPage> {
                                 ),
                               ),
                             ]),
-                          )
-                        ],
-                      )),
                       // TODO: Masukin gambar atau apa yang lu mau
                       Text(
                         "Anda Tidak memiliki comment :(",
@@ -314,7 +308,7 @@ class _CommentPageState extends State<CommentPage> {
                                       Row(children: [
                                         Flexible(
                                             child: Text(
-                                          "${widget.post.fields.dateCreated}",
+                                          "Created: ${DateFormat('EEEE, MMM d, yyyy').format(DateTime.parse(widget.post.fields.dateCreated.toString()))}",
                                           style: const TextStyle(
                                             fontSize: 12.0,
                                           ),
@@ -334,7 +328,7 @@ class _CommentPageState extends State<CommentPage> {
                                         child: Row(children: [
                                           Flexible(
                                             child: Text(
-                                              "Arrested date : ${widget.post.fields.dateCaptured}",
+                                              "Arrested date : ${DateFormat('EEEE, MMM d, yyyy').format(DateTime.parse(widget.post.fields.dateCaptured == null ? DateTime.now().toString() : widget.post.fields.dateCaptured.toString()))}",
                                               style: const TextStyle(
                                                 fontSize: 12.0,
                                               ),

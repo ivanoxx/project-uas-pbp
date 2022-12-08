@@ -131,80 +131,91 @@ class _MyPostFormPageState extends State<MyPostFormPage> {
                           },
                         ),
                       ),
-                      Container(
-                        decoration: BoxDecoration(
-                          // color: Theme.of(context).primaryColor.withOpacity(.4),
-                          border: Border.all(
-                            // color: Theme.of(context).primaryColor,
-                            color: Colors.grey,
-                            width: 2,
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            // color: Theme.of(context).primaryColor.withOpacity(.4),
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(5.0),
                           ),
-                        ),
-                        child: Column(
-                          children: <Widget>[
-                            MultiSelectBottomSheetField(
-                              initialChildSize: 0.4,
-                              listType: MultiSelectListType.CHIP,
-                              searchable: true,
-                              buttonText: Text("Posted on"),
-                              title: Text("Forum"),
-                              items: listNama.map((Forum items) {
-                                return MultiSelectItem(
-                                    items.pk.toString(), items.fields.title);
-                              }).toList(),
-                              onConfirm: (values) {
-                                setState(() {
-                                  _selectedGroup = values;
-                                });
-                              },
-                              chipDisplay: MultiSelectChipDisplay(
-                                onTap: (value) {
+                          child: Column(
+                            children: <Widget>[
+                              MultiSelectBottomSheetField(
+                                initialChildSize: 0.4,
+                                listType: MultiSelectListType.CHIP,
+                                selectedColor: Colors.red,
+                                selectedItemsTextStyle: TextStyle(
+                                  color: Colors.white,
+                                ),
+                                searchable: true,
+                                buttonText: Text("Posted on"),
+                                title: Text("Forum"),
+                                items: listNama.map((Forum items) {
+                                  return MultiSelectItem(
+                                      items.pk.toString(), items.fields.title);
+                                }).toList(),
+                                onConfirm: (values) {
                                   setState(() {
-                                    _selectedGroup.remove(value);
+                                    _selectedGroup = values;
                                   });
                                 },
+                                chipDisplay: MultiSelectChipDisplay(
+                                  textStyle: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                  chipColor: Colors.red,
+                                  onTap: (value) {
+                                    setState(() {
+                                      _selectedGroup.remove(value);
+                                    });
+                                  },
+                                ),
                               ),
-                            ),
-                            _selectedGroup == null || _selectedGroup.isEmpty
-                                ? Container(
-                                    padding: EdgeInsets.all(10),
-                                    alignment: Alignment.centerLeft,
-                                    child: const Text(
-                                      "None selected",
-                                      style: TextStyle(color: Colors.black54),
-                                    ))
-                                : Container(),
-                          ],
+                              _selectedGroup == null || _selectedGroup.isEmpty
+                                  ? Container(
+                                      padding: EdgeInsets.all(10),
+                                      alignment: Alignment.centerLeft,
+                                      child: const Text(
+                                        "None selected",
+                                        style: TextStyle(color: Colors.black54),
+                                      ))
+                                  : Container(),
+                            ],
+                          ),
                         ),
                       ),
-                      TextButton(
-                          style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.red),
-                          ),
-                          onPressed: () async {
-                            if (_formKey.currentState!.validate()) {
-                              const url =
-                                  "https://whistle-blower.up.railway.app/create-post-flutter/";
-                              final response = await request.post(url, {
-                                "title": _nama,
-                                "description": _description,
-                                "group" : _selectedGroup.toString(),
-                              });
-                              if (response["status"] == "oke") {
-                                // Do something
-                                showAlertDialog2(context);
-                                _formKey.currentState?.reset();
-                              } else {
-                                // Do something
-                                print("gagal");
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ElevatedButton(
+                            style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.red),
+                            ),
+                            onPressed: () async {
+                              if (_formKey.currentState!.validate()) {
+                                const url =
+                                    "https://whistle-blower.up.railway.app/create-post-flutter/";
+                                final response = await request.post(url, {
+                                  "title": _nama,
+                                  "description": _description,
+                                  "group" : _selectedGroup.toString(),
+                                });
+                                if (response["status"] == "oke") {
+                                  // Do something
+                                  showAlertDialog2(context);
+                                  _formKey.currentState?.reset();
+                                } else {
+                                  // Do something
+                                  print("gagal");
+                                }
                               }
-                            }
-                          },
-                          child: const Text(
-                            "Simpan",
-                            style: TextStyle(color: Colors.white),
-                          )),
+                            },
+                            child: const Text(
+                              "Simpan",
+                              style: TextStyle(color: Colors.white),
+                            )),
+                      ),
                     ],
                   ),
                 ),

@@ -85,6 +85,9 @@ class rightDrawer extends StatelessWidget {
               if (request.loggedIn) {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => MyPostPage()));
+              } else {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LoginPage()));
               }
             },
           ),
@@ -149,10 +152,15 @@ class leftDrawer extends StatelessWidget {
             title: Text('Hall of Shame', style: TextStyle(fontSize: 18)),
             onTap: () {
               // Here you can give your route to navigate
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const HallOfShamePage()));
+              if (!request.loggedIn) {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LoginPage()));
+              } else {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const HallOfShamePage()));
+              }
             },
           ),
           ListTile(
@@ -163,11 +171,12 @@ class leftDrawer extends StatelessWidget {
               if (!request.loggedIn) {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => LoginPage()));
+              } else {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const MyForumFormPage()));
               }
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const MyForumFormPage()));
             },
           ),
           ListTile(
@@ -178,11 +187,12 @@ class leftDrawer extends StatelessWidget {
               if (!request.loggedIn) {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => LoginPage()));
+              } else {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const MyPostFormPage()));
               }
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const MyPostFormPage()));
             },
           ),
           ListTile(
