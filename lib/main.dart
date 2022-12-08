@@ -98,7 +98,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           // TODO: Ganti test jadi sesuatu yang lu mau
                           //Text("test"),
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 170, 0, 0),
+                            padding: const EdgeInsets.fromLTRB(0, 175, 0, 0),
                             child: Image.asset('lib/assets/images/landing.png',
                                 scale: 0.8),
                           ),
@@ -122,7 +122,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 return Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 170, 0, 0),
+                      padding: const EdgeInsets.fromLTRB(0, 175, 0, 0),
                       child: Image.asset('lib/assets/images/landing.png',
                           scale: 0.8),
                     ),
@@ -153,7 +153,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           children: [
                             // TODO: Ganti test jadi apa yang mau lu tampilkan
                             Padding(
-                              padding: const EdgeInsets.fromLTRB(0, 170, 0, 0),
+                              padding: const EdgeInsets.fromLTRB(0, 175, 0, 0),
                               child: Image.asset(
                                   'lib/assets/images/landing.png',
                                   scale: 0.8),
