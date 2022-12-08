@@ -251,7 +251,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(15.0),
                             boxShadow: const [
-                              BoxShadow(color: Colors.black, blurRadius: 2.0)
+                              BoxShadow(color: Colors.black, blurRadius: 5.0)
                             ],
                           ),
                           child: Column(children: [

@@ -145,12 +145,22 @@ class _TimelinePageState extends State<TimelinePage> {
                                   // TODO: buat ke comment
                                   ElevatedButton.icon(
                                     onPressed: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => CommentPage(
-                                                  post:
-                                                      snapshot.data![index])));
+                                      if (request.loggedIn) {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    CommentPage(
+                                                        post: snapshot
+                                                            .data![index])));
+                                      } else {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    LoginPage()));
+                                      }
+
                                     },
                                     icon: Icon(
                                       Icons.add_comment_rounded,
