@@ -21,8 +21,7 @@ class MyPostPageState extends State<MyPostPage> {
   late Widget currentPage;
 
   void callback() {
-    setState(() {
-    });
+    setState(() {});
   }
 
   @override
@@ -46,10 +45,12 @@ class MyPostPageState extends State<MyPostPage> {
                 if (!snapshot.hasData) {
                   return Column(
                     children: const [
-                      Text(
-                        "Anda tidak memiliki post :(",
-                        style:
-                        TextStyle(color: Color(0xff59A5D8), fontSize: 20),
+                      Flexible(
+                        child: Text(
+                          "Anda tidak memiliki post :(",
+                          style:
+                              TextStyle(color: Color(0xff59A5D8), fontSize: 20),
+                        ),
                       ),
                       SizedBox(height: 8),
                     ],
@@ -58,127 +59,137 @@ class MyPostPageState extends State<MyPostPage> {
                   return ListView.builder(
                       itemCount: snapshot.data!.length,
                       itemBuilder: (_, index) => InkWell(
-                        onTap: () => Navigator.pop(context),
-                        child: Container(
-                            margin: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 12),
-                            padding: const EdgeInsets.all(20.0),
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(15.0),
-                                boxShadow: const [
-                                  BoxShadow(
-                                      color: Colors.black, blurRadius: 2.0)
-                                ],
-                                border: Border.all(
-                                    color:
-                                    snapshot.data![index].fields.isCaptured
-                                        ? Colors.red
-                                        : Colors.white)),
-                            child: Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    Text(
+                            onTap: () => Navigator.pop(context),
+                            child: Container(
+                              margin: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 12),
+                              padding: const EdgeInsets.all(20.0),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(15.0),
+                                  boxShadow: const [
+                                    BoxShadow(
+                                        color: Colors.black, blurRadius: 2.0)
+                                  ],
+                                  border: Border.all(
+                                      color: snapshot
+                                              .data![index].fields.isCaptured
+                                          ? Colors.red
+                                          : Colors.white)),
+                              child: Column(children: [
+                                Row(children: [
+                                  Flexible(
+                                    child: Text(
                                       "${snapshot.data![index].fields.title}",
                                       style: const TextStyle(
                                         fontSize: 18.0,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    const Flexible(
-                                        fit: FlexFit.tight, child: SizedBox()),
-                                    CustomButtonTest(post: snapshot.data![index], callbackFunction: callback),
-                                  ]
-                                ),
+                                  ),
+                                  const Flexible(
+                                      fit: FlexFit.tight, child: SizedBox()),
+                                  CustomButtonTest(
+                                      post: snapshot.data![index],
+                                      callbackFunction: callback),
+                                ]),
                                 SizedBox(height: 10),
-                                Row(
-                                  children: [
-                                    Text(
+                                Row(children: [
+                                  Flexible(
+                                    child: Text(
                                       "Written by: Anonymous ${snapshot.data![index].fields.creator}",
                                       style: const TextStyle(
                                         fontSize: 14.0,
                                       ),
-                                    )
-                                  ]
-                                ),
-                                
-                                Row(
-                                  children: [
-                                    Text(
+                                    ),
+                                  )
+                                ]),
+                                Row(children: [
+                                  Flexible(
+                                    child: Text(
                                       "${snapshot.data![index].fields.dateCreated}",
                                       style: const TextStyle(
                                         fontSize: 12.0,
                                       ),
-                                    )
-                                  ]
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
+                                    ),
+                                  )
+                                ]),
+                                Row(children: [
+                                  Flexible(
+                                    child: Text(
                                       "${snapshot.data![index].fields.description}",
                                       style: const TextStyle(
                                         fontSize: 12.0,
                                       ),
-                                    )
-                                  ]
-                                ),
-                                Visibility(
-                                  visible: snapshot.data![index].fields.isCaptured,
-                                  child: Row(children: [
-                                  Text(
-                                    "Tanggal tertangkap : ${snapshot.data![index].fields.dateCaptured}",
-                                    style: const TextStyle(
-                                      fontSize: 12.0,
                                     ),
-                                  ),
-
+                                  )
                                 ]),
+                                Visibility(
+                                  visible:
+                                      snapshot.data![index].fields.isCaptured,
+                                  child: Row(children: [
+                                    Flexible(
+                                      child: Text(
+                                        "Tanggal tertangkap : ${snapshot.data![index].fields.dateCaptured}",
+                                        style: const TextStyle(
+                                          fontSize: 12.0,
+                                        ),
+                                      ),
+                                    ),
+                                  ]),
                                 ),
                                 SizedBox(height: 20),
-                                Row(
-                                  children: [
-                                    ElevatedButton.icon(
+                                Row(children: [
+                                  Flexible(
+                                    child: ElevatedButton.icon(
                                       onPressed: () async {
                                         if (request.loggedIn) {
-                                          final url = "https://whistle-blower.up.railway.app/mypost/${snapshot.data![index].pk}/upvote/";
-                                          final response = await request.get(url);
+                                          final url =
+                                              "https://whistle-blower.up.railway.app/mypost/${snapshot.data![index].pk}/upvote/";
+                                          final response =
+                                              await request.get(url);
                                           setState(() {
-                                            snapshot.data![index].fields.upvoteCount = response['upvote'];
+                                            snapshot.data![index].fields
+                                                    .upvoteCount =
+                                                response['upvote'];
                                           });
                                         } else {
-                                          Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      LoginPage()));
                                         }
                                       },
                                       icon: Icon(
                                         Icons.arrow_circle_up_rounded,
                                         size: 22.0,
                                       ),
-                                      label: Text(snapshot.data![index].fields.upvoteCount.toString()),
+                                      label: Text(snapshot
+                                          .data![index].fields.upvoteCount
+                                          .toString()),
                                     ),
-                                    SizedBox(width: 7),
-                                    ElevatedButton.icon(
-                                      onPressed: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) => CommentPage(
-                                                    post:
-                                                    snapshot.data![index])));
-                                      },
-                                      icon: Icon(
-                                        Icons.add_comment_rounded,
-                                        size: 22.0,
-                                      ),
-                                      label: Text('Reply'),
+                                  ),
+                                  SizedBox(width: 7),
+                                  ElevatedButton.icon(
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => CommentPage(
+                                                  post:
+                                                      snapshot.data![index])));
+                                    },
+                                    icon: Icon(
+                                      Icons.add_comment_rounded,
+                                      size: 22.0,
                                     ),
-                                  ]
-                                ),
-                              ]
+                                    label: Text('Reply'),
+                                  ),
+                                ]),
+                              ]),
                             ),
-                        ),
-
-                      ));
+                          ));
                 }
               }
             }));
