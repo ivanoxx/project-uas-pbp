@@ -6,6 +6,7 @@ import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:whistleblower/utils/allUtils.dart';
 import '../page/login.dart';
 import '../page/signup.dart';
+import '../models/ModelProfile.dart';
 
 class rightDrawer extends StatelessWidget {
   const rightDrawer({
@@ -150,17 +151,27 @@ class leftDrawer extends StatelessWidget {
           ListTile(
             trailing: Icon(Icons.account_balance),
             title: Text('Hall of Shame', style: TextStyle(fontSize: 18)),
-            onTap: () {
-              // Here you can give your route to navigate
-              if (!request.loggedIn) {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => LoginPage()));
+            onTap:  () async {
+              if (request.loggedIn) {
+                List<Profile> lst = await fetchProfile(request);
+                if (lst[0].fields.isAdmin) {
+                  Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const HallOfShamePage()));
+                }
+                else {
+                  Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const HallOfShameUserPage()));
+                }
               } else {
                 Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const HallOfShamePage()));
-              }
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => LoginPage()));
+              }        
             },
           ),
           ListTile(

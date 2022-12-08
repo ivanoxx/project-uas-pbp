@@ -42,14 +42,14 @@ class Fields {
     });
 
     String name;
-    DateTime arrestedDate;
+    String arrestedDate;
     String corruptionType;
     String description;
     DateTime createdDate;
 
     factory Fields.fromJson(Map<String, dynamic> json) => Fields(
         name: json["name"],
-        arrestedDate: DateTime.parse(json["arrested_date"]),
+        arrestedDate: json["arrested_date"],
         corruptionType: json["corruption_type"],
         description: json["description"],
         createdDate: DateTime.parse(json["created_date"]),
@@ -57,7 +57,7 @@ class Fields {
 
     Map<String, dynamic> toJson() => {
         "name": name,
-        "arrested_date": "${arrestedDate.year.toString().padLeft(4, '0')}-${arrestedDate.month.toString().padLeft(2, '0')}-${arrestedDate.day.toString().padLeft(2, '0')}",
+        "arrested_date": arrestedDate,
         "corruption_type": corruptionType,
         "description": description,
         "created_date": "${createdDate.year.toString().padLeft(4, '0')}-${createdDate.month.toString().padLeft(2, '0')}-${createdDate.day.toString().padLeft(2, '0')}",
