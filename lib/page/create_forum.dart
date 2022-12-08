@@ -3,7 +3,6 @@ import 'package:whistleblower/main.dart';
 import 'package:whistleblower/widget/allWidgets.dart';
 import 'package:provider/provider.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
-import 'login.dart';
 
 class MyForumFormPage extends StatefulWidget {
   const MyForumFormPage({super.key});
@@ -55,110 +54,116 @@ class _MyForumFormPageState extends State<MyForumFormPage> {
                           child: const Text(
                             'Buat Forum Anda Sendiri',
                             style: TextStyle(
-                                color: Colors.black,
+                                color: Colors.white,
                                 fontWeight: FontWeight.w500,
                                 fontSize: 30),
                           )),
                       Padding(
-                        // Menggunakan padding sebesar 8 pixels
                         padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          decoration: InputDecoration(
-                            hintText: "manusia-jahat",
-                            labelText: "Nama Forum",
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                            filled: true,
+                            hintText: "Nama Forum",
                             // Menambahkan circular border agar lebih rapi
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(5.0),
                             ),
+                            fillColor: Color.fromRGBO(250, 250, 250, 0.95),
                           ),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          // TODO Implement onChanged dan onSaved
-                          // Menambahkan behavior saat nama diketik
-                          onChanged: (String? value) {
-                            setState(() {
-                              _nama = value!;
-                            });
-                          },
-                          // Menambahkan behavior saat data disimpan
-                          onSaved: (String? value) {
-                            setState(() {
-                              _nama = value!;
-                            });
-                          },
-                          // Validator sebagai validasi form
-                          validator: (String? value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Nama forum tidak boleh kosong!';
-                            } else if (!regexNama.hasMatch(value)) {
-                              return 'Masukkan nama forum yang sesuai (hanya alphanumeric (case sensitive), ".", "_", "~", dan "-").';
-                            } else if (listNama.contains(value)) {
-                              return "Nama forum sudah pernah digunakan";
-                            }
-                            return null;
-                          },
-                        ),
+                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            // TODO Implement onChanged dan onSaved
+                            // Menambahkan behavior saat nama diketik
+                            onChanged: (String? value) {
+                              setState(() {
+                                _nama = value!;
+                              });
+                            },
+                            // Menambahkan behavior saat data disimpan
+                            onSaved: (String? value) {
+                              setState(() {
+                                _nama = value!;
+                              });
+                            },
+                            // Validator sebagai validasi form
+                            validator: (String? value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Nama forum tidak boleh kosong!';
+                              } else if (!regexNama.hasMatch(value)) {
+                                return 'Masukkan nama forum yang sesuai (hanya alphanumeric (case sensitive), ".", "_", "~", dan "-").';
+                              } else if (listNama.contains(value)) {
+                                return "Nama forum sudah pernah digunakan";
+                              }
+                              return null;
+                            },
+                          ),
+
                       ),
                       Padding(
-                        // Menggunakan padding sebesar 8 pixels
                         padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          decoration: InputDecoration(
-                            hintText: "Forum ini isinya orang-orang jahat",
-                            labelText: "Description",
-                            // Menambahkan circular border agar lebih rapi
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5.0),
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                              filled: true,
+                              hintText: "Description",
+                              // Menambahkan circular border agar lebih rapi
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5.0),
+                              ),
+                              fillColor: Color.fromRGBO(250, 250, 250, 0.95),
                             ),
-                          ),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          // TODO Implement onChanged dan onSaved
-                          // Menambahkan behavior saat nama diketik
-                          onChanged: (String? value) {
-                            setState(() {
-                              _description = value!;
-                            });
-                          },
-                          // Menambahkan behavior saat data disimpan
-                          onSaved: (String? value) {
-                            setState(() {
-                              _description = value!;
-                            });
-                          },
-                          // Validator sebagai validasi form
-                          validator: (String? value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Deskripsi tidak boleh kosong!';
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                      TextButton(
-                          style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.blue),
-                          ),
-                          onPressed: () async {
-                            if (_formKey.currentState!.validate()) {
-                              const url =
-                                  "https://whistle-blower.up.railway.app/create-forum-flutter/";
-                              final response = await request.post(url, {
-                                "title": _nama,
-                                "description": _description,
+                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            // TODO Implement onChanged dan onSaved
+                            // Menambahkan behavior saat nama diketik
+                            onChanged: (String? value) {
+                              setState(() {
+                                _description = value!;
                               });
-                              if (response["status"] == "oke") {
-                                // Do something
-                                showAlertDialog2(context);
-                                _formKey.currentState?.reset();
-                              } else {
-                                // Do something
+                            },
+                            // Menambahkan behavior saat data disimpan
+                            onSaved: (String? value) {
+                              setState(() {
+                                _description = value!;
+                              });
+                            },
+                            // Validator sebagai validasi form
+                            validator: (String? value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Deskripsi tidak boleh kosong!';
                               }
-                            }
-                          },
-                          child: const Text(
-                            "Simpan",
-                            style: TextStyle(color: Colors.white),
-                          )),
+                              return null;
+                            },
+                          ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                fixedSize: const Size(500, 30),
+                                textStyle: const TextStyle(
+                                  color: Colors.white,
+                                )
+                            ),
+                            onPressed: () async {
+                              if (_formKey.currentState!.validate()) {
+                                const url =
+                                    "https://whistle-blower.up.railway.app/create-forum-flutter/";
+                                final response = await request.post(url, {
+                                  "title": _nama,
+                                  "description": _description,
+                                });
+                                if (response["status"] == "oke") {
+                                  // Do something
+                                  showAlertDialog2(context);
+                                  _formKey.currentState?.reset();
+                                } else {
+                                  // Do something
+                                }
+                              }
+                            },
+                            child: const Text(
+                              "Simpan",
+                              style: TextStyle(color: Colors.white),
+                            )),
+                      ),
                     ],
                   ),
                 ),

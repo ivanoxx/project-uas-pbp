@@ -158,7 +158,14 @@ class MyPostPageState extends State<MyPostPage> {
                                     ),
                                     SizedBox(width: 7),
                                     ElevatedButton.icon(
-                                      onPressed: () { },
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => CommentPage(
+                                                    post:
+                                                    snapshot.data![index])));
+                                      },
                                       icon: Icon(
                                         Icons.add_comment_rounded,
                                         size: 22.0,
