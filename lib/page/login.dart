@@ -168,7 +168,8 @@ class _LoginPageState extends State<LoginPage> {
                         ))),
                 Row(
                   children: <Widget>[
-                    TextButton(
+                    Flexible(
+                        child: TextButton(
                       child: const Text(
                         'Daftar disini',
                       ),
@@ -178,10 +179,11 @@ class _LoginPageState extends State<LoginPage> {
                           builder: (context) => SignupPage(),
                         ));
                       },
-                    ),
+                    )),
                     const Text(
                       'apabila tidak memiliki akun',
-                      style: TextStyle(color: Colors.white),),
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ],
                   mainAxisAlignment: MainAxisAlignment.center,
                 )
