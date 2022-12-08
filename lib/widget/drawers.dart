@@ -3,10 +3,10 @@ import "package:whistleblower/page/all_page.dart";
 import "package:whistleblower/main.dart";
 import 'package:provider/provider.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
-import 'package:whistleblower/utils/FetchProfile.dart';
-import '../models/ModelProfile.dart';
+import 'package:whistleblower/utils/allUtils.dart';
 import '../page/login.dart';
 import '../page/signup.dart';
+import '../models/ModelProfile.dart';
 
 class rightDrawer extends StatelessWidget {
   const rightDrawer({
@@ -16,6 +16,10 @@ class rightDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
+
+    if (request.loggedIn) {
+      fetchUserData(request);
+    }
 
     return Drawer(
       child: Column(
@@ -82,6 +86,9 @@ class rightDrawer extends StatelessWidget {
               if (request.loggedIn) {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => MyPostPage()));
+              } else {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LoginPage()));
               }
             },
           ),
@@ -94,7 +101,7 @@ class rightDrawer extends StatelessWidget {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => LoginPage()));
               }
-              const url = "http://127.0.0.1:8000/auth/logout/";
+              const url = "https://whistle-blower.up.railway.app/auth/logout/";
               //const url = "https://whistle-blower.up.railway.app/auth/logout/";
               final response = await request.logout(url);
             },
@@ -164,9 +171,7 @@ class leftDrawer extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (context) => LoginPage()));
-              }
-              // Here you can give your route to navigate
-              
+              }        
             },
           ),
           ListTile(
@@ -177,11 +182,12 @@ class leftDrawer extends StatelessWidget {
               if (!request.loggedIn) {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => LoginPage()));
+              } else {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const MyForumFormPage()));
               }
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const MyForumFormPage()));
             },
           ),
           ListTile(
@@ -192,11 +198,12 @@ class leftDrawer extends StatelessWidget {
               if (!request.loggedIn) {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => LoginPage()));
+              } else {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const MyPostFormPage()));
               }
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const MyPostFormPage()));
             },
           ),
           ListTile(
@@ -230,14 +237,20 @@ class profilePicture extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>();
+
     return Container(
       margin: EdgeInsets.only(right: 5.0),
-      child: Builder(
-        builder: (context) => IconButton(
+      child: FutureBuilder(
+        future:
+            request.get("https://whistle-blower.up.railway.app/myprofile/json"),
+        builder: (context, AsyncSnapshot snapshot) => IconButton(
           iconSize: 32.0,
           icon: CircleAvatar(
-            backgroundImage: NetworkImage(
-                user_data["imagePath"] as String),
+            backgroundImage: snapshot.data != null
+                ? NetworkImage(
+                    "https://whistle-blower.up.railway.app/images/${snapshot.data[0]['fields']['image']}")
+                : NetworkImage(user_data["imagePath"] as String),
           ),
           onPressed: () => Scaffold.of(context).openEndDrawer(),
           tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
