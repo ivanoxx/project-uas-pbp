@@ -68,54 +68,61 @@ class _TimelinePageState extends State<TimelinePage> {
                                           : Colors.white)),
                               child: Column(children: [
                                 Row(children: [
-                                  Text(
+                                  Flexible(
+                                      child: Text(
                                     "${snapshot.data![index].fields.title}",
                                     style: const TextStyle(
                                       fontSize: 18.0,
                                       fontWeight: FontWeight.bold,
                                     ),
-                                  )
+                                  ))
                                 ]),
                                 SizedBox(height: 10),
                                 Row(children: [
-                                  Text(
+                                  Flexible(
+                                      child: Text(
                                     "Written by: Anonymous ${snapshot.data![index].fields.creator}",
                                     style: const TextStyle(
                                       fontSize: 14.0,
                                     ),
-                                  )
+                                  ))
                                 ]),
                                 Row(children: [
-                                  Text(
+                                  Flexible(
+                                      child: Text(
                                     "${snapshot.data![index].fields.dateCreated}",
                                     style: const TextStyle(
                                       fontSize: 12.0,
                                     ),
-                                  )
+                                  ))
                                 ]),
                                 Row(children: [
-                                  Text(
+                                  Flexible(
+                                      child: Text(
                                     "${snapshot.data![index].fields.description}",
                                     style: const TextStyle(
                                       fontSize: 12.0,
                                     ),
-                                  )
+                                  ))
                                 ]),
                                 Visibility(
                                   visible:
                                       snapshot.data![index].fields.isCaptured,
                                   child: Row(children: [
-                                    Text(
-                                      "Arrested date : ${snapshot.data![index].fields.dateCaptured}",
-                                      style: const TextStyle(
-                                        fontSize: 12.0,
+                                    Flexible(
+                                      child: Text(
+                                        "Arrested date : ${snapshot.data![index].fields.dateCaptured}",
+                                        style: const TextStyle(
+                                          fontSize: 12.0,
+                                        ),
                                       ),
-                                    ),
+                                    )
                                   ]),
                                 ),
                                 SizedBox(height: 20),
                                 Row(children: [
-                                  ElevatedButton.icon(
+                                  Flexible(
+                                      child: ElevatedButton.icon(
                                     onPressed: () async {
                                       if (request.loggedIn) {
                                         final url =
@@ -140,7 +147,7 @@ class _TimelinePageState extends State<TimelinePage> {
                                     label: Text(snapshot
                                         .data![index].fields.upvoteCount
                                         .toString()),
-                                  ),
+                                  )),
                                   SizedBox(width: 7),
                                   // TODO: buat ke comment
                                   ElevatedButton.icon(
@@ -160,7 +167,6 @@ class _TimelinePageState extends State<TimelinePage> {
                                                 builder: (context) =>
                                                     LoginPage()));
                                       }
-
                                     },
                                     icon: Icon(
                                       Icons.add_comment_rounded,

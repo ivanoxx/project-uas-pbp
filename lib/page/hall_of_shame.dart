@@ -134,38 +134,42 @@ class _HallOfShamePageState extends State<HallOfShamePage> {
                     ),
                     child: Column(children: [
                       Row(children: [
-                        Text(
+                        Flexible(
+                            child: Text(
                           "${snapshot.data![index].fields.name}",
                           style: const TextStyle(
                             fontSize: 18.0,
                             fontWeight: FontWeight.bold,
                           ),
-                        )
+                        ))
                       ]),
                       SizedBox(height: 10),
                       Row(children: [
-                        Text(
+                        Flexible(
+                            child: Text(
                           "Arrested date: ${snapshot.data![index].fields.arrestedDate}",
                           style: const TextStyle(
                             fontSize: 14.0,
                           ),
-                        )
+                        ))
                       ]),
                       Row(children: [
-                        Text(
+                        Flexible(
+                            child: Text(
                           "Corruption type: ${snapshot.data![index].fields.corruptionType}",
                           style: const TextStyle(
                             fontSize: 12.0,
                           ),
-                        )
+                        ))
                       ]),
                       Row(children: [
-                        Text(
+                        Flexible(
+                            child: Text(
                           "Description: ${snapshot.data![index].fields.description}",
                           style: const TextStyle(
                             fontSize: 12.0,
                           ),
-                        )
+                        ))
                       ]),
                       SizedBox(height: 20),
                     ]),
@@ -179,29 +183,3 @@ class _HallOfShamePageState extends State<HallOfShamePage> {
     );
   }
 }
-
-          // Padding(
-          //   padding: const EdgeInsets.only(top: 20, left: 20),
-          //   child: Align(
-          //     alignment: Alignment.topLeft,
-          //     child: SizedBox(
-          //       width: 110,
-          //       height: 40,
-          //       child: TextButton(
-          //         style: ButtonStyle(
-          //           backgroundColor: MaterialStateProperty.all(Colors.blue),
-          //         ),
-          //         onPressed: () {
-          //           Navigator.pushReplacement(
-          //               context,
-          //               MaterialPageRoute(
-          //                   builder: (context) => const FormHallOfShamePage()));
-          //         },
-          //         child: const Text(
-          //           "Add Corruptor",
-          //           style: TextStyle(color: Colors.white),
-          //         ),
-          //       ),
-          //     ),
-          //   ),
-          // ),
