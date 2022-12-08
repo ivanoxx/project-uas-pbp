@@ -33,7 +33,7 @@ class _TimelinePageState extends State<TimelinePage> {
               if (snapshot.data == null) {
                 return const Center(child: CircularProgressIndicator());
               } else {
-                if (!snapshot.hasData) {
+                if (snapshot.data!.length == 0) {
                   return Column(
                     children: const [
                       Text(
@@ -90,7 +90,7 @@ class _TimelinePageState extends State<TimelinePage> {
                                 Row(children: [
                                   Flexible(
                                       child: Text(
-                                    "${snapshot.data![index].fields.dateCreated}",
+                                    "Created: ${DateFormat('EEEE, MMM d, yyyy').format(DateTime.parse(snapshot.data![index].fields.dateCreated.toString()))}",
                                     style: const TextStyle(
                                       fontSize: 12.0,
                                     ),
@@ -111,7 +111,7 @@ class _TimelinePageState extends State<TimelinePage> {
                                   child: Row(children: [
                                     Flexible(
                                       child: Text(
-                                        "Arrested date : ${snapshot.data![index].fields.dateCaptured}",
+                                        "Arrested date : ${DateFormat('EEEE, MMM d, yyyy').format(DateTime.parse(snapshot.data![index].fields.dateCaptured == null ? DateTime.now().toString() : snapshot.data![index].fields.dateCaptured.toString()))}",
                                         style: const TextStyle(
                                           fontSize: 12.0,
                                         ),
@@ -121,35 +121,40 @@ class _TimelinePageState extends State<TimelinePage> {
                                 ),
                                 SizedBox(height: 20),
                                 Row(children: [
-                                  Flexible(
-                                      child: ElevatedButton.icon(
-                                    onPressed: () async {
-                                      if (request.loggedIn) {
-                                        final url =
-                                            "https://whistle-blower.up.railway.app/${snapshot.data![index].pk}/upvote/";
-                                        final response = await request.get(url);
-                                        setState(() {
-                                          snapshot.data![index].fields
-                                              .upvoteCount = response['upvote'];
-                                        });
-                                      } else {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    LoginPage()));
-                                      }
+                                  Flexible(child: StatefulBuilder(
+                                    builder: (BuildContext context,
+                                        StateSetter setState) {
+                                      return ElevatedButton.icon(
+                                        onPressed: () async {
+                                          if (request.loggedIn) {
+                                            final url =
+                                                "https://whistle-blower.up.railway.app/mypost/${snapshot.data![index].pk}/upvote/";
+                                            final response =
+                                                await request.get(url);
+                                            setState(() {
+                                              snapshot.data![index].fields
+                                                      .upvoteCount =
+                                                  response['upvote'];
+                                            });
+                                          } else {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        LoginPage()));
+                                          }
+                                        },
+                                        icon: Icon(
+                                          Icons.arrow_circle_up_rounded,
+                                          size: 22.0,
+                                        ),
+                                        label: Text(snapshot
+                                            .data![index].fields.upvoteCount
+                                            .toString()),
+                                      );
                                     },
-                                    icon: Icon(
-                                      Icons.arrow_circle_up_rounded,
-                                      size: 22.0,
-                                    ),
-                                    label: Text(snapshot
-                                        .data![index].fields.upvoteCount
-                                        .toString()),
                                   )),
                                   SizedBox(width: 7),
-                                  // TODO: buat ke comment
                                   ElevatedButton.icon(
                                     onPressed: () {
                                       if (request.loggedIn) {

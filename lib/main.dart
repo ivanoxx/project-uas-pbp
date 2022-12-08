@@ -118,7 +118,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ));
             } else {
-              if (!snapshot.hasData) {
+              if (snapshot.data!.length == 0) {
                 return Column(
                   children: [
                     Padding(
@@ -207,7 +207,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   SizedBox(height: 10),
                                   Row(children: [
                                     Text(
-                                      "Written by: Anonymous ${snapshot.data![index].fields.creator}",
+                                      "Created by: Anonymous ${snapshot.data![index].fields.creator}",
                                       style: const TextStyle(
                                         fontSize: 14.0,
                                       ),
@@ -215,7 +215,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   ]),
                                   Row(children: [
                                     Text(
-                                      "${snapshot.data![index].fields.dateCreated}",
+                                      "Created: ${DateFormat('EEEE, MMM d, yyyy').format(DateTime.parse(snapshot.data![index].fields.dateCreated.toString()))}",
                                       style: const TextStyle(
                                         fontSize: 12.0,
                                       ),
@@ -267,7 +267,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             SizedBox(height: 10),
                             Row(children: [
                               Text(
-                                "Written by: Anonymous ${snapshot.data![index].fields.creator}",
+                                "Created by: Anonymous ${snapshot.data![index].fields.creator}",
                                 style: const TextStyle(
                                   fontSize: 14.0,
                                 ),
@@ -275,7 +275,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             ]),
                             Row(children: [
                               Text(
-                                "${snapshot.data![index].fields.dateCreated}",
+                                "Created: ${DateFormat('EEEE, MMM d, yyyy').format(DateTime.parse(snapshot.data![index].fields.dateCreated.toString()))}",
                                 style: const TextStyle(
                                   fontSize: 12.0,
                                 ),

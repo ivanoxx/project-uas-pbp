@@ -29,8 +29,8 @@ class _CustomButtonTestState extends State<CustomButtonTest> {
     return DropdownButtonHideUnderline(
       child: DropdownButton2(
         customButton: const Icon(
-          Icons.list,
-          size: 46,
+          Icons.more_vert,
+          size: 30,
           color: Colors.red,
         ),
         customItemsHeights: [
@@ -187,80 +187,89 @@ class MenuItems {
                           SizedBox(
                             height: 8,
                           ),
-                          Row(
-                            children: [
-                              Text("Captured? : "),
-                              Checkbox(
-                                  value: post.fields.isCaptured,
-                                  onChanged: (bool? value) {
-                                    setState(() {
-                                      post.fields.isCaptured = value!;
-                                      post.fields.dateCaptured = dateCaptured;
-                                    });
-                                  }),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          Visibility(
-                            visible: post.fields.isCaptured,
-                            child: TextField(
-                              controller: controllerDate,
-                              //editing controller of this TextField
-                              decoration: InputDecoration(
-                                labelText:
-                                    "Enter Date Captured", //label text of field
-                                suffixIcon: Icon(Icons.calendar_today),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(5.0),
-                                ),
-                              ),
-                              readOnly: true,
-                              onTap: () async {
-                                DateTime? newDate = await showDatePicker(
-                                    context: context,
-                                    initialDate: dateCaptured,
-                                    firstDate: DateTime(1900),
-                                    lastDate: DateTime.now());
-                                if (newDate != null) {
-                                  setState(() {
-                                    post.fields.dateCaptured = newDate;
-                                    dateCaptured = newDate;
-                                    controllerDate.text =
-                                        DateFormat('EEEE, MMM d, yyyy')
-                                            .format(dateCaptured);
-                                  });
-                                }
-                                ;
-                                // TODO: Masukin datenya
-                              },
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                Text("Captured? : "),
+                                Checkbox(
+                                    value: post.fields.isCaptured,
+                                    onChanged: (bool? value) {
+                                      setState(() {
+                                        post.fields.isCaptured = value!;
+                                        post.fields.dateCaptured = dateCaptured;
+                                      });
+                                    }),
+                              ],
                             ),
                           ),
-                          ElevatedButton(
-                              onPressed: () async {
-                                if (_formKey.currentState!.validate()) {
-                                  final url =
-                                      'https://whistle-blower.up.railway.app/mypost/${post.pk}/edit/flutter/';
-                                  final response = await request.post(url, {
-                                    "name": controllerNama.text,
-                                    "description": controllerDescription.text,
-                                    "id": post.pk.toString(),
-                                    "is_captured":
-                                        post.fields.isCaptured.toString(),
-                                    "date_captured":
-                                        post.fields.dateCaptured.toString(),
-                                  });
-                                  if (response['msg'] == "success") {
-                                    showAlertDialog2(context, "edit");
-                                    callback();
-                                  } else {
-                                    showAlertDialog(context);
+                          // SizedBox(
+                          //   height: 8,
+                          // ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Visibility(
+                              visible: post.fields.isCaptured,
+                              child: TextField(
+                                controller: controllerDate,
+                                //editing controller of this TextField
+                                decoration: InputDecoration(
+                                  labelText:
+                                      "Enter Date Captured", //label text of field
+                                  suffixIcon: Icon(Icons.calendar_today),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(5.0),
+                                  ),
+                                ),
+                                readOnly: true,
+                                onTap: () async {
+                                  DateTime? newDate = await showDatePicker(
+                                      context: context,
+                                      initialDate: dateCaptured,
+                                      firstDate: DateTime(1900),
+                                      lastDate: DateTime.now());
+                                  if (newDate != null) {
+                                    setState(() {
+                                      post.fields.dateCaptured = newDate;
+                                      dateCaptured = newDate;
+                                      controllerDate.text =
+                                          DateFormat('EEEE, MMM d, yyyy')
+                                              .format(dateCaptured);
+                                    });
                                   }
                                   ;
-                                }
-                              },
-                              child: Text("Submit")),
+                                  // TODO: Masukin datenya
+                                },
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ElevatedButton(
+                                onPressed: () async {
+                                  if (_formKey.currentState!.validate()) {
+                                    final url =
+                                        'https://whistle-blower.up.railway.app/mypost/${post.pk}/edit/flutter/';
+                                    final response = await request.post(url, {
+                                      "name": controllerNama.text,
+                                      "description": controllerDescription.text,
+                                      "id": post.pk.toString(),
+                                      "is_captured":
+                                          post.fields.isCaptured.toString(),
+                                      "date_captured":
+                                          post.fields.dateCaptured.toString(),
+                                    });
+                                    if (response['msg'] == "success") {
+                                      showAlertDialog2(context, "edit");
+                                      callback();
+                                    } else {
+                                      showAlertDialog(context);
+                                    }
+                                    ;
+                                  }
+                                },
+                                child: Text("Submit")),
+                          ),
                         ],
                       ),
                     ),
