@@ -42,7 +42,7 @@ class _State extends State<SignupPage> {
               children: [
                 const Text('Daftar Akun',
                   style: TextStyle(
-                      color: Colors.black,
+                      color: Colors.white,
                       fontWeight: FontWeight.w500,
                       fontSize: 22),
                 ),
@@ -51,10 +51,12 @@ class _State extends State<SignupPage> {
                   child: TextFormField(
                     controller: controllerUsername,
                     decoration: InputDecoration(
+                      filled: true,
                       prefixIcon: Icon(Icons.person),
-                      labelText: "Username",
+                      hintText: "Username",
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5.0)),
+                      fillColor: Color.fromRGBO(250, 250, 250, 0.95),
                     ),
                     validator: (value) {
                       if (value!.isEmpty) {
@@ -71,8 +73,10 @@ class _State extends State<SignupPage> {
                     controller: controllerPassword,
                     obscureText: !isPasswordVisible,
                     decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Color.fromRGBO(250, 250, 250, 0.95),
                       prefixIcon: Icon(Icons.security),
-                      labelText: "Password",
+                      hintText: "Password",
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5.0)),
                       suffixIcon: IconButton(

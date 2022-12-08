@@ -46,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: const Text(
                       'Login anonymous user',
                       style: TextStyle(
-                          color: Colors.black,
+                          color: Colors.white,
                           fontWeight: FontWeight.w500,
                           fontSize: 22),
                     )),
@@ -125,7 +125,7 @@ class _LoginPageState extends State<LoginPage> {
                                   style: ButtonStyle(
                                     backgroundColor:
                                         MaterialStateProperty.all<Color>(
-                                            Colors.redAccent),
+                                            Colors.red),
                                     foregroundColor:
                                         MaterialStateProperty.all<Color>(
                                             Colors.white),
@@ -179,7 +179,9 @@ class _LoginPageState extends State<LoginPage> {
                         ));
                       },
                     ),
-                    const Text('apabila tidak memiliki akun'),
+                    const Text(
+                      'apabila tidak memiliki akun',
+                      style: TextStyle(color: Colors.white),),
                   ],
                   mainAxisAlignment: MainAxisAlignment.center,
                 )

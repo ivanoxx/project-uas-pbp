@@ -53,7 +53,7 @@ class _MyPostFormPageState extends State<MyPostFormPage> {
                           child: const Text(
                             'Buat Post Anda Sendiri',
                             style: TextStyle(
-                                color: Colors.black,
+                                color: Colors.white,
                                 fontWeight: FontWeight.w500,
                                 fontSize: 30),
                           )),
@@ -62,12 +62,14 @@ class _MyPostFormPageState extends State<MyPostFormPage> {
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
                           decoration: InputDecoration(
-                            hintText: "Penjahat A",
-                            labelText: "Nama Post",
+                            filled: true,
+                            hintText: "Nama Post",
+                            
                             // Menambahkan circular border agar lebih rapi
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(5.0),
                             ),
+                            fillColor: Color.fromRGBO(250, 250, 250, 0.95),
                           ),
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           // TODO Implement onChanged dan onSaved
@@ -97,12 +99,14 @@ class _MyPostFormPageState extends State<MyPostFormPage> {
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
                           decoration: InputDecoration(
-                            hintText: "Orang ini melakukan A, B, & C",
-                            labelText: "Description",
+                            filled: true,
+                            hintText: "Description",
+                            
                             // Menambahkan circular border agar lebih rapi
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(5.0),
                             ),
+                            fillColor: Color.fromRGBO(250, 250, 250, 0.95),
                           ),
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           // TODO Implement onChanged dan onSaved
@@ -176,7 +180,7 @@ class _MyPostFormPageState extends State<MyPostFormPage> {
                       TextButton(
                           style: ButtonStyle(
                             backgroundColor:
-                                MaterialStateProperty.all(Colors.blue),
+                                MaterialStateProperty.all(Colors.red),
                           ),
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
