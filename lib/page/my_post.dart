@@ -94,10 +94,12 @@ class MyPostPageState extends State<MyPostPage> {
                                 SizedBox(height: 10),
                                 Row(
                                   children: [
-                                    Text(
-                                      "Written by: Anonymous ${snapshot.data![index].fields.creator}",
-                                      style: const TextStyle(
-                                        fontSize: 14.0,
+                                    Flexible(
+                                      child: Text(
+                                        "Written by: Anonymous ${snapshot.data![index].fields.creator}",
+                                        style: const TextStyle(
+                                          fontSize: 14.0,
+                                        ),
                                       ),
                                     )
                                   ]
