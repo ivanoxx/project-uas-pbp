@@ -6,7 +6,6 @@ import 'package:whistleblower/utils/allUtils.dart';
 import 'login.dart';
 import 'package:whistleblower/page/all_page.dart';
 
-
 class TimelinePage extends StatefulWidget {
   const TimelinePage({super.key, required this.group_name});
   final group_name;
@@ -103,18 +102,17 @@ class _TimelinePageState extends State<TimelinePage> {
                                   )
                                 ]),
                                 Visibility(
-                                  visible: snapshot.data![index].fields.isCaptured,
+                                  visible:
+                                      snapshot.data![index].fields.isCaptured,
                                   child: Row(children: [
-                                  Text(
-                                    "Arrested date : ${snapshot.data![index].fields.dateCaptured}",
-                                    style: const TextStyle(
-                                      fontSize: 12.0,
+                                    Text(
+                                      "Arrested date : ${snapshot.data![index].fields.dateCaptured}",
+                                      style: const TextStyle(
+                                        fontSize: 12.0,
+                                      ),
                                     ),
-                                  ),
-
-                                ]),
+                                  ]),
                                 ),
-                               
                                 SizedBox(height: 20),
                                 Row(children: [
                                   ElevatedButton.icon(
@@ -147,8 +145,12 @@ class _TimelinePageState extends State<TimelinePage> {
                                   // TODO: buat ke comment
                                   ElevatedButton.icon(
                                     onPressed: () {
-                                      Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => CommentPage(post: snapshot.data![index])));
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => CommentPage(
+                                                  post:
+                                                      snapshot.data![index])));
                                     },
                                     icon: Icon(
                                       Icons.add_comment_rounded,
