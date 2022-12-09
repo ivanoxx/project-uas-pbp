@@ -155,12 +155,14 @@ class _HallOfShamePageState extends State<HallOfShamePage> {
             ),
             Row(
               children: [
-                Text(
-                  snapshot.data![index].fields.description.length < 60
-                      ? "Description: ${snapshot.data![index].fields.description}"
-                      : "Description: ${snapshot.data![index].fields.description.substring(0, 61)}... read more",
-                  style: const TextStyle(
-                    fontSize: 12.0,
+                Expanded(
+                  child: Text(
+                    snapshot.data![index].fields.description.length < 60
+                        ? "Description: ${snapshot.data![index].fields.description}"
+                        : "Description: ${snapshot.data![index].fields.description.substring(0, 40)}... read more",
+                    style: const TextStyle(
+                      fontSize: 12.0,
+                    ),
                   ),
                 ),
               ],
@@ -181,7 +183,6 @@ class _HallOfShamePageState extends State<HallOfShamePage> {
                   if (response['status'] == "oke") {
                     showAlertDialogHall4(context);
                     setState(() {});
-                    
                   } else {
                     showAlertDialogHall3(context);
                   }
