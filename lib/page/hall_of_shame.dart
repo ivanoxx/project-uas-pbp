@@ -157,7 +157,7 @@ class _HallOfShamePageState extends State<HallOfShamePage> {
               children: [
                 Expanded(
                   child: Text(
-                    snapshot.data![index].fields.description.length < 60
+                    snapshot.data![index].fields.description.length < 40
                         ? "Description: ${snapshot.data![index].fields.description}"
                         : "Description: ${snapshot.data![index].fields.description.substring(0, 40)}... read more",
                     style: const TextStyle(
