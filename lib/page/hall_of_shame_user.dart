@@ -96,9 +96,9 @@ class _HallOfShameUserPageState extends State<HallOfShameUserPage> {
                           Row(children: [
                             Text(
                               snapshot.data![index].fields.description.length <
-                                      60
+                                      40
                                   ? "Description: ${snapshot.data![index].fields.description}"
-                                  : "Description: ${snapshot.data![index].fields.description.substring(0, 61)}... read more",
+                                  : "Description: ${snapshot.data![index].fields.description.substring(0, 40)}... read more",
                               style: const TextStyle(
                                 fontSize: 12.0,
                               ),
