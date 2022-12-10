@@ -188,21 +188,18 @@ class _MyHomePageState extends State<MyHomePage> {
                                     BoxShadow(
                                         color: Colors.black, blurRadius: 2.0)
                                   ],
-                                  // border: Border.all(
-                                  //     color:
-                                  //     snapshot.data![index].fields.isCaptured
-                                  //         ? Colors.white
-                                  //         : Colors.red)
                                 ),
                                 child: Column(children: [
                                   Row(children: [
-                                    Text(
-                                      "${snapshot.data![index].fields.title}",
-                                      style: const TextStyle(
-                                        fontSize: 18.0,
-                                        fontWeight: FontWeight.bold,
+                                    Flexible(
+                                      child: Text(
+                                        "${snapshot.data![index].fields.title}",
+                                        style: const TextStyle(
+                                          fontSize: 18.0,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
-                                    )
+                                    ),
                                   ]),
                                   SizedBox(height: 10),
                                   Row(children: [
@@ -259,13 +256,15 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                           child: Column(children: [
                             Row(children: [
-                              Text(
-                                "${snapshot.data![index].fields.title}",
-                                style: const TextStyle(
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.bold,
+                              Flexible(
+                                child: Text(
+                                  "${snapshot.data![index].fields.title}",
+                                  style: const TextStyle(
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              )
+                              ),
                             ]),
                             SizedBox(height: 10),
                             Row(children: [
@@ -306,4 +305,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
- 
