@@ -206,29 +206,32 @@ class _MyHomePageState extends State<MyHomePage> {
                                   ]),
                                   SizedBox(height: 10),
                                   Row(children: [
-                                    Text(
+                                    Flexible(
+                                        child: Text(
                                       "Created by: Anonymous ${snapshot.data![index].fields.creator}",
                                       style: const TextStyle(
                                         fontSize: 14.0,
                                       ),
-                                    )
+                                    ))
                                   ]),
                                   Row(children: [
-                                    Text(
+                                    Flexible(
+                                        child: Text(
                                       "Created: ${DateFormat('EEEE, MMM d, yyyy').format(DateTime.parse(snapshot.data![index].fields.dateCreated.toString()))}",
                                       style: const TextStyle(
                                         fontSize: 12.0,
                                       ),
-                                    )
+                                    ))
                                   ]),
                                   SizedBox(height: 20),
                                   Row(children: [
-                                    Text(
+                                    Flexible(
+                                        child: Text(
                                       "${snapshot.data![index].fields.description}",
                                       style: const TextStyle(
                                         fontSize: 14.0,
                                       ),
-                                    )
+                                    ))
                                   ]),
                                 ]),
                               ),
@@ -266,29 +269,32 @@ class _MyHomePageState extends State<MyHomePage> {
                             ]),
                             SizedBox(height: 10),
                             Row(children: [
-                              Text(
+                              Flexible(
+                                  child: Text(
                                 "Created by: Anonymous ${snapshot.data![index].fields.creator}",
                                 style: const TextStyle(
                                   fontSize: 14.0,
                                 ),
-                              )
+                              ))
                             ]),
                             Row(children: [
-                              Text(
+                              Flexible(
+                                  child: Text(
                                 "Created: ${DateFormat('EEEE, MMM d, yyyy').format(DateTime.parse(snapshot.data![index].fields.dateCreated.toString()))}",
                                 style: const TextStyle(
                                   fontSize: 12.0,
                                 ),
-                              )
+                              ))
                             ]),
                             SizedBox(height: 20),
                             Row(children: [
-                              Text(
+                              Flexible(
+                                  child: Text(
                                 "${snapshot.data![index].fields.description}",
                                 style: const TextStyle(
                                   fontSize: 14.0,
                                 ),
-                              )
+                              ))
                             ]),
                           ]),
                         ),

@@ -123,34 +123,40 @@ class _HallOfShamePageState extends State<HallOfShamePage> {
           children: [
             Row(
               children: [
-                Text(
-                  "${snapshot.data![index].fields.name}",
-                  style: const TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
+                Flexible(
+                  child: Text(
+                    "${snapshot.data![index].fields.name}",
+                    style: const TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
+                )
               ],
             ),
             const SizedBox(height: 10),
             Row(
               children: [
-                Text(
-                  "Arrested date: ${snapshot.data![index].fields.arrestedDate}",
-                  style: const TextStyle(
-                    fontSize: 14.0,
+                Flexible(
+                  child: Text(
+                    "Arrested date: ${snapshot.data![index].fields.arrestedDate}",
+                    style: const TextStyle(
+                      fontSize: 14.0,
+                    ),
                   ),
-                ),
+                )
               ],
             ),
             Row(
               children: [
-                Text(
-                  "Corruption type: ${snapshot.data![index].fields.corruptionType}",
-                  style: const TextStyle(
-                    fontSize: 12.0,
+                Flexible(
+                  child: Text(
+                    "Corruption type: ${snapshot.data![index].fields.corruptionType}",
+                    style: const TextStyle(
+                      fontSize: 12.0,
+                    ),
                   ),
-                ),
+                )
               ],
             ),
             Row(

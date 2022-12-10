@@ -66,60 +66,51 @@ class _HallOfShameUserPageState extends State<HallOfShameUserPage> {
                       ],
                       border: Border.all(color: Colors.white),
                     ),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              "${snapshot.data![index].fields.name}",
-                              style: const TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 10),
-                        Row(
-                          children: [
-                            Text(
-                              "Arrested date: ${snapshot.data![index].fields.arrestedDate}",
-                              style: const TextStyle(
-                                fontSize: 14.0,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              "Corruption type: ${snapshot.data![index].fields.corruptionType}",
-                              style: const TextStyle(
-                                fontSize: 12.0,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                snapshot.data![index].fields.description
-                                            .length <
-                                        40
-                                    ? "Description: ${snapshot.data![index].fields.description}"
-                                    : "Description: ${snapshot.data![index].fields.description.substring(0, 40)}... read more",
-                                style: const TextStyle(
-                                  fontSize: 12.0,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 20),
-                      ],
-                    ),
+                    child: Column(children: [
+                      Row(children: [
+                        Flexible(
+                            child: Text(
+                          "${snapshot.data![index].fields.name}",
+                          style: const TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ))
+                      ]),
+                      const SizedBox(height: 10),
+                      Row(children: [
+                        Flexible(
+                            child: Text(
+                          "Arrested date: ${snapshot.data![index].fields.arrestedDate}",
+                          style: const TextStyle(
+                            fontSize: 14.0,
+                          ),
+                        ))
+                      ]),
+                      Row(children: [
+                        Flexible(
+                            child: Text(
+                          "Corruption type: ${snapshot.data![index].fields.corruptionType}",
+                          style: const TextStyle(
+                            fontSize: 12.0,
+                          ),
+                        ))
+                      ]),
+                      Row(children: [
+                        Flexible(
+                            child: Text(
+                          snapshot.data![index].fields.description.length < 40
+                              ? "Description: ${snapshot.data![index].fields.description}"
+                              : "Description: ${snapshot.data![index].fields.description.substring(0, 40)}... read more",
+                          style: const TextStyle(
+                            fontSize: 12.0,
+                          ),
+                        ))
+                      ]),
+                      const SizedBox(height: 20),
+                    ]),
                   ),
+
                 ),
               );
             }
