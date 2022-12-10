@@ -250,7 +250,7 @@ class _MyPostFormPageState extends State<MyPostFormPage> {
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       title: Text("Selamat!"),
-      content: Text("Anda berhasil membuat forum baru"),
+      content: Text("Anda berhasil membuat postingan baru"),
       actions: [
         okButton,
       ],
