@@ -133,6 +133,7 @@ class rightDrawer extends StatelessWidget {
               },
             ),
           ),
+
           Visibility(
             visible: !request.loggedIn,
             child: ListTile(
@@ -277,6 +278,7 @@ class profilePicture extends StatelessWidget {
     );
   }
 }
+
 
 showAlertDialog(BuildContext context) {
   // set up the button
