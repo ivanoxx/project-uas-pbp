@@ -3,7 +3,7 @@
    <application
         android:label="whistleblower"
         android:name="${applicationName}"
-        android:icon="@mipmap/whistle">
+        android:icon="@mipmap/whistle2">
         <activity
             android:name=".MainActivity"
             android:exported="true"
