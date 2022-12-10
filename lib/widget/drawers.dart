@@ -63,36 +63,43 @@ class rightDrawer extends StatelessWidget {
           ),
 
           //Here you place your menu items
-          ListTile(
-            leading: Icon(Icons.account_circle),
-            title: Text('Profile', style: TextStyle(fontSize: 18)),
-            onTap: () {
-              // Here you can give your route to navigate
-              if (!request.loggedIn) {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => LoginPage()));
-              } else {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => ProfilePage()));
-              }
-            },
+          Visibility(
+            visible: request.loggedIn,
+            child: ListTile(
+              leading: Icon(Icons.account_circle),
+              title: Text('Profile', style: TextStyle(fontSize: 18)),
+              onTap: () {
+                // Here you can give your route to navigate
+                if (!request.loggedIn) {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => LoginPage()));
+                } else {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => ProfilePage()));
+                }
+              },
+            ),
           ),
           const Divider(height: 3.0),
-          ListTile(
-            leading: Icon(Icons.my_library_books),
-            title: Text('My Post', style: TextStyle(fontSize: 18)),
-            onTap: () {
-              // Here you can give your route to navigate
-              if (request.loggedIn) {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => MyPostPage()));
-              } else {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => LoginPage()));
-              }
-            },
+          Visibility(
+            visible: request.loggedIn,
+            child: ListTile(
+              leading: Icon(Icons.my_library_books),
+              title: Text('My Post', style: TextStyle(fontSize: 18)),
+              onTap: () {
+                // Here you can give your route to navigate
+                if (request.loggedIn) {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => MyPostPage()));
+                } else {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => LoginPage()));
+                }
+              },
+            ),
           ),
-          Container(
+          Visibility(
+            visible: request.loggedIn,
             child: ListTile(
               leading: Icon(Icons.logout),
               title: Text('Sign Out', style: TextStyle(fontSize: 18)),
@@ -102,9 +109,40 @@ class rightDrawer extends StatelessWidget {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => LoginPage()));
                 }
-                const url = "https://whistle-blower.up.railway.app/auth/logout/";
+                const url =
+                    "https://whistle-blower.up.railway.app/auth/logout/";
                 //const url = "https://whistle-blower.up.railway.app/auth/logout/";
                 final response = await request.logout(url);
+                if (!request.loggedIn) {
+                  showAlertDialog2(context);
+                } else {
+                  showAlertDialog(context);
+                }
+              },
+            ),
+          ),
+          Visibility(
+            visible: !request.loggedIn,
+            child: ListTile(
+              leading: Icon(Icons.account_circle),
+              title: Text('Login', style: TextStyle(fontSize: 18)),
+              onTap: () {
+                // Here you can give your route to navigate
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LoginPage()));
+              },
+            ),
+          ),
+
+          Visibility(
+            visible: !request.loggedIn,
+            child: ListTile(
+              leading: Icon(Icons.person),
+              title: Text('Sign Up', style: TextStyle(fontSize: 18)),
+              onTap: () {
+                // Here you can give your route to navigate
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SignupPage()));
               },
             ),
           ),
@@ -205,24 +243,6 @@ class leftDrawer extends StatelessWidget {
               }
             },
           ),
-          ListTile(
-            trailing: Icon(Icons.account_circle),
-            title: Text('Login', style: TextStyle(fontSize: 18)),
-            onTap: () {
-              // Here you can give your route to navigate
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => LoginPage()));
-            },
-          ),
-          ListTile(
-            trailing: Icon(Icons.person),
-            title: Text('Sign Up', style: TextStyle(fontSize: 18)),
-            onTap: () {
-              // Here you can give your route to navigate
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => SignupPage()));
-            },
-          ),
         ],
       ),
     );
@@ -257,4 +277,67 @@ class profilePicture extends StatelessWidget {
       ),
     );
   }
+}
+
+
+showAlertDialog(BuildContext context) {
+  // set up the button
+  Widget okButton = TextButton(
+    child: Text("Ok"),
+    onPressed: () {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => MyHomePage(title: 'whistleblower')));
+    },
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("Gagal!"),
+    content: Text("Silahkan coba lagi!"),
+    actions: [
+      okButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
+
+showAlertDialog2(BuildContext context) {
+  // set up the button
+  Widget okButton = TextButton(
+    child: Text("Close"),
+    onPressed: () {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => MyHomePage(
+                    title: 'whistleblower',
+                  )));
+    },
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("Selamat!"),
+    content: Text("Anda berhasil sign out"),
+    actions: [
+      okButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }

@@ -56,67 +56,59 @@ class _LoginPageState extends State<LoginPage> {
                         padding: EdgeInsets.all(20),
                         child: Column(
                           children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                color: Color.fromRGBO(250, 250, 250, 0.95),
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: TextFormField(
-                                controller: _controllerUsername,
-                                decoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(5.0)),
-                                  hintText: 'Username',
-                                  prefixIcon: Icon(Icons.account_circle),
-                                  hintStyle: TextStyle(
-                                    color: Color.fromRGBO(200, 200, 200, 1),
-                                  ),
+                            TextFormField(
+                              controller: _controllerUsername,
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor: Color.fromRGBO(250, 250, 250, 0.95),
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(5.0)),
+                                hintText: 'Username',
+                                prefixIcon: Icon(Icons.account_circle),
+                                hintStyle: TextStyle(
+                                  color: Color.fromRGBO(200, 200, 200, 1),
                                 ),
-                                autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return "Username tidak boleh kosong";
-                                  }
-                                  return null;
-                                },
                               ),
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return "Username tidak boleh kosong";
+                                }
+                                return null;
+                              },
                             ),
                             SizedBox(height: 20),
-                            Container(
-                              decoration: BoxDecoration(
-                                color: Color.fromRGBO(250, 250, 250, 0.95),
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: TextFormField(
-                                controller: _controllerPassword,
-                                obscureText: !isPasswordVisible,
-                                decoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(5.0)),
-                                  hintText: 'Password',
-                                  prefixIcon: Icon(Icons.lock),
-                                  suffixIcon: IconButton(
-                                    color: Color.fromRGBO(200, 200, 200, 1),
-                                    splashRadius: 1,
-                                    icon: Icon(isPasswordVisible
-                                        ? Icons.visibility_outlined
-                                        : Icons.visibility_off_outlined),
-                                    onPressed: togglePasswordView,
-                                  ),
-                                  hintStyle: TextStyle(
-                                    color: Color.fromRGBO(200, 200, 200, 1),
-                                  ),
+                            TextFormField(
+                              controller: _controllerPassword,
+                              obscureText: !isPasswordVisible,
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor: Color.fromRGBO(250, 250, 250, 0.95),
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(5.0)),
+                                hintText: 'Password',
+                                prefixIcon: Icon(Icons.lock),
+                                suffixIcon: IconButton(
+                                  color: Color.fromRGBO(200, 200, 200, 1),
+                                  splashRadius: 1,
+                                  icon: Icon(isPasswordVisible
+                                      ? Icons.visibility_outlined
+                                      : Icons.visibility_off_outlined),
+                                  onPressed: togglePasswordView,
                                 ),
-                                autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return "Password tidak boleh kosong";
-                                  }
-                                  return null;
-                                },
+                                hintStyle: TextStyle(
+                                  color: Color.fromRGBO(200, 200, 200, 1),
+                                ),
                               ),
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return "Password tidak boleh kosong";
+                                }
+                                return null;
+                              },
                             ),
                             SizedBox(height: 20),
                             Container(
@@ -224,7 +216,11 @@ showAlertDialog2(BuildContext context) {
     child: Text("Close"),
     onPressed: () {
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => LoginPage()));
+          context,
+          MaterialPageRoute(
+              builder: (context) => MyHomePage(
+                    title: 'whistleblower',
+                  )));
     },
   );
 
