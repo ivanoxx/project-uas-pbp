@@ -158,8 +158,6 @@ class _LoginPageState extends State<LoginPage> {
                                       } else {
                                         showAlertDialog(context);
                                       }
-                                    } else {
-                                      print("tidak valid");
                                     }
                                   },
                                   child: Text("Masuk"),
