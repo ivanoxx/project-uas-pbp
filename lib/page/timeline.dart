@@ -37,7 +37,7 @@ class _TimelinePageState extends State<TimelinePage> {
                   return Column(
                     children: const [
                       Text(
-                        "Anda tidak memiliki post :(",
+                        "Forum tidak memiliki post",
                         style:
                             TextStyle(color: Color(0xff59A5D8), fontSize: 20),
                       ),

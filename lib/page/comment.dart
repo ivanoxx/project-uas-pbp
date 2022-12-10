@@ -54,15 +54,26 @@ class _CommentPageState extends State<CommentPage> {
                     splashRadius: 1,
                     icon: Icon(Icons.send_sharp),
                     onPressed: () async {
-                      if (_formKey.currentState!.validate()) {
-                        String url =
-                            "https://whistle-blower.up.railway.app/mypost/${widget.post.pk}/comment/add/";
-                        final response =
-                            await request.post(url, {'comment': _nama});
-                        if (response['msg'] == 'success') {
-                          _formKey.currentState?.reset();
-                          setState(() {});
-                        } else {}
+                      if (!request.loggedIn) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LoginPage()));
+                      } else {
+                        if (_formKey.currentState!.validate()) {
+                          String url =
+                              "https://whistle-blower.up.railway.app/mypost/${widget.post.pk}/comment/add/";
+                          final response =
+                              await request.post(url, {'comment': _nama});
+                          if (response['msg'] == 'success') {
+                            _formKey.currentState?.reset();
+                            _nama = "";
+                            setState(() {});
+                            showAlertDialog2Comment(context);
+                          } else {
+                            showAlertDialogComment(context);
+                          }
+                        }
                       }
                       ;
                     }),
@@ -171,84 +182,83 @@ class _CommentPageState extends State<CommentPage> {
                   return Column(
                     children: [
                       Column(children: [
-                              Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: Container(
-                                  margin: const EdgeInsets.symmetric(
-                                      horizontal: 16, vertical: 12),
-                                  padding: const EdgeInsets.all(20.0),
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(15.0),
-                                      boxShadow: const [
-                                        BoxShadow(
-                                            color: Colors.black,
-                                            blurRadius: 2.0)
-                                      ],
-                                      border: Border.all(
-                                          width: 3,
-                                          color: widget.post.fields.isCaptured
-                                              ? Colors.red
-                                              : Colors.white)),
-                                  child: Column(children: [
-                                    Row(children: [
-                                      Flexible(
-                                          child: Text(
-                                        "${widget.post.fields.title}",
-                                        style: const TextStyle(
-                                          fontSize: 18.0,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ))
-                                    ]),
-                                    SizedBox(height: 10),
-                                    Row(children: [
-                                      Flexible(
-                                          child: Text(
-                                        "Written by: Anonymous ${widget.post.fields.creator}",
-                                        style: const TextStyle(
-                                          fontSize: 14.0,
-                                        ),
-                                      ))
-                                    ]),
-                                    Row(children: [
-                                      Flexible(
-                                          child: Text(
-                                        "Created: ${DateFormat('EEEE, MMM d, yyyy').format(DateTime.parse(widget.post.fields.dateCreated.toString()))}",
-                                        style: const TextStyle(
-                                          fontSize: 12.0,
-                                        ),
-                                      ))
-                                    ]),
-                                    Row(children: [
-                                      Flexible(
-                                          child: Text(
-                                        "${widget.post.fields.description}",
-                                        style: const TextStyle(
-                                          fontSize: 12.0,
-                                        ),
-                                      ))
-                                    ]),
-                                    Visibility(
-                                      visible: widget.post.fields.isCaptured,
-                                      child: Row(children: [
-                                        Flexible(
-                                          child: Text(
-                                            "Arrested date : ${DateFormat('EEEE, MMM d, yyyy').format(DateTime.parse(widget.post.fields.dateCaptured == null ? DateTime.now().toString() : widget.post.fields.dateCaptured.toString()))}",
-                                            style: const TextStyle(
-                                              fontSize: 12.0,
-                                            ),
-                                          ),
-                                        )
-                                      ]),
+                        Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 12),
+                            padding: const EdgeInsets.all(20.0),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(15.0),
+                                boxShadow: const [
+                                  BoxShadow(
+                                      color: Colors.black, blurRadius: 2.0)
+                                ],
+                                border: Border.all(
+                                    width: 3,
+                                    color: widget.post.fields.isCaptured
+                                        ? Colors.red
+                                        : Colors.white)),
+                            child: Column(children: [
+                              Row(children: [
+                                Flexible(
+                                    child: Text(
+                                  "${widget.post.fields.title}",
+                                  style: const TextStyle(
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ))
+                              ]),
+                              SizedBox(height: 10),
+                              Row(children: [
+                                Flexible(
+                                    child: Text(
+                                  "Written by: Anonymous ${widget.post.fields.creator}",
+                                  style: const TextStyle(
+                                    fontSize: 14.0,
+                                  ),
+                                ))
+                              ]),
+                              Row(children: [
+                                Flexible(
+                                    child: Text(
+                                  "Created: ${DateFormat('EEEE, MMM d, yyyy').format(DateTime.parse(widget.post.fields.dateCreated.toString()))}",
+                                  style: const TextStyle(
+                                    fontSize: 12.0,
+                                  ),
+                                ))
+                              ]),
+                              Row(children: [
+                                Flexible(
+                                    child: Text(
+                                  "${widget.post.fields.description}",
+                                  style: const TextStyle(
+                                    fontSize: 12.0,
+                                  ),
+                                ))
+                              ]),
+                              Visibility(
+                                visible: widget.post.fields.isCaptured,
+                                child: Row(children: [
+                                  Flexible(
+                                    child: Text(
+                                      "Arrested date : ${DateFormat('EEEE, MMM d, yyyy').format(DateTime.parse(widget.post.fields.dateCaptured == null ? DateTime.now().toString() : widget.post.fields.dateCaptured.toString()))}",
+                                      style: const TextStyle(
+                                        fontSize: 12.0,
+                                      ),
                                     ),
-                                  ]),
-                                ),
+                                  )
+                                ]),
                               ),
                             ]),
+                          ),
+                        ),
+                      ]),
                       // TODO: Masukin gambar atau apa yang lu mau
                       Text(
-                        "Anda Tidak memiliki comment :(",
+                        "Post tidak memiliki komentar",
                         style:
                             TextStyle(color: Color(0xff59A5D8), fontSize: 20),
                       ),
@@ -454,4 +464,58 @@ class _CommentPageState extends State<CommentPage> {
               }
             }));
   }
+}
+
+showAlertDialogComment(BuildContext context) {
+  // set up the button
+  Widget okButton = TextButton(
+    child: Text("Ok"),
+    onPressed: () {
+      Navigator.pop(context);
+    },
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("Gagal!"),
+    content: Text("Belum berhasil menambahkan komentar!"),
+    actions: [
+      okButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
+
+showAlertDialog2Comment(BuildContext context) {
+  // set up the button
+  Widget okButton = TextButton(
+    child: Text("Close"),
+    onPressed: () {
+      Navigator.pop(context);
+    },
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("Selamat!"),
+    content: Text("Anda berhasil memberikan komentar!"),
+    actions: [
+      okButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }
