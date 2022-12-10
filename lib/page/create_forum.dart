@@ -33,8 +33,6 @@ class _MyForumFormPageState extends State<MyForumFormPage> {
         body: FutureBuilder(
           future: request
               .get("https://whistle-blower.up.railway.app/create-forum/name/"),
-          // request.get( "https://whistle-blower.up.railway.app/create-forum/name/"),
-
           builder: (context, AsyncSnapshot snapshot) {
             if (snapshot.data != null && listNama[0] == "###") {
               for (int i = 0; i < snapshot.data!["name_list"].length; i++) {
