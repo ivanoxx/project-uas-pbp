@@ -114,6 +114,12 @@ class rightDrawer extends StatelessWidget {
                 //const url = "https://whistle-blower.up.railway.app/auth/logout/";
                 final response = await request.logout(url);
                 if (!request.loggedIn) {
+                  user_data = {
+                    "username": "Anonymous",
+                    "alias": "Anonymous",
+                    "imagePath":
+                    "https://cdn.discordapp.com/attachments/902951430153981993/1048232469788377201/default.png"
+                  };
                   showAlertDialog2(context);
                 } else {
                   showAlertDialog(context);
