@@ -118,7 +118,7 @@ class rightDrawer extends StatelessWidget {
                     "username": "Anonymous",
                     "alias": "Anonymous",
                     "imagePath":
-                    "https://cdn.discordapp.com/attachments/902951430153981993/1048232469788377201/default.png"
+                        "https://cdn.discordapp.com/attachments/902951430153981993/1048232469788377201/default.png"
                   };
                   showAlertDialog2(context);
                 } else {
@@ -272,10 +272,13 @@ class profilePicture extends StatelessWidget {
         builder: (context, AsyncSnapshot snapshot) => IconButton(
           iconSize: 32.0,
           icon: CircleAvatar(
-            backgroundImage: snapshot.data != null
+            backgroundImage: !request.loggedIn
                 ? NetworkImage(
-                    "https://whistle-blower.up.railway.app/images/${snapshot.data[0]['fields']['image']}")
-                : NetworkImage(user_data["imagePath"] as String),
+                    "https://cdn.discordapp.com/attachments/902951430153981993/1048232469788377201/default.png")
+                : snapshot.data != null
+                    ? NetworkImage(
+                        "https://whistle-blower.up.railway.app/images/${snapshot.data[0]['fields']['image']}")
+                    : NetworkImage(user_data["imagePath"] as String),
           ),
           onPressed: () => Scaffold.of(context).openEndDrawer(),
           tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
@@ -284,7 +287,6 @@ class profilePicture extends StatelessWidget {
     );
   }
 }
-
 
 showAlertDialog(BuildContext context) {
   // set up the button
