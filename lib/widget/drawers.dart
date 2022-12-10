@@ -92,19 +92,21 @@ class rightDrawer extends StatelessWidget {
               }
             },
           ),
-          ListTile(
-            leading: Icon(Icons.logout),
-            title: Text('Sign Out', style: TextStyle(fontSize: 18)),
-            onTap: () async {
-              // Here you can give your route to navigate
-              if (!request.loggedIn) {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => LoginPage()));
-              }
-              const url = "https://whistle-blower.up.railway.app/auth/logout/";
-              //const url = "https://whistle-blower.up.railway.app/auth/logout/";
-              final response = await request.logout(url);
-            },
+          Container(
+            child: ListTile(
+              leading: Icon(Icons.logout),
+              title: Text('Sign Out', style: TextStyle(fontSize: 18)),
+              onTap: () async {
+                // Here you can give your route to navigate
+                if (!request.loggedIn) {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => LoginPage()));
+                }
+                const url = "https://whistle-blower.up.railway.app/auth/logout/";
+                //const url = "https://whistle-blower.up.railway.app/auth/logout/";
+                final response = await request.logout(url);
+              },
+            ),
           ),
         ],
       ),
@@ -151,27 +153,24 @@ class leftDrawer extends StatelessWidget {
           ListTile(
             trailing: Icon(Icons.account_balance),
             title: Text('Hall of Shame', style: TextStyle(fontSize: 18)),
-            onTap:  () async {
+            onTap: () async {
               if (request.loggedIn) {
                 List<Profile> lst = await fetchProfile(request);
                 if (lst[0].fields.isAdmin) {
                   Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const HallOfShamePage()));
-                }
-                else {
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const HallOfShamePage()));
+                } else {
                   Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const HallOfShameUserPage()));
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const HallOfShameUserPage()));
                 }
               } else {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => LoginPage()));
-              }        
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LoginPage()));
+              }
             },
           ),
           ListTile(
