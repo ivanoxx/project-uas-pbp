@@ -111,7 +111,6 @@ class rightDrawer extends StatelessWidget {
                 }
                 const url =
                     "https://whistle-blower.up.railway.app/auth/logout/";
-                //const url = "https://whistle-blower.up.railway.app/auth/logout/";
                 final response = await request.logout(url);
                 if (!request.loggedIn) {
                   user_data = {
