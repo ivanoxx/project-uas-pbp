@@ -153,6 +153,8 @@ class _MyForumFormPageState extends State<MyForumFormPage> {
                                   // Do something
                                   showAlertDialog2(context);
                                   _formKey.currentState?.reset();
+                                  _nama = "";
+                                  _description = "";
                                 } else {
                                   // Do something
                                 }

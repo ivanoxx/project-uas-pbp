@@ -16,7 +16,6 @@ class _MyPostFormPageState extends State<MyPostFormPage> {
   final _formKey = GlobalKey<FormState>();
   String _nama = "";
   String _description = "";
-  RegExp regexNama = RegExp(r'^[A-Za-z0-9._~-]*$');
   var _selectedGroup = [];
 
   @override
@@ -212,6 +211,9 @@ class _MyPostFormPageState extends State<MyPostFormPage> {
                                   // Do something
                                   showAlertDialog2(context);
                                   _formKey.currentState?.reset();
+                                  _nama = "";
+                                  _description = "";
+                                  _selectedGroup = [];
                                 } else {
                                   // Do something
                                   print("gagal");
