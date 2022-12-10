@@ -64,7 +64,7 @@ class _MyPostFormPageState extends State<MyPostFormPage> {
                           decoration: InputDecoration(
                             filled: true,
                             hintText: "Nama Post",
-                            
+
                             // Menambahkan circular border agar lebih rapi
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(5.0),
@@ -101,7 +101,7 @@ class _MyPostFormPageState extends State<MyPostFormPage> {
                           decoration: InputDecoration(
                             filled: true,
                             hintText: "Description",
-                            
+
                             // Menambahkan circular border agar lebih rapi
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(5.0),
@@ -155,6 +155,12 @@ class _MyPostFormPageState extends State<MyPostFormPage> {
                                   return MultiSelectItem(
                                       items.pk.toString(), items.fields.title);
                                 }).toList(),
+                                validator: (values) {
+                                  if (values == null || values.isEmpty) {
+                                    return "Forum tempat pos tidak boleh kosong!";
+                                  }
+                                  return null;
+                                },
                                 onConfirm: (values) {
                                   setState(() {
                                     _selectedGroup = values;
@@ -188,10 +194,11 @@ class _MyPostFormPageState extends State<MyPostFormPage> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: ElevatedButton(
-                            style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.all(Colors.red),
-                            ),
+                            style: ElevatedButton.styleFrom(
+                                fixedSize: const Size(500, 30),
+                                textStyle: const TextStyle(
+                                  color: Colors.white,
+                                )),
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
                                 const url =
@@ -199,7 +206,7 @@ class _MyPostFormPageState extends State<MyPostFormPage> {
                                 final response = await request.post(url, {
                                   "title": _nama,
                                   "description": _description,
-                                  "group" : _selectedGroup.toString(),
+                                  "group": _selectedGroup.toString(),
                                 });
                                 if (response["status"] == "oke") {
                                   // Do something
