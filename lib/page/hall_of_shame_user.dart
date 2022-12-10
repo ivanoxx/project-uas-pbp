@@ -45,70 +45,73 @@ class _HallOfShameUserPageState extends State<HallOfShameUserPage> {
               );
             } else {
               return ListView.builder(
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (_, index) => InkWell(
-                      onTap: () => Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => DetailHallOfShamePage(
-                              hallOfShame: snapshot.data![index]),
-                        ),
-                      ),
-                      child: Container(
-                        margin: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 12),
-                        padding: const EdgeInsets.all(20.0),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(15.0),
-                          boxShadow: const [
-                            BoxShadow(color: Colors.black, blurRadius: 2.0)
-                          ],
-                          border: Border.all(color: Colors.white),
-                        ),
-                        child: Column(children: [
-                          Row(children: [
-                            Text(
-                              "${snapshot.data![index].fields.name}",
-                              style: const TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            )
-                          ]),
-                          const SizedBox(height: 10),
-                          Row(children: [
-                            Text(
-                              "Arrested date: ${snapshot.data![index].fields.arrestedDate}",
-                              style: const TextStyle(
-                                fontSize: 14.0,
-                              ),
-                            )
-                          ]),
-                          Row(children: [
-                            Text(
-                              "Corruption type: ${snapshot.data![index].fields.corruptionType}",
-                              style: const TextStyle(
-                                fontSize: 12.0,
-                              ),
-                            )
-                          ]),
-                          Row(children: [
-                            Text(
-                              snapshot.data![index].fields.description.length <
-                                      40
-                                  ? "Description: ${snapshot.data![index].fields.description}"
-                                  : "Description: ${snapshot.data![index].fields.description.substring(0, 40)}... read more",
-                              style: const TextStyle(
-                                fontSize: 12.0,
-                              ),
-                            )
-                          ]),
-                          const SizedBox(height: 20),
-                        ]),
-                      ),
+                itemCount: snapshot.data!.length,
+                itemBuilder: (_, index) => InkWell(
+                  onTap: () => Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DetailHallOfShamePage(
+                          hallOfShame: snapshot.data![index]),
                     ),
-                  );
+                  ),
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 12),
+                    padding: const EdgeInsets.all(20.0),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(15.0),
+                      boxShadow: const [
+                        BoxShadow(color: Colors.black, blurRadius: 2.0)
+                      ],
+                      border: Border.all(color: Colors.white),
+                    ),
+                    child: Column(children: [
+                      Row(children: [
+                        Flexible(
+                            child: Text(
+                          "${snapshot.data![index].fields.name}",
+                          style: const TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ))
+                      ]),
+                      const SizedBox(height: 10),
+                      Row(children: [
+                        Flexible(
+                            child: Text(
+                          "Arrested date: ${snapshot.data![index].fields.arrestedDate}",
+                          style: const TextStyle(
+                            fontSize: 14.0,
+                          ),
+                        ))
+                      ]),
+                      Row(children: [
+                        Flexible(
+                            child: Text(
+                          "Corruption type: ${snapshot.data![index].fields.corruptionType}",
+                          style: const TextStyle(
+                            fontSize: 12.0,
+                          ),
+                        ))
+                      ]),
+                      Row(children: [
+                        Flexible(
+                            child: Text(
+                          snapshot.data![index].fields.description.length < 40
+                              ? "Description: ${snapshot.data![index].fields.description}"
+                              : "Description: ${snapshot.data![index].fields.description.substring(0, 40)}... read more",
+                          style: const TextStyle(
+                            fontSize: 12.0,
+                          ),
+                        ))
+                      ]),
+                      const SizedBox(height: 20),
+                    ]),
+                  ),
+                ),
+              );
             }
           }
         },
