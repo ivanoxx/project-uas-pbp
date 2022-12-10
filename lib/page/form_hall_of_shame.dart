@@ -5,6 +5,7 @@ import 'package:whistleblower/page/all_page.dart';
 import 'package:whistleblower/utils/FetchHallOfShame.dart';
 import 'package:whistleblower/widget/allWidgets.dart';
 import 'package:whistleblower/utils/allUtils.dart';
+import 'package:regexed_validator/regexed_validator.dart';
 
 class FormHallOfShamePage extends StatefulWidget {
   const FormHallOfShamePage({super.key});
@@ -117,7 +118,7 @@ class _FormHallOfShamePageState extends State<FormHallOfShamePage> {
                                 return 'Tanggal tertangkap tidak boleh kosong!';
                               }
 
-                              if (!isDateFormat(value)) {
+                              if (!isDateFormat(value) || !validator.date(value)) {
                                 return 'Input harus dalam format YYYY-MM-DD!';
                               }
                               return null;
