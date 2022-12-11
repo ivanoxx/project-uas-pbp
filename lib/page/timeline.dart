@@ -36,11 +36,17 @@ class _TimelinePageState extends State<TimelinePage> {
                 if (snapshot.data!.length == 0) {
                   return Column(
                     children: const [
-                      Text(
+                      SizedBox(
+                        height: 50,
+                      ),
+                      Center(
+                        child: Text(
                         "Forum tidak memiliki post",
                         style:
-                            TextStyle(color: Color(0xff59A5D8), fontSize: 20),
+                            TextStyle(color: Colors.white, fontSize: 30),
                       ),
+                      ),
+    
                       SizedBox(height: 8),
                     ],
                   );
