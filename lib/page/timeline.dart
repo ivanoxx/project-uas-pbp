@@ -36,10 +36,12 @@ class _TimelinePageState extends State<TimelinePage> {
                 if (!snapshot.hasData) {
                   return Column(
                     children: const [
-                      Text(
-                        "Anda tidak memiliki post :(",
-                        style:
-                            TextStyle(color: Color(0xff59A5D8), fontSize: 20),
+                      SizedBox(height: 50),
+                      Center(
+                        child: Text(
+                          "Anda tidak memiliki post :(",
+                          style: TextStyle(color: Colors.white, fontSize: 30),
+                        ),
                       ),
                       SizedBox(height: 8),
                     ],
@@ -160,7 +162,6 @@ class _TimelinePageState extends State<TimelinePage> {
                                                 builder: (context) =>
                                                     LoginPage()));
                                       }
-
                                     },
                                     icon: Icon(
                                       Icons.add_comment_rounded,
