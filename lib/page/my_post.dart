@@ -20,7 +20,7 @@ class MyPostPage extends StatefulWidget {
 class MyPostPageState extends State<MyPostPage> {
   late Widget currentPage;
 
-  void callback() {
+  void setMypostPageState() {
     setState(() {});
   }
 
@@ -45,11 +45,13 @@ class MyPostPageState extends State<MyPostPage> {
                 if (snapshot.data!.length == 0) {
                   return Column(
                     children: const [
-                      Flexible(
+                      SizedBox(
+                        height: 50,
+                      ),
+                      Center(
                         child: Text(
-                          "Anda tidak memiliki post :(",
-                          style:
-                              TextStyle(color: Color(0xff59A5D8), fontSize: 20),
+                          "Forum tidak memiliki post",
+                          style: TextStyle(color: Colors.white, fontSize: 30),
                         ),
                       ),
                       SizedBox(height: 8),
@@ -58,91 +60,106 @@ class MyPostPageState extends State<MyPostPage> {
                 } else {
                   return ListView.builder(
                     itemCount: snapshot.data!.length,
-                    itemBuilder: (_, index) => Container(
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 12),
-                      padding: const EdgeInsets.all(20.0),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(15.0),
-                          boxShadow: const [
-                            BoxShadow(color: Colors.black, blurRadius: 2.0)
-                          ],
-                          border: Border.all(
-                              color: snapshot.data![index].fields.isCaptured
-                                  ? Colors.red
-                                  : Colors.white)),
-                      child: Column(children: [
-                        Row(children: [
-                          Expanded(
-                            child: Text(
-                              "${snapshot.data![index].fields.title}",
-                              style: const TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          CustomButtonTest(
-                              post: snapshot.data![index],
-                              callbackFunction: callback),
-                        ]),
-                        SizedBox(height: 10),
-                        Row(children: [
-                          Flexible(
-                            child: Text(
-                              "Written by: Anonymous ${snapshot.data![index].fields.creator}",
-                              style: const TextStyle(
-                                fontSize: 14.0,
-                              ),
-                            ),
-                          )
-                        ]),
-                        Row(children: [
-                          Flexible(
-                            child: Text(
-                              "Created: ${DateFormat('EEEE, MMM d, yyyy').format(DateTime.parse(snapshot.data![index].fields.dateCreated.toString()))}",
-                              style: const TextStyle(
-                                fontSize: 12.0,
-                              ),
-                            ),
-                          )
-                        ]),
-                        Row(children: [
-                          Flexible(
-                            child: Text(
-                              "${snapshot.data![index].fields.description}",
-                              style: const TextStyle(
-                                fontSize: 12.0,
-                              ),
-                            ),
-                          )
-                        ]),
-                        Visibility(
-                          visible: snapshot.data![index].fields.isCaptured,
-                          child: Row(children: [
-                            Flexible(
-                              child: Text(
-                                "Arrested date : ${DateFormat('EEEE, MMM d, yyyy').format(DateTime.parse(snapshot.data![index].fields.dateCaptured == null ? DateTime.now().toString() : snapshot.data![index].fields.dateCaptured.toString()))}",
-                                style: const TextStyle(
-                                  fontSize: 12.0,
+                    itemBuilder: (_, index) => StatefulBuilder(
+                      builder:
+                          (BuildContext context, StateSetter setPostState) {
+                        void setPostStateInput(
+                            title, description, isCaptured, dateCaptured) {
+                          setPostState(() {
+                            snapshot.data![index].fields.title = title;
+                            snapshot.data![index].fields.description =
+                                description;
+                            snapshot.data![index].fields.isCaptured = isCaptured;
+                            snapshot.data![index].fields.dateCaptured =
+                                dateCaptured;
+                          });
+                        }
+
+                        return Container(
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 12),
+                          padding: const EdgeInsets.all(20.0),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(15.0),
+                              boxShadow: const [
+                                BoxShadow(color: Colors.black, blurRadius: 2.0)
+                              ],
+                              border: Border.all(
+                                  color: snapshot.data![index].fields.isCaptured
+                                      ? Colors.red
+                                      : Colors.white)),
+                          child: Column(children: [
+                            Row(children: [
+                              Expanded(
+                                child: Text(
+                                  "${snapshot.data![index].fields.title}",
+                                  style: const TextStyle(
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
+                              CustomButtonTest(
+                                post: snapshot.data![index],
+                                setPageState: setMypostPageState,
+                                setPostStateInput: setPostStateInput,
+                              ),
+                            ]),
+                            SizedBox(height: 10),
+                            Row(children: [
+                              Flexible(
+                                child: Text(
+                                  "Written by: Anonymous ${snapshot.data![index].fields.creator}",
+                                  style: const TextStyle(
+                                    fontSize: 14.0,
+                                  ),
+                                ),
+                              )
+                            ]),
+                            Row(children: [
+                              Flexible(
+                                child: Text(
+                                  "Created: ${DateFormat('EEEE, MMM d, yyyy').format(DateTime.parse(snapshot.data![index].fields.dateCreated.toString()))}",
+                                  style: const TextStyle(
+                                    fontSize: 12.0,
+                                  ),
+                                ),
+                              )
+                            ]),
+                            Row(children: [
+                              Flexible(
+                                child: Text(
+                                  "${snapshot.data![index].fields.description}",
+                                  style: const TextStyle(
+                                    fontSize: 12.0,
+                                  ),
+                                ),
+                              )
+                            ]),
+                            Visibility(
+                              visible: snapshot.data![index].fields.isCaptured,
+                              child: Row(children: [
+                                Flexible(
+                                  child: Text(
+                                    "Arrested date : ${DateFormat('EEEE, MMM d, yyyy').format(DateTime.parse(snapshot.data![index].fields.dateCaptured == null ? DateTime.now().toString() : snapshot.data![index].fields.dateCaptured.toString()))}",
+                                    style: const TextStyle(
+                                      fontSize: 12.0,
+                                    ),
+                                  ),
+                                ),
+                              ]),
                             ),
-                          ]),
-                        ),
-                        SizedBox(height: 20),
-                        Row(children: [
-                          Flexible(child: StatefulBuilder(
-                            builder:
-                                (BuildContext context, StateSetter setState) {
-                              return ElevatedButton.icon(
+                            SizedBox(height: 20),
+                            Row(children: [
+                              Flexible(
+                                  child: ElevatedButton.icon(
                                 onPressed: () async {
                                   if (request.loggedIn) {
                                     final url =
                                         "https://whistle-blower.up.railway.app/mypost/${snapshot.data![index].pk}/upvote/";
                                     final response = await request.get(url);
-                                    setState(() {
+                                    setPostState(() {
                                       snapshot.data![index].fields.upvoteCount =
                                           response['upvote'];
                                     });
@@ -160,26 +177,26 @@ class MyPostPageState extends State<MyPostPage> {
                                 label: Text(snapshot
                                     .data![index].fields.upvoteCount
                                     .toString()),
-                              );
-                            },
-                          )),
-                          SizedBox(width: 7),
-                          ElevatedButton.icon(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => CommentPage(
-                                          post: snapshot.data![index])));
-                            },
-                            icon: Icon(
-                              Icons.add_comment_rounded,
-                              size: 22.0,
-                            ),
-                            label: Text('Reply'),
-                          ),
-                        ]),
-                      ]),
+                              )),
+                              SizedBox(width: 7),
+                              ElevatedButton.icon(
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => CommentPage(
+                                              post: snapshot.data![index])));
+                                },
+                                icon: Icon(
+                                  Icons.add_comment_rounded,
+                                  size: 22.0,
+                                ),
+                                label: Text('Reply'),
+                              ),
+                            ]),
+                          ]),
+                        );
+                      },
                     ),
                   );
                 }
