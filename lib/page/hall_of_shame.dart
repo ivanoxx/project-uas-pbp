@@ -1,83 +1,11 @@
-// import 'package:flutter/material.dart';
-// import 'package:whistleblower/widget/allWidgets.dart';
-// import 'package:provider/provider.dart';
-// import 'package:pbp_django_auth/pbp_django_auth.dart';
-// import 'package:whistleblower/page/form_hall_of_shame.dart';
-// import 'package:http/http.dart' as http;
-// import 'dart:convert';
-// import 'package:whistleblower/models/ModelHallOfShame.dart';
-
-// List<Widget> listData = [];
-
-// class HallOfShamePage extends StatefulWidget {
-//   const HallOfShamePage({super.key});
-
-//   @override
-//   State<HallOfShamePage> createState() => _HallOfShamePageState();
-// }
-
-// class _HallOfShamePageState extends State<HallOfShamePage> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text("Hall Of Shame"),
-//         actions: [
-//           profilePicture(),
-//         ],
-//       ),
-//       drawer: leftDrawer(),
-//       endDrawer: rightDrawer(),
-//       body: SingleChildScrollView(
-//         child: Column(
-//           children: [
-//             Padding(
-//               padding: const EdgeInsets.only(top: 20, left: 20),
-//               child: Align(
-//                 alignment: Alignment.topLeft,
-//                 child: SizedBox(
-//                   width: 110,
-//                   height: 40,
-//                   child: TextButton(
-//                     style: ButtonStyle(
-//                       backgroundColor: MaterialStateProperty.all(Colors.blue),
-//                     ),
-//                     onPressed: () {
-//                       Navigator.pushReplacement(
-//                           context,
-//                           MaterialPageRoute(
-//                               builder: (context) =>
-//                                   const FormHallOfShamePage()));
-//                     },
-//                     child: const Text(
-//                       "Add Corruptor",
-//                       style: TextStyle(color: Colors.white),
-//                     ),
-//                   ),
-//                 ),
-//               ),
-//             ),
-//             Column(
-//               children: listData,
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
+// ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:whistleblower/utils/FetchHallOfShame.dart';
 import 'package:whistleblower/widget/allWidgets.dart';
 import 'package:provider/provider.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
-import 'package:whistleblower/page/form_hall_of_shame.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'package:whistleblower/models/ModelHallOfShame.dart';
-
-List<Widget> listData = [];
+import 'package:whistleblower/page/all_page.dart';
 
 class HallOfShamePage extends StatefulWidget {
   const HallOfShamePage({super.key});
@@ -92,7 +20,7 @@ class _HallOfShamePageState extends State<HallOfShamePage> {
     final request = context.watch<CookieRequest>();
     return Scaffold(
       appBar: AppBar(
-        title: Text("Hall Of Shame"),
+        title: const Text("Hall Of Shame"),
         actions: const [
           profilePicture(),
         ],
@@ -103,74 +31,38 @@ class _HallOfShamePageState extends State<HallOfShamePage> {
         future: fetchHallOfShame(request),
         builder: (context, AsyncSnapshot snapshot) {
           if (snapshot.data == null) {
-            return const Center(child: CircularProgressIndicator());
+            return Column(
+              children: [
+                addButton(),
+                const Center(child: CircularProgressIndicator()),
+              ],
+            );
           } else {
-            if (!snapshot.hasData) {
+            if (snapshot.data!.length < 1) {
               return Column(
-                children: const [
-                  Text(
-                    "hall Of Shame kosong",
-                    style: TextStyle(color: Color(0xff59A5D8), fontSize: 20),
+                children: [
+                  addButton(),
+                  const Text(
+                    "hall Of Shame kosong!",
+                    style: TextStyle(color: Colors.red, fontSize: 20),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                 ],
               );
             } else {
               return ListView.builder(
                 itemCount: snapshot.data!.length,
-                itemBuilder: (_, index) => InkWell(
-                  onTap: () => Navigator.pop(context),
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 12),
-                    padding: const EdgeInsets.all(20.0),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(15.0),
-                      boxShadow: const [
-                        BoxShadow(color: Colors.black, blurRadius: 2.0)
+                itemBuilder: (_, index) {
+                  if (index == 0) {
+                    return Column(
+                      children: [
+                        addButton(),
+                        cardCorruptor(index, snapshot, request),
                       ],
-                      border: Border.all(color: Colors.white),
-                    ),
-                    child: Column(children: [
-                      Row(children: [
-                        Text(
-                          "${snapshot.data![index].fields.name}",
-                          style: const TextStyle(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        )
-                      ]),
-                      SizedBox(height: 10),
-                      Row(children: [
-                        Text(
-                          "Arrested date: ${snapshot.data![index].fields.arrestedDate}",
-                          style: const TextStyle(
-                            fontSize: 14.0,
-                          ),
-                        )
-                      ]),
-                      Row(children: [
-                        Text(
-                          "Corruption type: ${snapshot.data![index].fields.corruptionType}",
-                          style: const TextStyle(
-                            fontSize: 12.0,
-                          ),
-                        )
-                      ]),
-                      Row(children: [
-                        Text(
-                          "Description: ${snapshot.data![index].fields.description}",
-                          style: const TextStyle(
-                            fontSize: 12.0,
-                          ),
-                        )
-                      ]),
-                      SizedBox(height: 20),
-                    ]),
-                  ),
-                ),
+                    );
+                  }
+                  return cardCorruptor(index, snapshot, request);
+                },
               );
             }
           }
@@ -178,30 +70,186 @@ class _HallOfShamePageState extends State<HallOfShamePage> {
       ),
     );
   }
-}
 
-          // Padding(
-          //   padding: const EdgeInsets.only(top: 20, left: 20),
-          //   child: Align(
-          //     alignment: Alignment.topLeft,
-          //     child: SizedBox(
-          //       width: 110,
-          //       height: 40,
-          //       child: TextButton(
-          //         style: ButtonStyle(
-          //           backgroundColor: MaterialStateProperty.all(Colors.blue),
-          //         ),
-          //         onPressed: () {
-          //           Navigator.pushReplacement(
-          //               context,
-          //               MaterialPageRoute(
-          //                   builder: (context) => const FormHallOfShamePage()));
-          //         },
-          //         child: const Text(
-          //           "Add Corruptor",
-          //           style: TextStyle(color: Colors.white),
-          //         ),
-          //       ),
-          //     ),
-          //   ),
-          // ),
+  Widget addButton() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 15, left: 18),
+      child: Align(
+        alignment: Alignment.topLeft,
+        child: SizedBox(
+          width: 110,
+          height: 40,
+          child: TextButton(
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Colors.red),
+            ),
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const FormHallOfShamePage()),
+              );
+            },
+            child: const Text(
+              "Add Corruptor",
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget cardCorruptor(
+      int index, AsyncSnapshot snapshot, CookieRequest request) {
+    return InkWell(
+      onTap: () => Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) =>
+              DetailHallOfShamePage(hallOfShame: snapshot.data![index]),
+        ),
+      ),
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        padding: const EdgeInsets.all(20.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(15.0),
+          boxShadow: const [BoxShadow(color: Colors.black, blurRadius: 2.0)],
+          border: Border.all(color: Colors.white),
+        ),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Text(
+                  "${snapshot.data![index].fields.name}",
+                  style: const TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Row(
+              children: [
+                Text(
+                  "Arrested date: ${snapshot.data![index].fields.arrestedDate}",
+                  style: const TextStyle(
+                    fontSize: 14.0,
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Text(
+                  "Corruption type: ${snapshot.data![index].fields.corruptionType}",
+                  style: const TextStyle(
+                    fontSize: 12.0,
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    snapshot.data![index].fields.description.length < 40
+                        ? "Description: ${snapshot.data![index].fields.description}"
+                        : "Description: ${snapshot.data![index].fields.description.substring(0, 40)}... read more",
+                    style: const TextStyle(
+                      fontSize: 12.0,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            SizedBox(
+              width: 70,
+              height: 30,
+              child: TextButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.red),
+                ),
+                onPressed: () async {
+                  var id = snapshot.data![index].pk;
+                  var url =
+                      "https://whistle-blower.up.railway.app/hall/delete-flutter/$id/";
+                  final response = await request.get(url);
+                  if (response['status'] == "oke") {
+                    showAlertDialogHall4(context);
+                    setState(() {});
+                  } else {
+                    showAlertDialogHall3(context);
+                  }
+                },
+                child: const Text(
+                  "Delete",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  static showAlertDialogHall3(BuildContext context) {
+    // set up the button
+    Widget okButton = TextButton(
+      child: const Text("Coba Lagi"),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: const Text("Gagal!"),
+      content: const Text("Terjadi suatu kesalahan"),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  static showAlertDialogHall4(BuildContext context) {
+    // set up the button
+    Widget okButton = TextButton(
+      child: const Text("Close"),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: const Text("Selamat!"),
+      content: const Text("Anda berhasil Delete Card"),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+}

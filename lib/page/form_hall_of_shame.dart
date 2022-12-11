@@ -1,11 +1,9 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
-import 'package:whistleblower/models/ModelHallOfShame.dart';
 import 'package:whistleblower/page/all_page.dart';
-import 'package:whistleblower/models/allModel.dart';
+import 'package:whistleblower/utils/FetchHallOfShame.dart';
 import 'package:whistleblower/widget/allWidgets.dart';
-import 'package:provider/provider.dart';
-import 'package:pbp_django_auth/pbp_django_auth.dart';
-import 'package:whistleblower/main.dart';
 import 'package:whistleblower/utils/allUtils.dart';
 
 class FormHallOfShamePage extends StatefulWidget {
@@ -25,7 +23,6 @@ class _FormHallOfShamePageState extends State<FormHallOfShamePage> {
   @override
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
-    List<HallOfShame> listHall = [];
     return Scaffold(
         appBar: AppBar(
           title: const Text("Add Corruptor"),
@@ -33,16 +30,12 @@ class _FormHallOfShamePageState extends State<FormHallOfShamePage> {
             profilePicture(),
           ],
         ),
-        drawer: leftDrawer(),
-        endDrawer: rightDrawer(),
+        drawer: const leftDrawer(),
+        endDrawer: const rightDrawer(),
         body: FutureBuilder(
-          future: fetchGroup(request),
-          // request.get( "https://whistle-blower.up.railway.app/create-forum/name/"),
-
+          future: fetchHallOfShame(request),
           builder: (context, AsyncSnapshot snapshot) {
-            if (snapshot.data != null) {
-              listHall = snapshot.data!;
-            }
+            if (snapshot.data != null) {}
             return Padding(
               padding: const EdgeInsets.all(30.0),
               child: Form(
@@ -56,7 +49,7 @@ class _FormHallOfShamePageState extends State<FormHallOfShamePage> {
                           child: const Text(
                             'Add Corruptor',
                             style: TextStyle(
-                                color: Colors.black,
+                                color: Colors.white,
                                 fontWeight: FontWeight.w500,
                                 fontSize: 30),
                           )),
@@ -64,11 +57,14 @@ class _FormHallOfShamePageState extends State<FormHallOfShamePage> {
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
                           decoration: InputDecoration(
+                            filled: true,
                             hintText: "Pak Korup",
                             labelText: "Name",
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(5.0),
                             ),
+                            fillColor:
+                                const Color.fromRGBO(250, 250, 250, 0.95),
                           ),
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           onChanged: (String? value) {
@@ -93,11 +89,14 @@ class _FormHallOfShamePageState extends State<FormHallOfShamePage> {
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
                           decoration: InputDecoration(
+                            filled: true,
                             hintText: "YYYY-MM-DD",
                             labelText: "Arrested Date",
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(5.0),
                             ),
+                            fillColor:
+                                const Color.fromRGBO(250, 250, 250, 0.95),
                           ),
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           onChanged: (String? value) {
@@ -114,6 +113,10 @@ class _FormHallOfShamePageState extends State<FormHallOfShamePage> {
                             if (value == null || value.isEmpty) {
                               return 'Tanggal tertangkap tidak boleh kosong!';
                             }
+
+                            if (!isDateFormat(value)) {
+                              return 'Input harus dalam format YYYY-MM-DD!';
+                            }
                             return null;
                           },
                         ),
@@ -122,11 +125,14 @@ class _FormHallOfShamePageState extends State<FormHallOfShamePage> {
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
                           decoration: InputDecoration(
+                            filled: true,
                             hintText: "Suap",
                             labelText: "Corruption Type",
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(5.0),
                             ),
+                            fillColor:
+                                const Color.fromRGBO(250, 250, 250, 0.95),
                           ),
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           onChanged: (String? value) {
@@ -152,15 +158,17 @@ class _FormHallOfShamePageState extends State<FormHallOfShamePage> {
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
                           decoration: InputDecoration(
+                            filled: true,
                             hintText: "Forum ini isinya orang-orang jahat",
                             labelText: "Description",
                             // Menambahkan circular border agar lebih rapi
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(5.0),
                             ),
+                            fillColor:
+                                const Color.fromRGBO(250, 250, 250, 0.95),
                           ),
                           autovalidateMode: AutovalidateMode.onUserInteraction,
-                          // TODO Implement onChanged dan onSaved
                           // Menambahkan behavior saat nama diketik
                           onChanged: (String? value) {
                             setState(() {
@@ -185,18 +193,24 @@ class _FormHallOfShamePageState extends State<FormHallOfShamePage> {
                       TextButton(
                           style: ButtonStyle(
                             backgroundColor:
-                                MaterialStateProperty.all(Colors.blue),
+                                MaterialStateProperty.all(Colors.red),
                           ),
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
-                              const url = "";
-                              // "http://127.0.0.1:8000/create-hallofshame-flutter/";
+                              const url =
+                                  "https://whistle-blower.up.railway.app/hall/add-flutter/";
                               final response = await request.post(url, {
                                 "name": _name,
                                 "arrested_date": _arrestedDate,
                                 "corruption_type": _corruptionType,
                                 "description": _description,
                               });
+                              if (response["status"] == "oke") {
+                                showAlertDialogHall(context);
+                                _formKey.currentState?.reset();
+                              } else {
+                                showAlertDialogHall2(context);
+                              }
                             }
                           },
                           child: const Text(
@@ -210,5 +224,72 @@ class _FormHallOfShamePageState extends State<FormHallOfShamePage> {
             );
           },
         ));
+  }
+
+  bool isDateFormat(String date) {
+    try {
+      DateTime.parse(date);
+      return true;
+    } on FormatException {
+      return false;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  showAlertDialogHall(BuildContext context) {
+    // set up the button
+    Widget okButton = TextButton(
+      child: const Text("Close"),
+      onPressed: () {
+        Navigator.pop(context);
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const HallOfShamePage()));
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: const Text("Selamat!"),
+      content: const Text("Anda berhasil menambahkan informasi koruptor!"),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  static showAlertDialogHall2(BuildContext context) {
+    // set up the button
+    Widget okButton = TextButton(
+      child: const Text("Coba Lagi"),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: const Text("Gagal!"),
+      content: const Text("Terjadi suatu kesalahan"),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 }

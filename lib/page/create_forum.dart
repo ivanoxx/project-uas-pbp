@@ -31,7 +31,8 @@ class _MyForumFormPageState extends State<MyForumFormPage> {
         drawer: leftDrawer(),
         endDrawer: rightDrawer(),
         body: FutureBuilder(
-          future: request.get("https://whistle-blower.up.railway.app/create-forum/name/"),
+          future: request
+              .get("https://whistle-blower.up.railway.app/create-forum/name/"),
           // request.get( "https://whistle-blower.up.railway.app/create-forum/name/"),
 
           builder: (context, AsyncSnapshot snapshot) {
@@ -60,8 +61,8 @@ class _MyForumFormPageState extends State<MyForumFormPage> {
                           )),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                          child: TextFormField(
-                            decoration: InputDecoration(
+                        child: TextFormField(
+                          decoration: InputDecoration(
                             filled: true,
                             hintText: "Nama Forum",
                             // Menambahkan circular border agar lebih rapi
@@ -70,68 +71,67 @@ class _MyForumFormPageState extends State<MyForumFormPage> {
                             ),
                             fillColor: Color.fromRGBO(250, 250, 250, 0.95),
                           ),
-                            autovalidateMode: AutovalidateMode.onUserInteraction,
-                            // TODO Implement onChanged dan onSaved
-                            // Menambahkan behavior saat nama diketik
-                            onChanged: (String? value) {
-                              setState(() {
-                                _nama = value!;
-                              });
-                            },
-                            // Menambahkan behavior saat data disimpan
-                            onSaved: (String? value) {
-                              setState(() {
-                                _nama = value!;
-                              });
-                            },
-                            // Validator sebagai validasi form
-                            validator: (String? value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Nama forum tidak boleh kosong!';
-                              } else if (!regexNama.hasMatch(value)) {
-                                return 'Masukkan nama forum yang sesuai (hanya alphanumeric (case sensitive), ".", "_", "~", dan "-").';
-                              } else if (listNama.contains(value)) {
-                                return "Nama forum sudah pernah digunakan";
-                              }
-                              return null;
-                            },
-                          ),
-
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          // TODO Implement onChanged dan onSaved
+                          // Menambahkan behavior saat nama diketik
+                          onChanged: (String? value) {
+                            setState(() {
+                              _nama = value!;
+                            });
+                          },
+                          // Menambahkan behavior saat data disimpan
+                          onSaved: (String? value) {
+                            setState(() {
+                              _nama = value!;
+                            });
+                          },
+                          // Validator sebagai validasi form
+                          validator: (String? value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Nama forum tidak boleh kosong!';
+                            } else if (!regexNama.hasMatch(value)) {
+                              return 'Masukkan nama forum yang sesuai (hanya alphanumeric (case sensitive), ".", "_", "~", dan "-").';
+                            } else if (listNama.contains(value)) {
+                              return "Nama forum sudah pernah digunakan";
+                            }
+                            return null;
+                          },
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                              filled: true,
-                              hintText: "Description",
-                              // Menambahkan circular border agar lebih rapi
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(5.0),
-                              ),
-                              fillColor: Color.fromRGBO(250, 250, 250, 0.95),
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            filled: true,
+                            hintText: "Description",
+                            // Menambahkan circular border agar lebih rapi
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0),
                             ),
-                            autovalidateMode: AutovalidateMode.onUserInteraction,
-                            // TODO Implement onChanged dan onSaved
-                            // Menambahkan behavior saat nama diketik
-                            onChanged: (String? value) {
-                              setState(() {
-                                _description = value!;
-                              });
-                            },
-                            // Menambahkan behavior saat data disimpan
-                            onSaved: (String? value) {
-                              setState(() {
-                                _description = value!;
-                              });
-                            },
-                            // Validator sebagai validasi form
-                            validator: (String? value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Deskripsi tidak boleh kosong!';
-                              }
-                              return null;
-                            },
+                            fillColor: Color.fromRGBO(250, 250, 250, 0.95),
                           ),
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          // TODO Implement onChanged dan onSaved
+                          // Menambahkan behavior saat nama diketik
+                          onChanged: (String? value) {
+                            setState(() {
+                              _description = value!;
+                            });
+                          },
+                          // Menambahkan behavior saat data disimpan
+                          onSaved: (String? value) {
+                            setState(() {
+                              _description = value!;
+                            });
+                          },
+                          // Validator sebagai validasi form
+                          validator: (String? value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Deskripsi tidak boleh kosong!';
+                            }
+                            return null;
+                          },
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -140,8 +140,7 @@ class _MyForumFormPageState extends State<MyForumFormPage> {
                                 fixedSize: const Size(500, 30),
                                 textStyle: const TextStyle(
                                   color: Colors.white,
-                                )
-                            ),
+                                )),
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
                                 const url =
@@ -154,6 +153,8 @@ class _MyForumFormPageState extends State<MyForumFormPage> {
                                   // Do something
                                   showAlertDialog2(context);
                                   _formKey.currentState?.reset();
+                                  _nama = "";
+                                  _description = "";
                                 } else {
                                   // Do something
                                 }

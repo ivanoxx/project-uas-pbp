@@ -33,15 +33,13 @@ class _TimelinePageState extends State<TimelinePage> {
               if (snapshot.data == null) {
                 return const Center(child: CircularProgressIndicator());
               } else {
-                if (!snapshot.hasData) {
+                if (snapshot.data!.length == 0) {
                   return Column(
                     children: const [
-                      SizedBox(height: 50),
-                      Center(
-                        child: Text(
-                          "Anda tidak memiliki post :(",
-                          style: TextStyle(color: Colors.white, fontSize: 30),
-                        ),
+                      Text(
+                        "Forum tidak memiliki post",
+                        style:
+                            TextStyle(color: Color(0xff59A5D8), fontSize: 20),
                       ),
                       SizedBox(height: 8),
                     ],
@@ -70,81 +68,93 @@ class _TimelinePageState extends State<TimelinePage> {
                                           : Colors.white)),
                               child: Column(children: [
                                 Row(children: [
-                                  Text(
+                                  Flexible(
+                                      child: Text(
                                     "${snapshot.data![index].fields.title}",
                                     style: const TextStyle(
                                       fontSize: 18.0,
                                       fontWeight: FontWeight.bold,
                                     ),
-                                  )
+                                  ))
                                 ]),
                                 SizedBox(height: 10),
                                 Row(children: [
-                                  Text(
+                                  Flexible(
+                                      child: Text(
                                     "Written by: Anonymous ${snapshot.data![index].fields.creator}",
                                     style: const TextStyle(
                                       fontSize: 14.0,
                                     ),
-                                  )
+                                  ))
                                 ]),
                                 Row(children: [
-                                  Text(
-                                    "${snapshot.data![index].fields.dateCreated}",
+                                  Flexible(
+                                      child: Text(
+                                    "Created: ${DateFormat('EEEE, MMM d, yyyy').format(DateTime.parse(snapshot.data![index].fields.dateCreated.toString()))}",
                                     style: const TextStyle(
                                       fontSize: 12.0,
                                     ),
-                                  )
+                                  ))
                                 ]),
                                 Row(children: [
-                                  Text(
+                                  Flexible(
+                                      child: Text(
                                     "${snapshot.data![index].fields.description}",
                                     style: const TextStyle(
                                       fontSize: 12.0,
                                     ),
-                                  )
+                                  ))
                                 ]),
                                 Visibility(
                                   visible:
                                       snapshot.data![index].fields.isCaptured,
                                   child: Row(children: [
-                                    Text(
-                                      "Arrested date : ${snapshot.data![index].fields.dateCaptured}",
-                                      style: const TextStyle(
-                                        fontSize: 12.0,
+                                    Flexible(
+                                      child: Text(
+                                        "Arrested date : ${DateFormat('EEEE, MMM d, yyyy').format(DateTime.parse(snapshot.data![index].fields.dateCaptured == null ? DateTime.now().toString() : snapshot.data![index].fields.dateCaptured.toString()))}",
+                                        style: const TextStyle(
+                                          fontSize: 12.0,
+                                        ),
                                       ),
-                                    ),
+                                    )
                                   ]),
                                 ),
                                 SizedBox(height: 20),
                                 Row(children: [
-                                  ElevatedButton.icon(
-                                    onPressed: () async {
-                                      if (request.loggedIn) {
-                                        final url =
-                                            "https://whistle-blower.up.railway.app/${snapshot.data![index].pk}/upvote/";
-                                        final response = await request.get(url);
-                                        setState(() {
-                                          snapshot.data![index].fields
-                                              .upvoteCount = response['upvote'];
-                                        });
-                                      } else {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    LoginPage()));
-                                      }
+                                  Flexible(child: StatefulBuilder(
+                                    builder: (BuildContext context,
+                                        StateSetter setState) {
+                                      return ElevatedButton.icon(
+                                        onPressed: () async {
+                                          if (request.loggedIn) {
+                                            final url =
+                                                "https://whistle-blower.up.railway.app/mypost/${snapshot.data![index].pk}/upvote/";
+                                            final response =
+                                                await request.get(url);
+                                            setState(() {
+                                              snapshot.data![index].fields
+                                                      .upvoteCount =
+                                                  response['upvote'];
+                                            });
+                                          } else {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        LoginPage()));
+                                          }
+                                        },
+                                        icon: Icon(
+                                          Icons.arrow_circle_up_rounded,
+                                          size: 22.0,
+                                        ),
+                                        label: Text(snapshot
+                                            .data![index].fields.upvoteCount
+                                            .toString()),
+                                      );
                                     },
-                                    icon: Icon(
-                                      Icons.arrow_circle_up_rounded,
-                                      size: 22.0,
-                                    ),
-                                    label: Text(snapshot
-                                        .data![index].fields.upvoteCount
-                                        .toString()),
-                                  ),
+                                  )),
                                   SizedBox(width: 7),
-                                  // TODO: buat ke comment
                                   ElevatedButton.icon(
                                     onPressed: () {
                                       if (request.loggedIn) {
