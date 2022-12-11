@@ -5,6 +5,7 @@ import 'package:whistleblower/page/all_page.dart';
 import 'package:whistleblower/utils/FetchHallOfShame.dart';
 import 'package:whistleblower/widget/allWidgets.dart';
 import 'package:whistleblower/utils/allUtils.dart';
+import 'package:regexed_validator/regexed_validator.dart';
 
 class FormHallOfShamePage extends StatefulWidget {
   const FormHallOfShamePage({super.key});
@@ -36,188 +37,194 @@ class _FormHallOfShamePageState extends State<FormHallOfShamePage> {
           future: fetchHallOfShame(request),
           builder: (context, AsyncSnapshot snapshot) {
             if (snapshot.data != null) {}
-            return Padding(
-              padding: const EdgeInsets.all(30.0),
-              child: Form(
-                key: _formKey,
-                child: Center(
-                  child: Column(
-                    children: [
-                      Container(
-                          alignment: Alignment.center,
-                          padding: const EdgeInsets.fromLTRB(20, 10, 20, 30),
-                          child: const Text(
-                            'Add Corruptor',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 30),
-                          )),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          decoration: InputDecoration(
-                            filled: true,
-                            hintText: "Pak Korup",
-                            labelText: "Name",
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5.0),
+            return SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(30.0),
+                child: Form(
+                  key: _formKey,
+                  child: Center(
+                    child: Column(
+                      children: [
+                        Container(
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.fromLTRB(20, 10, 20, 30),
+                            child: const Text(
+                              'Add Corruptor',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 30),
+                            )),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                              filled: true,
+                              hintText: "Pak Korup",
+                              labelText: "Name",
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5.0),
+                              ),
+                              fillColor:
+                                  const Color.fromRGBO(250, 250, 250, 0.95),
                             ),
-                            fillColor:
-                                const Color.fromRGBO(250, 250, 250, 0.95),
-                          ),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          onChanged: (String? value) {
-                            setState(() {
-                              _name = value!;
-                            });
-                          },
-                          onSaved: (String? value) {
-                            setState(() {
-                              _name = value!;
-                            });
-                          },
-                          validator: (String? value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Nama tidak boleh kosong!';
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          decoration: InputDecoration(
-                            filled: true,
-                            hintText: "YYYY-MM-DD",
-                            labelText: "Arrested Date",
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5.0),
-                            ),
-                            fillColor:
-                                const Color.fromRGBO(250, 250, 250, 0.95),
-                          ),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          onChanged: (String? value) {
-                            setState(() {
-                              _arrestedDate = value!;
-                            });
-                          },
-                          onSaved: (String? value) {
-                            setState(() {
-                              _arrestedDate = value!;
-                            });
-                          },
-                          validator: (String? value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Tanggal tertangkap tidak boleh kosong!';
-                            }
-
-                            if (!isDateFormat(value)) {
-                              return 'Input harus dalam format YYYY-MM-DD!';
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          decoration: InputDecoration(
-                            filled: true,
-                            hintText: "Suap",
-                            labelText: "Corruption Type",
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5.0),
-                            ),
-                            fillColor:
-                                const Color.fromRGBO(250, 250, 250, 0.95),
-                          ),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          onChanged: (String? value) {
-                            setState(() {
-                              _corruptionType = value!;
-                            });
-                          },
-                          onSaved: (String? value) {
-                            setState(() {
-                              _corruptionType = value!;
-                            });
-                          },
-                          validator: (String? value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Tipe korupsi tidak boleh kosong!';
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                      Padding(
-                        // Menggunakan padding sebesar 8 pixels
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          decoration: InputDecoration(
-                            filled: true,
-                            hintText: "Forum ini isinya orang-orang jahat",
-                            labelText: "Description",
-                            // Menambahkan circular border agar lebih rapi
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5.0),
-                            ),
-                            fillColor:
-                                const Color.fromRGBO(250, 250, 250, 0.95),
-                          ),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          // Menambahkan behavior saat nama diketik
-                          onChanged: (String? value) {
-                            setState(() {
-                              _description = value!;
-                            });
-                          },
-                          // Menambahkan behavior saat data disimpan
-                          onSaved: (String? value) {
-                            setState(() {
-                              _description = value!;
-                            });
-                          },
-                          // Validator sebagai validasi form
-                          validator: (String? value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Deskripsi tidak boleh kosong!';
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                      TextButton(
-                          style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.red),
-                          ),
-                          onPressed: () async {
-                            if (_formKey.currentState!.validate()) {
-                              const url =
-                                  "https://whistle-blower.up.railway.app/hall/add-flutter/";
-                              final response = await request.post(url, {
-                                "name": _name,
-                                "arrested_date": _arrestedDate,
-                                "corruption_type": _corruptionType,
-                                "description": _description,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            onChanged: (String? value) {
+                              setState(() {
+                                _name = value!;
                               });
-                              if (response["status"] == "oke") {
-                                showAlertDialogHall(context);
-                                _formKey.currentState?.reset();
-                              } else {
-                                showAlertDialogHall2(context);
+                            },
+                            onSaved: (String? value) {
+                              setState(() {
+                                _name = value!;
+                              });
+                            },
+                            validator: (String? value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Nama tidak boleh kosong!';
                               }
-                            }
-                          },
-                          child: const Text(
-                            "Simpan",
-                            style: TextStyle(color: Colors.white),
-                          )),
-                    ],
+                              return null;
+                            },
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                              filled: true,
+                              hintText: "YYYY-MM-DD",
+                              labelText: "Arrested Date",
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5.0),
+                              ),
+                              fillColor:
+                                  const Color.fromRGBO(250, 250, 250, 0.95),
+                            ),
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            onChanged: (String? value) {
+                              setState(() {
+                                _arrestedDate = value!;
+                              });
+                            },
+                            onSaved: (String? value) {
+                              setState(() {
+                                _arrestedDate = value!;
+                              });
+                            },
+                            validator: (String? value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Tanggal tertangkap tidak boleh kosong!';
+                              }
+
+                              if (!isDateFormat(value) || !validator.date(value)) {
+                                return 'Input harus dalam format YYYY-MM-DD!';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                              filled: true,
+                              hintText: "Suap",
+                              labelText: "Corruption Type",
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5.0),
+                              ),
+                              fillColor:
+                                  const Color.fromRGBO(250, 250, 250, 0.95),
+                            ),
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            onChanged: (String? value) {
+                              setState(() {
+                                _corruptionType = value!;
+                              });
+                            },
+                            onSaved: (String? value) {
+                              setState(() {
+                                _corruptionType = value!;
+                              });
+                            },
+                            validator: (String? value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Tipe korupsi tidak boleh kosong!';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                        Padding(
+                          // Menggunakan padding sebesar 8 pixels
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                              filled: true,
+                              hintText: "Forum ini isinya orang-orang jahat",
+                              labelText: "Description",
+                              // Menambahkan circular border agar lebih rapi
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5.0),
+                              ),
+                              fillColor:
+                                  const Color.fromRGBO(250, 250, 250, 0.95),
+                            ),
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            // Menambahkan behavior saat nama diketik
+                            onChanged: (String? value) {
+                              setState(() {
+                                _description = value!;
+                              });
+                            },
+                            // Menambahkan behavior saat data disimpan
+                            onSaved: (String? value) {
+                              setState(() {
+                                _description = value!;
+                              });
+                            },
+                            // Validator sebagai validasi form
+                            validator: (String? value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Deskripsi tidak boleh kosong!';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                        TextButton(
+                            style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.red),
+                            ),
+                            onPressed: () async {
+                              if (_formKey.currentState!.validate()) {
+                                const url =
+                                    "https://whistle-blower.up.railway.app/hall/add-flutter/";
+                                final response = await request.post(url, {
+                                  "name": _name,
+                                  "arrested_date": _arrestedDate,
+                                  "corruption_type": _corruptionType,
+                                  "description": _description,
+                                });
+                                if (response["status"] == "oke") {
+                                  showAlertDialogHall(context);
+                                  _formKey.currentState?.reset();
+                                } else {
+                                  showAlertDialogHall2(context);
+                                }
+                              }
+                            },
+                            child: const Text(
+                              "Simpan",
+                              style: TextStyle(color: Colors.white),
+                            )),
+                      ],
+                    ),
                   ),
                 ),
               ),

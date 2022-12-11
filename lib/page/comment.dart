@@ -257,12 +257,22 @@ class _CommentPageState extends State<CommentPage> {
                         ),
                       ]),
                       // TODO: Masukin gambar atau apa yang lu mau
-                      Text(
-                        "Post tidak memiliki komentar",
-                        style:
-                            TextStyle(color: Color(0xff59A5D8), fontSize: 20),
-                      ),
-                      SizedBox(height: 8),
+                      Column(
+                        children: const [
+                          SizedBox(
+                            height: 50,
+                          ),
+                          
+                          Center(
+                            child: Text(
+                              "Post tidak memiliki komentar",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 25),
+                            ),
+                          ),
+                          SizedBox(height: 8),
+                        ],
+                      )
                     ],
                   );
                 } else {

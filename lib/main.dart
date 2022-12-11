@@ -62,14 +62,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  // int _counter = 0;
-
-  // void _incrementCounter() {
-  //   setState(() {
-  //     _counter++;
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
@@ -136,7 +128,6 @@ class _MyHomePageState extends State<MyHomePage> {
                             color: Colors.white),
                       ),
                     ),
-                    // TODO: Masukin gambar atau apa yang lu mau
                     Text(
                       "Anda Tidak memiliki forum :(",
                       style: TextStyle(color: Color(0xff59A5D8), fontSize: 20),
@@ -151,7 +142,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       if (index == 0) {
                         return Column(
                           children: [
-                            // TODO: Ganti test jadi apa yang mau lu tampilkan
                             Padding(
                               padding: const EdgeInsets.fromLTRB(0, 175, 0, 0),
                               child: Image.asset(
@@ -170,7 +160,6 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                             //Text("Test"),
                             InkWell(
-                              // TODO : onTap harusnya push ke page timeline
                               onTap: () => Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -191,13 +180,15 @@ class _MyHomePageState extends State<MyHomePage> {
                                 ),
                                 child: Column(children: [
                                   Row(children: [
-                                    Text(
-                                      "${snapshot.data![index].fields.title}",
-                                      style: const TextStyle(
-                                        fontSize: 18.0,
-                                        fontWeight: FontWeight.bold,
+                                    Flexible(
+                                      child: Text(
+                                        "${snapshot.data![index].fields.title}",
+                                        style: const TextStyle(
+                                          fontSize: 18.0,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
-                                    )
+                                    ),
                                   ]),
                                   SizedBox(height: 10),
                                   Row(children: [
@@ -254,13 +245,15 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                           child: Column(children: [
                             Row(children: [
-                              Text(
-                                "${snapshot.data![index].fields.title}",
-                                style: const TextStyle(
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.bold,
+                              Flexible(
+                                child: Text(
+                                  "${snapshot.data![index].fields.title}",
+                                  style: const TextStyle(
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              )
+                              ),
                             ]),
                             SizedBox(height: 10),
                             Row(children: [

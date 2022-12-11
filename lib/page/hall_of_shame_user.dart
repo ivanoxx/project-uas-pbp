@@ -110,6 +110,7 @@ class _HallOfShameUserPageState extends State<HallOfShameUserPage> {
                       const SizedBox(height: 20),
                     ]),
                   ),
+
                 ),
               );
             }
