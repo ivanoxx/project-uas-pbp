@@ -196,13 +196,14 @@ class _MyHomePageState extends State<MyHomePage> {
                                 ),
                                 child: Column(children: [
                                   Row(children: [
-                                    Text(
+                                    Flexible(
+                                        child: Text(
                                       "${snapshot.data![index].fields.title}",
                                       style: const TextStyle(
                                         fontSize: 18.0,
                                         fontWeight: FontWeight.bold,
                                       ),
-                                    )
+                                    ))
                                   ]),
                                   SizedBox(height: 10),
                                   Row(children: [
@@ -306,4 +307,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
- 
