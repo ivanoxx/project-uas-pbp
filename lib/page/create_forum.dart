@@ -62,6 +62,7 @@ class _MyForumFormPageState extends State<MyForumFormPage> {
                         child: TextFormField(
                           decoration: InputDecoration(
                             filled: true,
+                            errorMaxLines: 4,
                             hintText: "Nama Forum",
                             // Menambahkan circular border agar lebih rapi
                             border: OutlineInputBorder(

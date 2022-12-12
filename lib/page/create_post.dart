@@ -148,6 +148,7 @@ class _MyPostFormPageState extends State<MyPostFormPage> {
                                   selectedItemsTextStyle: TextStyle(
                                     color: Colors.white,
                                   ),
+
                                   searchable: true,
                                   buttonText: Text("Posted on"),
                                   title: Text("Forum"),
@@ -157,7 +158,7 @@ class _MyPostFormPageState extends State<MyPostFormPage> {
                                   }).toList(),
                                   validator: (values) {
                                     if (values == null || values.isEmpty) {
-                                      return "Forum tempat pos tidak boleh kosong!";
+                                      return "Forum Post tidak boleh kosong!";
                                     }
                                     return null;
                                   },
