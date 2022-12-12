@@ -22,131 +22,148 @@ class rightDrawer extends StatelessWidget {
     }
 
     return Drawer(
-      child: Column(
-        children: <Widget>[
-          SizedBox(
-            height: MediaQuery.of(context).size.height / 5,
-            child: DrawerHeader(
-              decoration: BoxDecoration(color: Colors.grey.shade500),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  CircleAvatar(
-                    backgroundImage:
-                        NetworkImage(user_data["imagePath"] as String),
-                    radius: 35.0,
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+      child: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 5,
+              child: DrawerHeader(
+                decoration: BoxDecoration(color: Colors.grey.shade500),
+                child: SingleChildScrollView(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      Text(
-                        user_data["alias"] as String,
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                            fontSize: 25.0),
+                      CircleAvatar(
+                        backgroundImage:
+                            NetworkImage(user_data["imagePath"] as String),
+                        radius: 35.0,
                       ),
-                      const SizedBox(height: 10.0),
-                      Text(
-                        user_data["username"] as String,
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                            fontSize: 14.0),
+                      Flexible(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            // Flexible(
+                            //   child:
+                            Text(
+                              user_data["alias"] as String,
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                  fontSize: 25.0),
+                            ),
+                            // ),
+                            const SizedBox(height: 10.0),
+                            // Flexible(
+                            //   child:
+                            Text(
+                              user_data["username"] as String,
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                  fontSize: 14.0),
+                            ),
+                            // ),
+                          ],
+                        ),
                       ),
                     ],
-                  )
-                ],
+                  ),
+                ),
               ),
             ),
-          ),
 
-          //Here you place your menu items
-          Visibility(
-            visible: request.loggedIn,
-            child: ListTile(
-              leading: Icon(Icons.account_circle),
-              title: Text('Profile', style: TextStyle(fontSize: 18)),
-              onTap: () {
-                // Here you can give your route to navigate
-                if (!request.loggedIn) {
+            //Here you place your menu items
+            Visibility(
+              visible: request.loggedIn,
+              child: ListTile(
+                leading: Icon(Icons.account_circle),
+                title: Text('Profile', style: TextStyle(fontSize: 18)),
+                onTap: () {
+                  // Here you can give your route to navigate
+                  if (!request.loggedIn) {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => LoginPage()));
+                  } else {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => ProfilePage()));
+                  }
+                },
+              ),
+            ),
+            const Divider(height: 3.0),
+            Visibility(
+              visible: request.loggedIn,
+              child: ListTile(
+                leading: Icon(Icons.my_library_books),
+                title: Text('My Post', style: TextStyle(fontSize: 18)),
+                onTap: () {
+                  // Here you can give your route to navigate
+                  if (request.loggedIn) {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => MyPostPage()));
+                  } else {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => LoginPage()));
+                  }
+                },
+              ),
+            ),
+            Visibility(
+              visible: request.loggedIn,
+              child: ListTile(
+                leading: Icon(Icons.logout),
+                title: Text('Sign Out', style: TextStyle(fontSize: 18)),
+                onTap: () async {
+                  // Here you can give your route to navigate
+                  if (!request.loggedIn) {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => LoginPage()));
+                  }
+                  const url =
+                      "https://whistle-blower.up.railway.app/auth/logout/";
+                  final response = await request.logout(url);
+                  if (!request.loggedIn) {
+                    user_data = {
+                      "username": "Anonymous",
+                      "alias": "Anonymous",
+                      "imagePath":
+                          "https://cdn.discordapp.com/attachments/902951430153981993/1048232469788377201/default.png"
+                    };
+                    showAlertDialog2(context);
+                  } else {
+                    showAlertDialog(context);
+                  }
+                },
+              ),
+            ),
+            Visibility(
+              visible: !request.loggedIn,
+              child: ListTile(
+                leading: Icon(Icons.account_circle),
+                title: Text('Login', style: TextStyle(fontSize: 18)),
+                onTap: () {
+                  // Here you can give your route to navigate
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => LoginPage()));
-                } else {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => ProfilePage()));
-                }
-              },
+                },
+              ),
             ),
-          ),
-          const Divider(height: 3.0),
-          Visibility(
-            visible: request.loggedIn,
-            child: ListTile(
-              leading: Icon(Icons.my_library_books),
-              title: Text('My Post', style: TextStyle(fontSize: 18)),
-              onTap: () {
-                // Here you can give your route to navigate
-                if (request.loggedIn) {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => MyPostPage()));
-                } else {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => LoginPage()));
-                }
-              },
-            ),
-          ),
-          Visibility(
-            visible: request.loggedIn,
-            child: ListTile(
-              leading: Icon(Icons.logout),
-              title: Text('Sign Out', style: TextStyle(fontSize: 18)),
-              onTap: () async {
-                // Here you can give your route to navigate
-                if (!request.loggedIn) {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => LoginPage()));
-                }
-                const url =
-                    "https://whistle-blower.up.railway.app/auth/logout/";
-                //const url = "https://whistle-blower.up.railway.app/auth/logout/";
-                final response = await request.logout(url);
-                if (!request.loggedIn) {
-                  showAlertDialog2(context);
-                } else {
-                  showAlertDialog(context);
-                }
-              },
-            ),
-          ),
-          Visibility(
-            visible: !request.loggedIn,
-            child: ListTile(
-              leading: Icon(Icons.account_circle),
-              title: Text('Login', style: TextStyle(fontSize: 18)),
-              onTap: () {
-                // Here you can give your route to navigate
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => LoginPage()));
-              },
-            ),
-          ),
 
-          Visibility(
-            visible: !request.loggedIn,
-            child: ListTile(
-              leading: Icon(Icons.person),
-              title: Text('Sign Up', style: TextStyle(fontSize: 18)),
-              onTap: () {
-                // Here you can give your route to navigate
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => SignupPage()));
-              },
+            Visibility(
+              visible: !request.loggedIn,
+              child: ListTile(
+                leading: Icon(Icons.person),
+                title: Text('Sign Up', style: TextStyle(fontSize: 18)),
+                onTap: () {
+                  // Here you can give your route to navigate
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => SignupPage()));
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -266,10 +283,13 @@ class profilePicture extends StatelessWidget {
         builder: (context, AsyncSnapshot snapshot) => IconButton(
           iconSize: 32.0,
           icon: CircleAvatar(
-            backgroundImage: snapshot.data != null
+            backgroundImage: !request.loggedIn
                 ? NetworkImage(
-                    "https://whistle-blower.up.railway.app/images/${snapshot.data[0]['fields']['image']}")
-                : NetworkImage(user_data["imagePath"] as String),
+                    "https://cdn.discordapp.com/attachments/902951430153981993/1048232469788377201/default.png")
+                : snapshot.data != null
+                    ? NetworkImage(
+                        "https://whistle-blower.up.railway.app/images/${snapshot.data[0]['fields']['image']}")
+                    : NetworkImage(user_data["imagePath"] as String),
           ),
           onPressed: () => Scaffold.of(context).openEndDrawer(),
           tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
@@ -278,7 +298,6 @@ class profilePicture extends StatelessWidget {
     );
   }
 }
-
 
 showAlertDialog(BuildContext context) {
   // set up the button

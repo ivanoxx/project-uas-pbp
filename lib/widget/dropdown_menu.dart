@@ -10,9 +10,13 @@ import 'package:intl/intl.dart';
 
 class CustomButtonTest extends StatefulWidget {
   final post;
-  final callbackFunction;
+  final setPageState;
+  final setPostStateInput;
   CustomButtonTest(
-      {Key? key, required this.post, required this.callbackFunction})
+      {Key? key,
+      required this.post,
+      required this.setPageState,
+      required this.setPostStateInput})
       : super(key: key);
 
   // Child({this.function});
@@ -54,9 +58,8 @@ class _CustomButtonTestState extends State<CustomButtonTest> {
           ),
         ],
         onChanged: (value) {
-          MenuItems.onChanged(
-              context, value as MenuItem, post, widget.callbackFunction);
-          widget.callbackFunction();
+          MenuItems.onChanged(context, value as MenuItem, post,
+              widget.setPageState, widget.setPostStateInput);
         },
         itemHeight: 48,
         itemPadding: const EdgeInsets.only(left: 16, right: 16),
@@ -107,8 +110,8 @@ class MenuItems {
     );
   }
 
-  static onChanged(
-      BuildContext context, MenuItem item, final post, final callback) async {
+  static onChanged(BuildContext context, MenuItem item, final post,
+      final setPageState, final setPostStateInput) async {
     final request = Provider.of<CookieRequest>(context, listen: false);
     final _formKey = GlobalKey<FormState>();
     var controllerNama = TextEditingController();
@@ -197,7 +200,7 @@ class MenuItems {
                                     onChanged: (bool? value) {
                                       setState(() {
                                         post.fields.isCaptured = value!;
-                                        post.fields.dateCaptured = dateCaptured;
+                                        post.fields.dateCaptured = dateCaptured.toString();
                                       });
                                     }),
                               ],
@@ -250,22 +253,31 @@ class MenuItems {
                                   if (_formKey.currentState!.validate()) {
                                     final url =
                                         'https://whistle-blower.up.railway.app/mypost/${post.pk}/edit/flutter/';
-                                    final response = await request.post(url, {
-                                      "name": controllerNama.text,
-                                      "description": controllerDescription.text,
-                                      "id": post.pk.toString(),
-                                      "is_captured":
-                                          post.fields.isCaptured.toString(),
-                                      "date_captured":
-                                          post.fields.dateCaptured.toString(),
-                                    });
-                                    if (response['msg'] == "success") {
-                                      showAlertDialog2(context, "edit");
-                                      callback();
-                                    } else {
+                                    try {
+                                      final response = await request.post(url, {
+                                        "name": controllerNama.text,
+                                        "description":
+                                            controllerDescription.text,
+                                        "id": post.pk.toString(),
+                                        "is_captured":
+                                            post.fields.isCaptured.toString(),
+                                        "date_captured":
+                                            post.fields.dateCaptured.toString(),
+                                      });
+                                      if (response['msg'] == "success") {
+                                        showAlertDialog2(context, "edit");
+                                        setPostStateInput(
+                                            controllerNama.text,
+                                            controllerDescription.text,
+                                            post.fields.isCaptured,
+                                            post.fields.dateCaptured.toString());
+                                      } else {
+                                        showAlertDialog(context);
+                                      }
+                                      ;
+                                    } catch (e) {
                                       showAlertDialog(context);
                                     }
-                                    ;
                                   }
                                 },
                                 child: Text("Submit")),
@@ -286,6 +298,7 @@ class MenuItems {
         if (response['msg'] == "Success") {
           // TODO Do Something
           showAlertDialog2(context, "Delete");
+          setPageState();
         } else {
           // TODO Do something
           showAlertDialog(context);
@@ -327,10 +340,19 @@ class MenuItems {
     Widget okButton = TextButton(
       child: Text("Close"),
       onPressed: () {
-        if (text == "edit") {
-          Navigator.pop(context);
+        try {
+          if (text == "edit") {
+            Navigator.of(context, rootNavigator: true).pop('dialog');
+            Navigator.of(context, rootNavigator: true).pop('dialog');
+          } else {
+            Navigator.of(context, rootNavigator: true).pop('dialog');
+          }
+        } catch (e) {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => MyPostPage()));
         }
-        Navigator.pop(context);
+        
+
       },
     );
 

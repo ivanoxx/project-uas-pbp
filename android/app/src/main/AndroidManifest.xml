@@ -3,7 +3,7 @@
    <application
         android:label="whistleblower"
         android:name="${applicationName}"
-        android:icon="@mipmap/whistle">
+        android:icon="@mipmap/whistle2">
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -32,4 +32,6 @@
             android:name="flutterEmbedding"
             android:value="2" />
     </application>
+    <!-- Required to fetch data from the Internet. -->
+    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>
