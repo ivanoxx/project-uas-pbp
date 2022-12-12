@@ -60,7 +60,7 @@ class _FormHallOfShamePageState extends State<FormHallOfShamePage> {
                           child: TextFormField(
                             decoration: InputDecoration(
                               filled: true,
-                              hintText: "Pak Korup",
+                              hintText: "Cth: Pak Korup",
                               labelText: "Name",
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(5.0),
@@ -130,7 +130,7 @@ class _FormHallOfShamePageState extends State<FormHallOfShamePage> {
                           child: TextFormField(
                             decoration: InputDecoration(
                               filled: true,
-                              hintText: "Suap",
+                              hintText: "Cth: Suap",
                               labelText: "Corruption Type",
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(5.0),
@@ -164,7 +164,7 @@ class _FormHallOfShamePageState extends State<FormHallOfShamePage> {
                           child: TextFormField(
                             decoration: InputDecoration(
                               filled: true,
-                              hintText: "Forum ini isinya orang-orang jahat",
+                              hintText: "Cth: Pak Korup menyuap hakim agar tidak dipenjara",
                               labelText: "Description",
                               // Menambahkan circular border agar lebih rapi
                               border: OutlineInputBorder(
