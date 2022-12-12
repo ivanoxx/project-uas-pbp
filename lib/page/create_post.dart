@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:whistleblower/models/allModel.dart';
 import 'package:whistleblower/widget/allWidgets.dart';
@@ -240,20 +242,21 @@ class _MyPostFormPageState extends State<MyPostFormPage> {
   showAlertDialog2(BuildContext context) {
     // set up the button
     Widget okButton = TextButton(
-      child: Text("Close"),
+      child: const Text("Close"),
       onPressed: () {
         Navigator.pop(context);
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => MyHomePage(title: "Whistleblower")));
+                builder: (context) =>
+                    const MyHomePage(title: "Whistleblower")));
       },
     );
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: Text("Selamat!"),
-      content: Text("Anda berhasil membuat postingan baru"),
+      title: const Text("Selamat!"),
+      content: const Text("Anda berhasil membuat postingan baru"),
       actions: [
         okButton,
       ],
